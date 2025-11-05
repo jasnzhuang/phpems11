@@ -648,10 +648,10 @@
 					{
 						foreach($unserialize as $value)
 						{
-							$tmp[$value] = unserialize($tmp[$value]);
+							$tmp[$value] = $tmp[$value]?unserialize($tmp[$value]):'';
 						}
 					}
-					else $tmp[$unserialize] = unserialize($tmp[$unserialize]);
+					else $tmp[$unserialize] = $tmp[$unserialize]?unserialize($tmp[$unserialize]):'';
 				}
 				if($index)
 				{
@@ -762,7 +762,7 @@
 		if(!is_array($args))return false;
 		$page = $page > 0?$page:1;
 		$r = array();
-		$data = array($args['select'],$args['table'],$args['query'],isset($args['groupby'])?$args['groupby']:false,isset($args['orderby'])?$args['orderby']:false,array(intval($page-1)*$number,$number));
+		$data = array(isset($args['select'])?$args['select']:false,$args['table'],$args['query'],isset($args['groupby'])?$args['groupby']:false,isset($args['orderby'])?$args['orderby']:false,array(intval($page-1)*$number,$number));
 		$sql = $this->makeSelect($data,true);
 		$r['data'] = $this->fetchAll($sql,isset($args['index'])?$args['index']:false,isset($args['serial'])?$args['serial']:false);
 		$total = $this->query('SELECT FOUND_ROWS()')->fetchColumn();

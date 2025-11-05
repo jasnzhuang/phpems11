@@ -27,7 +27,7 @@ class app
             header("location:index.php?core-master");
             exit();
         }
-        $this->modules = M('module')->getModulesByApp('course');
+        $this->modules = M('module')->getModulesByApp('user');
         M('tpl')->assign('sectionorder',M('config','exam')->sectionorder);
         M('tpl')->assign('ols',M('config','exam')->ols);
         M('tpl')->assign('localapps',$localapps);

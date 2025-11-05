@@ -8,6 +8,8 @@
  */
 class action extends app
 {
+	public $search;
+	public $u;
 	public function display()
 	{
 		$action = M('ev')->url(3);
@@ -1579,14 +1581,14 @@ class action extends app
 		$args = 1;
 		else
 		$args = array();
-		if($this->search['basicid'])$args[] = array("AND","basicid = :basicid",'basicid',$this->search['basicid']);
+		if(isset($this->search['basicid']))$args[] = array("AND","basicid = :basicid",'basicid',$this->search['basicid']);
 		else
 		{
-			if($this->search['keyword'])$args[] = array("AND","basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
-			if($this->search['basicareaid'])$args[] = array("AND","basicareaid = :basicareaid",'basicareaid',$this->search['basicareaid']);
-			if($this->search['basicsubjectid'])$args[] = array("AND","basicsubjectid = :basicsubjectid",'basicsubjectid',$this->search['basicsubjectid']);
-			if($this->search['basicapi'])$args[] = array("AND","basicapi = :basicapi",'basicapi',$this->search['basicapi']);
-			if($this->search['basicclosed'])
+			if(isset($this->search['keyword']))$args[] = array("AND","basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
+			if(isset($this->search['basicareaid']))$args[] = array("AND","basicareaid = :basicareaid",'basicareaid',$this->search['basicareaid']);
+			if(isset($this->search['basicsubjectid']))$args[] = array("AND","basicsubjectid = :basicsubjectid",'basicsubjectid',$this->search['basicsubjectid']);
+			if(isset($this->search['basicapi']))$args[] = array("AND","basicapi = :basicapi",'basicapi',$this->search['basicapi']);
+			if(isset($this->search['basicclosed']))
 			{
 				if($this->search['basicclosed'] == 1)$basicclosed = 1;
 				else

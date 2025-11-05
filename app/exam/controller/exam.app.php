@@ -455,7 +455,7 @@ class action extends app
             {
                 $num = M('favor','exam')->getExamUseNumber($this->user['userid'],$t,$this->data['currentbasic']['basicid'],$this->data['currentbasic']['basicexam']['batch']);
                 $number['child'][$t] = $num;
-                $number['all'] = intval($number['all'])+$num;
+                $number['all'] = intval(isset($number['all'])?$number['all']:0)+$num;
             }
         }
         M('tpl')->assign('number',$number);

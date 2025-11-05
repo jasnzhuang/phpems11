@@ -74,7 +74,7 @@ class user
     {
         $data = array(false,array('user','user_group'),$args);
         $sql = M('pepdo')->makeSelect($data);
-        return M('pepdo')->fetch($sql,array('userinfo','groupright','manager_apps'));
+        return M('pepdo')->fetch($sql,array('userinfo','groupright','manager_apps','teacher_subjects'));
     }
 
     public function getUsersByArgs($args)

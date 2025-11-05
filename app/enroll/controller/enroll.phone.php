@@ -21,11 +21,8 @@ class action extends app
             }
             M('tpl')->assign('u',$this->u);
         }
-	    M('enroll','enroll') = M('enroll','enroll');
-        $this->order = M('orders','bank');
-        M('module') = M('module');
-        M('html') = M('html');
-		$action = M('ev')->url(3);
+	    $this->order = M('orders','bank');
+        $action = M('ev')->url(3);
 		if(!method_exists($this,$action))
 		$action = "index";
 		$this->$action();

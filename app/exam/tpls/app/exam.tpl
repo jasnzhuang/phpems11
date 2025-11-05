@@ -5,7 +5,26 @@
 		<div class="pages fixtop">
 			{x2;include:examnav}
 			<div class="content">
-				<div class="col-xs-12">
+				<div class="col-xs-3" style="width: 20%">
+					<div class="content-box padding">
+						<h2 class="title">考生信息</h2>
+						<ul class="list-unstyled list-txt">
+							<li class="border text-center">
+								<img src="{x2;$_user['userphoto']}" style="max-width: 86%;"/>
+							</li>
+							<li class="border">
+								姓名：{x2;$_user['usertruename']}
+							</li>
+							<li>
+								身份证号：
+							</li>
+							<li class="border">
+								{x2;$_user['userpassport']}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-xs-9 nopadding" style="width: 80%">
 					<div class="content-box padding">
 						<h2 class="title">
 							正式考试
@@ -17,10 +36,11 @@
 									<ul class="list-unstyled list-img">
 										<li><p>本考场开启时间 {x2;if:$data['currentbasic']['basicexam']['opentime']['start'] && $data['currentbasic']['basicexam']['opentime']['end']}{x2;date:$data['currentbasic']['basicexam']['opentime']['start'],'Y-m-d H:i:s'} - {x2;date:$data['currentbasic']['basicexam']['opentime']['end'],'Y-m-d H:i:s'}{x2;else}不限{x2;endif} ； 考试次数 {x2;if:$data['currentbasic']['basicexam']['examnumber']}{x2;$data['currentbasic']['basicexam']['examnumber']}{x2;else}不限{x2;endif} ； 抽卷规则 {x2;if:$data['currentbasic']['basicexam']['selectrule']}系统随机抽卷{x2;else}用户手选试卷{x2;endif}。</p>
 										</li>
-										<li><b>1、</b>点击考试名称按钮进入答题界面，考试开始计时。</li>
-										<li><b>2、</b>在随机考试过程中，您可以通过顶部的考试时间来掌握自己的做题时间。</li>
-										<li><b>3、</b>提交试卷后，可以通过“查看答案和解析”功能进行总结学习。</li>
-										<li><b>4、</b>系统自动记录模拟考试的考试记录，学员考试结束后可以进入“答题记录”功能进行查看。</li>
+										<li><b>1、</b>确认个人信息无误。</li>
+										<li><b>2、</b>点击考试名称按钮进入答题界面，考试开始计时。</li>
+										<li><b>3、</b>在随机考试过程中，您可以通过顶部的考试时间来掌握自己的做题时间。</li>
+										<li><b>4、</b>提交试卷后，可以通过“查看答案和解析”功能进行总结学习。</li>
+										<li><b>5、</b>系统自动记录模拟考试的考试记录，学员考试结束后可以进入“答题记录”功能进行查看。</li>
 									</ul>
 								</div>
 							</li>

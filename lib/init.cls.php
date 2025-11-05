@@ -1,6 +1,8 @@
 <?php
-
 namespace PHPEMS;
+
+ini_set("display_errors","on");
+error_reporting(0);
 class ginkgo
 {
     static $G = array();

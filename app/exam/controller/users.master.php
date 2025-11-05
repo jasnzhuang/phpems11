@@ -8,23 +8,25 @@
  */
 class action extends app
 {
+	public $search;
+	public $u;
 	public function display()
 	{
 		$action = M('ev')->url(3);
 		if(!method_exists($this,$action))
 		$action = "index";
-		$search = M('ev')->get('search');
+		$this->search = M('ev')->get('search');
 		$page = M('ev')->get('page');
-		if($search)
+		if($this->search)
 		{
-			M('tpl')->assign('search',$search);
-			foreach($search as $key => $arg)
+			M('tpl')->assign('search',$this->search);
+			foreach($this->search as $key => $arg)
 			{
-				$u .= "&search[{$key}]={$arg}";
+				$this->u .= "&search[{$key}]={$arg}";
 			}
+			M('tpl')->assign('u',$this->u);
 		}
 		M('tpl')->assign('page',$page);
-		M('tpl')->assign('u',$u);
 		$this->$action();
 		exit;
 	}
