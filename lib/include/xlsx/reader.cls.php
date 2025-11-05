@@ -30,7 +30,7 @@ class reader
         if($status === true) {
             $this->parse();
         } else {
-            throw new Exception("Failed to open $filePath with zip error code: $status");
+            throw new \Exception("Failed to open $filePath with zip error code: $status");
         }
     }
 
@@ -38,7 +38,7 @@ class reader
     protected function getEntryData($name) {
         $data = $this->zip->getFromName($name);
         if($data === false) {
-            throw new Exception("File $name does not exist in the Excel file");
+            throw new \Exception("File $name does not exist in the Excel file");
         } else {
             return $data;
         }
@@ -114,7 +114,7 @@ class reader
         if(is_numeric($sheet)) {
             $sheet = $this->getSheetNameById($sheet);
         } elseif(!is_string($sheet)) {
-            throw new Exception("Sheet must be a string or a sheet Id");
+            throw new \Exception("Sheet must be a string or a sheet Id");
         }
         if(!array_key_exists($sheet, $this->sheets)) {
             $this->sheets[$sheet] = new worksheet($this->getSheetXML($sheet), $sheet, $this);
@@ -129,7 +129,7 @@ class reader
                 return $sheetName;
             }
         }
-        throw new Exception("Sheet ID $sheetId does not exist in the Excel file");
+        throw new \Exception("Sheet ID $sheetId does not exist in the Excel file");
     }
 
     protected function getSheetXML($name) {
@@ -237,7 +237,7 @@ class worksheet {
             }
             return array($index-1, $row-1);
         }
-        throw new Exception("Invalid cell index");
+        throw new \Exception("Invalid cell index");
     }
 
     protected function parseCellValue($cell) {
