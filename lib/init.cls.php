@@ -7,6 +7,7 @@ class ginkgo
 {
     static $G = array();
     static $L = array();
+	static $P = array();
     static $app;
     static $module;
     static $method;
@@ -36,24 +37,36 @@ class ginkgo
         if($class[0] == 'PHPEMS')
         {
             $number = count($class);
-            if ($number >= 2 && $number <= 3 )
-            {
-                if ($number == 2)
-                {
-                    $class = $class[1];
-                    $path = PEPATH . '/lib/' . $class . '.cls.php';
-                }
-                else
-                {
-                    unset($class[0]);
-                    $path = PEPATH . '/app/' . $class[1] . '/cls/'.$class[2].'.cls.php';
-                }
-                if (file_exists($path)) {
-                    include $path;
-                }
-            }
+            if ($number == 2)
+			{
+				$class = $class[1];
+				$path = PEPATH . '/lib/' . $class . '.cls.php';
+			}
+			elseif($class[1] == 'plugins')
+			{
+				$path = PEPATH . '/plugins/' . $class[2] . '/cls/'.$class[3].'.cls.php';
+			}
+			else
+			{
+				unset($class[0]);
+				$path = PEPATH . '/app/' . $class[1] . '/cls/'.$class[2].'.cls.php';
+			}
+			if (file_exists($path)) {
+				include $path;
+			}
         }
     }
+	
+	static function plugin($G,$app,$param = 'default')
+	{
+		if(!isset(self::$P[$app][$G][$param]))
+		{
+			$o = $app.'\\'.$G;
+			$clsname = '\\PHPEMS\\plugins\\'.$o;
+			self::$P[$app][$G][$param] = new $clsname($param);
+		}
+		return self::$P[$app][$G][$param];
+	}
 
     static public function make($G,$app = NULL,$param = 'default')
     {
@@ -93,8 +106,7 @@ class ginkgo
 		if(!self::$module)self::$module = 'app';
 		if(!self::$method)self::$method = 'index';
 		include PEPATH.'/app/'.self::$app.'/'.self::$module.'.php';
-		
-		$modulefile = PEPATH.'/app/'.self::$app.'/controller/'.self::$method.'.'.self::$module.'.php';
+        $modulefile = PEPATH.'/app/'.self::$app.'/controller/'.self::$method.'.'.self::$module.'.php';
         if(file_exists($modulefile))
 		{			
 			include $modulefile;			
@@ -105,7 +117,17 @@ class ginkgo
 			$run = new action();
 			$run->display();
 		}
-		else die('error:Unknown app to load, the app is '.self::$app);
+        elseif(self::$app == 'plugin')
+        {
+            $run = new app();
+            $run->plugin();
+        }
+		else self::R(array(
+            'statusCode' => 300,
+            "message" => "需要引用的文件不存在",
+            "callbackType" => 'forward',
+            "forwardUrl" => "index.php"
+        ));
 	}
 
 	static public function R($message)
@@ -134,7 +156,7 @@ class ginkgo
                 exit(header("location:{$message['forwardUrl']}"));
             }
             $tpl = clone M('tpl');
-            $tpl->setDir();
+            $tpl->setDir('core','app');
             $tpl->assign('message',$message);
             $tpl->display('error');
 			exit;

@@ -5,6 +5,11 @@
             <span class="glyphicon glyphicon-pencil"></span> 章节练习
         </a>
     </li>
+    <li  class="border{x2;if:$method == 'recite'} active{x2;endif}">
+        <a href="index.php?exam-app-recite">
+            <span class="glyphicon glyphicon-bell"></span> 背题模式
+        </a>
+    </li>
     <li  class="border{x2;if:$method == 'exercise'} active{x2;endif}">
         <a href="index.php?exam-app-exercise">
             <span class="glyphicon glyphicon-refresh"></span> 强化训练

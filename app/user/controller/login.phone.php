@@ -62,6 +62,7 @@ class action extends app
                     }
 					M('session')->setSessionUser(array('sessionuserid'=>$user['userid'],'sessionpassword'=>$user['userpassword'],'sessionip'=>M('ev')->getClientIp(),'sessiongroupid'=>$user['usergroupid'],'sessionlogintime'=>TIME,'sessionusername'=>$user['username']));
 					M('user','user')->insertUserLog(array('uluserid'=>$user['userid'],'ulcliect'=>'mobile'));
+					M('plugin')->trigger('userLogin',$user['userid']);
 					$message = array(
 						'statusCode' => 201,
 						"message" => "操作成功",

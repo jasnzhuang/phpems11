@@ -66,35 +66,13 @@ class content
 		return M('pepdo')->insertElement(array('table' => 'content','query' => $args));
 	}
 
-	private function _getBasicContentById($id)
-	{
-		$data = array(false,'content',array(array('AND',"contentid = :contentid",'contentid',$id)));
-		$sql = M('pepdo')->makeSelect($data);
-		return M('pepdo')->fetch($sql);
-	}
-
-	private function _modifyBasicContentById($id,$args)
-	{
-		$data = array('content',$args,array(array('AND',"contentid = :contentid",'contentid',$id)));
-		$sql = M('pepdo')->makeUpdate($data);
-		return M('pepdo')->exec($sql);
-	}
-
-	public function modifyBasciContent($id,$args)
-	{
-		$this->_modifyBasicContentById($id,$args);
-	}
-
-	public function getBasicContentById($id)
-	{
-		return $this->_getBasicContentById($id);
-	}
-
 	public function getContentById($id)
 	{
 		$data = array(false,'content',array(array('AND',"contentid = :contentid",'contentid',$id)));
 		$sql = M('pepdo')->makeSelect($data);
-		return M('pepdo')->fetch($sql);
+		$content = M('pepdo')->fetch($sql);
+		$content = M('plugin')->filter('afterGetArticle',$content);
+		return $content;
 	}
 
 	public function getNearContentById($id,$catid)

@@ -12,17 +12,17 @@ class exercise
 {
 
 	//根据参数查询
-	public function getExerciseProcessByUser($userid,$basicid,$knowsid = null)
+	public function getExerciseProcessByUser($userid,$basicid,$knowsid = null,$type = 'lesson')
 	{
 		if($knowsid)
 		{
-			$data = array(false,'exercise',array(array("AND","exeruserid = :exeruserid",'exeruserid',$userid),array("AND","exerbasicid = :exerbasicid",'exerbasicid',$basicid),array("AND","exerknowsid = :exerknowsid",'exerknowsid',$knowsid)));
+			$data = array(false,'exercise',array(array("AND","exeruserid = :exeruserid",'exeruserid',$userid),array("AND","exerbasicid = :exerbasicid",'exerbasicid',$basicid),array("AND","exerknowsid = :exerknowsid",'exerknowsid',$knowsid),array("AND","exertype = :exertype",'exertype',$type)));
 			$sql = M('pepdo')->makeSelect($data);
 			return M('pepdo')->fetch($sql);
         }
         else
 		{
-            $data = array(false,'exercise',array(array("AND","exeruserid = :exeruserid",'exeruserid',$userid),array("AND","exerbasicid = :exerbasicid",'exerbasicid',$basicid)),false,false,false);
+            $data = array(false,'exercise',array(array("AND","exeruserid = :exeruserid",'exeruserid',$userid),array("AND","exerbasicid = :exerbasicid",'exerbasicid',$basicid),array("AND","exertype = :exertype",'exertype',$type)),false,false,false);
             $sql = M('pepdo')->makeSelect($data);
             return M('pepdo')->fetchAll($sql,'exerknowsid');
 		}
@@ -33,7 +33,8 @@ class exercise
 		$userid = $args['exeruserid'];
 		$basicid = $args['exerbasicid'];
         $knowsid = $args['exerknowsid'];
-		$r = $this->getExerciseProcessByUser($userid,$basicid,$knowsid);
+        $type = $args['exertype'];
+		$r = $this->getExerciseProcessByUser($userid,$basicid,$knowsid,$type);
 		if($r)
 		{
 			$data = array('exercise',$args,array(array("AND","exerid = :exerid",'exerid',$r['exerid'])));

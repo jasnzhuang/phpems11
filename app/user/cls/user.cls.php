@@ -53,7 +53,9 @@ class user
     {
         $args['userregip'] = M('ev')->getClientIp();
         $args['userregtime'] = TIME;
-        return M('pepdo')->insertElement(array('table' => 'user','query' => $args));
+        $id = M('pepdo')->insertElement(array('table' => 'user','query' => $args));
+		M('plugin')->trigger('userRegister',$id);
+		return $id;
     }
 
     public function delUserById($userid)

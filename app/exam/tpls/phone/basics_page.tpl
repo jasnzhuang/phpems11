@@ -30,6 +30,21 @@
 					<li class="unstyled">
 						<div class="col-2">
 							<div class="rows illus">
+								<i class="fa-solid fa-bell examicon"></i>
+							</div>
+						</div>
+						<div class="col-8">
+							<a href="index.php?exam-phone-recite" class="ajax">
+								<div class="rows info">
+									<h5 class="title">背题模式</h5>
+									<p class="intro">逐个章节、知识点逐题背诵</p>
+								</div>
+							</a>
+						</div>
+					</li>
+					<li class="unstyled">
+						<div class="col-2">
+							<div class="rows illus">
 								<i class="fa-solid fa-pen-ruler examicon"></i>
 							</div>
 						</div>
