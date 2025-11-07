@@ -109,8 +109,10 @@ class ginkgo
         $modulefile = PEPATH.'/app/'.self::$app.'/controller/'.self::$method.'.'.self::$module.'.php';
         if(file_exists($modulefile))
 		{			
-			include $modulefile;			
+			include $modulefile;
+            $style = style::loadStyle();
 			$tpl = self::make('tpl');
+            $tpl->assign('_style',$style);
 			$tpl->assign('_app',self::$app);
 			$tpl->assign('method',self::$method);
             $tpl->assign('userhash',$ev->get('userhash'));
@@ -155,7 +157,7 @@ class ginkgo
             {
                 exit(header("location:{$message['forwardUrl']}"));
             }
-            $tpl = clone M('tpl');
+            $tpl = M('tpl')->setErrorType();
             $tpl->setDir('core','app');
             $tpl->assign('message',$message);
             $tpl->display('error');

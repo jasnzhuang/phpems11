@@ -21,7 +21,7 @@ class action extends app
 	public function off()
 	{
 		$plugin = M('ev')->get('plugin');
-		M('plugin')->modifyActivePlugin($plugin,['pluginstatus' => 0]);
+		M('plugin')->modifyPlugin($plugin,['pluginstatus' => 0]);
 		$message = array(
 			'statusCode' => 200,
 			"message" => "操作成功",
@@ -34,7 +34,7 @@ class action extends app
 	public function on()
 	{
 		$plugin = M('ev')->get('plugin');
-		M('plugin')->modifyActivePlugin($plugin,['pluginstatus' => 1]);
+		M('plugin')->modifyPlugin($plugin,['pluginstatus' => 1]);
 		$message = array(
 			'statusCode' => 200,
 			"message" => "操作成功",

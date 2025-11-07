@@ -123,7 +123,7 @@ class plugin
         return $plugins;
     }
 
-    public function modifyActivePlugin($plugin,$args = array())
+    public function modifyPlugin($plugin,$args = array())
     {
         $data = [
             'select' => 'plugin',
@@ -135,4 +135,19 @@ class plugin
         ];
         return M('pepdo')->updateElement($data);
     }
+
+    public function getPluginByName($plugin)
+    {
+        $data = [
+            'table' => 'plugins',
+            'query' => [
+                ["AND","plugin = :plugin","plugin",$plugin]
+            ],
+            'serial' => 'pluginsetting',
+            'limit' => 1
+        ];
+        return M('pepdo')->getElement($data);
+    }
+
+
 }

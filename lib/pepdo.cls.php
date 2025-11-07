@@ -747,7 +747,7 @@
 	{
 		$data = array($args['select'],$args['table'],$args['query'],$args['groupby'],$args['orderby'],1);
 		$sql = $this->makeSelect($data);
-		return $this->fetch($sql);
+		return $this->fetch($sql,$args['serial']);
 	}
 
 	public function getElements($args)

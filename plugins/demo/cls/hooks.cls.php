@@ -16,11 +16,8 @@ class hooks
 
     public function userRegister($userid)
     {
-        $user = M('user','user')->modifyUserInfo($userid,['usercoin' => 10]);
-    }
-
-    public function userLogin($userid)
-    {
-        return $userid++;
+        $plugin = M('plugin')->getPluginByName('demo');
+        $number = intval($plugin['pluginsetting']['coinnumber']);
+        $user = M('user','user')->modifyUserInfo($userid,['usercoin' => $number]);
     }
 }

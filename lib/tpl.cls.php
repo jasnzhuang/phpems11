@@ -8,20 +8,47 @@ class tpl
 	public $tpl_var = array();
 	private $isCache = 1;
 	private $cacheTime = 300;
-	
-	public $dir;
-	public $cacheDir;
-	public $key = '356d9abc2532ceb0945b615a922c3370';
-	public $iv = '#phpems90iv*';
+    private $type;
+
+    private $dir;
+    private $cacheDir;
+    public $key = '356d9abc2532ceb0945b615a922c3370';
+	public $iv = '#*phpems1100iv*#';
 
 	public function __construct()
 	{
-		$this->dir = \PHPEMS\ginkgo::$app.'/tpls/'.\PHPEMS\ginkgo::$module.'/';
+		$this->setDir();
 	}
 
-	public function setDir($app = 'core',$module = 'app')
+    public function setPluginType()
     {
-        $this->dir = $app.'/tpls/'.$module.'/';
+        $this->type = 'plugin';
+        $app = M('ev')->url(2)?:'demo';
+        $this->setDir($app);
+        return $this;
+    }
+
+    public function setErrorType()
+    {
+        $this->type = 'error';
+        $this->setDir("core",ginkgo::$module == 'mobile'?:"app");
+        return $this;
+    }
+
+    public function setDir($app = null,$module = null)
+    {
+        if(!$app)$app = ginkgo::$app;
+        if(!$module)$module = ginkgo::$module;
+        if($this->type != 'plugin')
+        {
+            $this->dir = PEPATH.'/app/'.$app.'/tpls/'.$module.'/';
+            $this->cacheDir = PEPATH.'/data/compile/'.$app.'/'.$module.'/';
+        }
+        else
+        {
+            $this->dir = PEPATH.'/plugins/'.$app.'/tpls/'.$module.'/';
+            $this->cacheDir = PEPATH.'/data/compile/plugins/'.$app.'/'.$module.'/';
+        }
     }
 
 	//设置缓存事件
@@ -48,16 +75,14 @@ class tpl
 	//初始化模板文件地址
 	public function initFile()
 	{
-		M('files')->mdir('data/html/'.$this->dir);
-		M('files')->mdir('data/compile/'.$this->dir);
+		M('files')->mdir($this->cacheDir);
 	}
 
 	//读取模板
 	public function readTpl($file)
 	{
 		if(file_exists($file))return M('files')->readFile($file);
-		else
-			die('The template not fount which name is '.$file);
+		else die('The template not fount which name is '.$file);
 	}
 
 	//判断字符值是否存在，并返回指定类型的值
@@ -72,41 +97,6 @@ class tpl
 	public function exeBlock($id)
 	{
 		M('api','content')->parseBlock($id);
-	}
-
-	//判断是否缓存
-	public function isCached($file,$par = NULL,$cachename = NULL)
-	{
-		$source = 'app/'.$this->dir.$file.'.tpl';
-		$outfile = 'data/compile/'.$this->dir.'%%cpl%%'.$file.'.php';
-		if($cachename)$outcache = 'data/html/'.$this->dir.$cachename.'.html';
-		else
-			$outcache = 'data/html/'.$this->dir.$file.$par.'.html';
-		if(file_exists($outcache) && $this->isCache)
-		{
-			if(((time()-filemtime($outcache))<= $this->cacheTime) && (filemtime($outfile) > filemtime($source)))
-			{
-				echo M('files')->readFile($outcache);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public function isSimpleCached($cachename = NULL)
-	{
-		if($cachename)$outcache = 'data/html/'.$this->dir.$cachename.'.html';
-		else
-			return false;
-		if(file_exists($outcache) && $this->isCache)
-		{
-			if((time()-filemtime($outcache))<= $this->cacheTime)
-			{
-				echo M('files')->readFile($outcache);
-				return true;
-			}
-		}
-		return false;
 	}
 
 	//编译模板
@@ -159,8 +149,7 @@ class tpl
 
 	public function _compileInclude($file)
 	{
-		if($file)$this->fetch($file,NULL,0);
-		if($this->isCache)include 'data/compile/'.$this->dir.'/%%cpl%%'.$file.'.php';
+		if($file)$this->fetch($file);
 	}
 
 	public function compileRealVar(&$content)
@@ -339,43 +328,17 @@ class tpl
 	}
 
 	//解析模板
-	public function fetch($file,$par='',$type = 0,$cachename = NULL)
+	public function fetch($file)
 	{
 		$this->initFile();
-		$source = 'app/'.$this->dir.$file.'.tpl';
-		$outfile = 'data/compile/'.$this->dir.'%%cpl%%'.$file.'.php';
-		if($cachename)$outcache = 'data/html/'.$this->dir.$cachename.'.html';
-		else
-			$outcache = 'data/html/'.$this->dir.$file.$par.'.html';
+		$source = $this->dir.$file.'.tpl';
+		$outfile = $this->cacheDir.'%%cpl%%'.$file.'.php';
 		if((!file_exists($outfile)) || (filemtime($outfile) < filemtime($source)))
 		{
 			$content = $this->compileTpl($source);
 			M('files')->writeFile($outfile,$content);
-			if($type)
-			{
-				include $outfile;
-				M('files')->delFile($outcache);
-			}
 		}
-		else
-		{
-			if($this->isCache && (!file_exists($outcache) || (time() - filemtime($outcache)) > $this->cacheTime))
-			{
-				if($type)
-				{
-					ob_start();
-					include $outfile;
-					$cachecontent = ob_get_contents();
-					ob_flush();
-					M('files')->writeFile($outcache,$cachecontent);
-					ob_clean();
-				}
-			}
-			else
-			{
-				include $outfile;
-			}
-		}
+        include $outfile;
 	}
 
 	public function fetchContent($content)
@@ -385,7 +348,7 @@ class tpl
 
 	public function fetchExeCnt($file)
 	{
-		$source = 'app/'.$this->dir.$file.'.tpl';
+		$source = $this->dir.$file.'.tpl';
 		$content = $this->compileTpl($source);
 		ob_start();
 		eval(' ?>'.$content.'<?php ');
@@ -405,20 +368,20 @@ class tpl
 	}
 
 	//展示模板
-	public function display($file,$par=NULL,$cachename = NULL)
+	public function display($file)
 	{
 		if(M('ev')->isApp())
 		{
 			$message = array(
 				"statusCode" => 200,
 				"encrypt" => 'yes',
-				"data" => openssl_encrypt(json_encode($this->tpl_var),'DES-ECB',$this->key,0,$this->iv)
+				"data" => openssl_encrypt(json_encode($this->tpl_var),'AES-ECB',$this->key,0,$this->iv)
 			);
-			\PHPEMS\ginkgo::R($message);
+			ginkgo::R($message);
 		}
 		else
 		{
-			$this->fetch($file,$par,1,$cachename);
+			$this->fetch($file);
 		}
 	}
 }
