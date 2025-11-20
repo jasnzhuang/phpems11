@@ -84,7 +84,11 @@ class action extends app
 			$sessionvars = M('exam','exam')->getExamSessionBySessionid($sessionid);
 			$lefttime = TIME - $sessionvars['examsessionstarttime'];
 			if($lefttime < 0 )$lefttime = 0;
-			exit("{$lefttime}");
+			$message = array(
+				'statusCode' => 200,
+				"lefttime" => $lefttime
+			);
+			\PHPEMS\ginkgo::R($message);
 			break;
 
 			//根据科目获取章节信息
@@ -110,14 +114,20 @@ class action extends app
 				$args['examsessionsign'][$questionid] = 1;
 				$args['examsessionsign'] = $args['examsessionsign'];
 				M('exam','exam')->modifyExamSession($sessionid,$args);
-				exit('1');
+				$message = array(
+					'statusCode' => 200
+				);
+				\PHPEMS\ginkgo::R($message);
 			}
 			else
 			{
 				unset($args['examsessionsign'][$questionid]);
 				$args['examsessionsign'] = $args['examsessionsign'];
 				M('exam','exam')->modifyExamSession($sessionid,$args);
-				exit('2');
+				$message = array(
+					'statusCode' => 200
+				);
+				\PHPEMS\ginkgo::R($message);
 			}
 			break;
 

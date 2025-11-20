@@ -21,6 +21,9 @@ class ginkgo
 		header('X-Frame-Options:SAMEORIGIN');
 		header('X-XSS-Protection:1;mode=block');
 		header('X-Content-Type-Options: nosniff');
+        header('Access-Control-Allow-Origin: http://localhost:5173');
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, App-Agent');
         //header("Content-Security-Policy: default-src 'self'; script-src 'self';style-src 'self' 'sha256-Kfm50PMQvu1vvfq+iHjwXC0a2D4fa0A5RVvMCgH2N+c='");
         ini_set('date.timezone','Asia/Shanghai');
         date_default_timezone_set("Etc/GMT-8");
@@ -117,8 +120,8 @@ class ginkgo
 			$tpl->assign('method',self::$method);
             $tpl->assign('userhash',$ev->get('userhash'));
 			$run = new action();
-			$run->display();
-		}
+            $run->display();
+        }
         elseif(self::$app == 'plugin')
         {
             $run = new app();

@@ -27,7 +27,7 @@ class action extends app
         $topnews = M('position','content')->getPosContentList(array(array("AND","pcposid = 2")),1,10);
         $links = M('content','content')->getContentList(array(array("AND","contentcatid = 11")),1,10);
         $notices = M('content','content')->getContentList(array(array("AND","contentcatid = 26")),1,10);
-        M('tpl')->assign('notices',$notices);
+		M('tpl')->assign('notices',$notices);
         M('tpl')->assign('links',$links);
 		M('tpl')->assign('courses',$courses);
 		M('tpl')->assign('basics',$basics);

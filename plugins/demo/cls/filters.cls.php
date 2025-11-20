@@ -13,6 +13,7 @@ class filters
     {
         M('plugin')->registerFilter('afterGetArticle',array($this,'afterGetArticle'),10);
         M('plugin')->registerFilter('afterLoadPcCss',array($this,'afterLoadPcCss'),10);
+        M('plugin')->registerFilter('beforeAppOutput',array($this,'beforeAppOutput'),10);
     }
 
     public function afterGetArticle($content)
@@ -24,6 +25,15 @@ class filters
             $content['contentview'] = $content['contentview'] + $number;
         }
         return $content;
+    }
+
+    public function beforeAppOutput($data)
+    {
+        if(isset($data['_user']))unset($data['_user']['userpassword']);
+        if(isset($data['_style']))unset($data['_style']);
+        if(isset($data['navs']))unset($data['navs']);
+        //if(isset($data['app']))unset($data['app']);
+        return $data;
     }
 
     public function afterLoadPcCss($css)

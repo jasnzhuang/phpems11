@@ -245,8 +245,8 @@ class action extends app
 				{
 					if($id)
 					{
-						$basic = M('content','content')->getBasicContentById($id);
-						$args = array('pctitle' => $basic['contenttitle'],'pctime' => $basic['contentinputtime'],'pcposapp' => 'content','pccontentid' => $id,'pcthumb' => $basic['contentthumb'],'pcdescribe' => $basic['contentdescribe'],'pcposid' => $position);
+						$content = M('content','content')->getContentById($id);
+						$args = array('pctitle' => $content['contenttitle'],'pctime' => $content['contentinputtime'],'pcposapp' => 'content','pccontentid' => $id,'pcthumb' => $content['contentthumb'],'pcdescribe' => $content['contentdescribe'],'pcposid' => $position);
 						M('position','content')->addPosContent($args);
 					}
 				}

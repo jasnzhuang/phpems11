@@ -106,32 +106,16 @@ class strings
 		return $tmp;
 	}
 
-	public function encode($info)
+	static public function encode($info,$key = CSKEY,$iv = CSIV)
 	{
-		$info = serialize($info);
-		$key = CS;
-		$kl = strlen($key);
-		$il = strlen($info);
-		for($i = 0; $i < $il; $i++)
-		{
-			$p = $i%$kl;
-			$info[$i] = chr(ord($info[$i])+ord($key[$p]));
-		}
-		return urlencode($info);
+		$info = json_encode($info,JSON_UNESCAPED_UNICODE);
+		$info = urlencode(base64_encode(openssl_encrypt($info,'AES-256-CBC',$key,OPENSSL_RAW_DATA,$iv)));
+		return $info;
 	}
 
-	public function decode($info)
+	static public function decode($info,$key = CSKEY,$iv = CSIV)
 	{
-		$key = CS;
-		$info = urldecode($info);
-		$kl = strlen($key);
-		$il = strlen($info);
-		for($i = 0; $i < $il; $i++)
-		{
-			$p = $i%$kl;
-			$info[$i] = chr(ord($info[$i])-ord($key[$p]));
-		}
-		$info = unserialize($info);
+		$info = json_decode(openssl_decrypt(base64_decode(urldecode($info)),'AES-256-CBC',$key,OPENSSL_RAW_DATA,$iv),true);
 		return $info;
 	}
 

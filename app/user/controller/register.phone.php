@@ -180,8 +180,11 @@ class action extends app
 		}
 		else
 		{
+			$regment = M('block','content')->getBlockById(1);
+			$regment = html_entity_decode($regment['blockcontent']['content']);
 			$forms = M('html')->buildHtml($fields);
 			M('tpl')->assign('forms',$forms);
+			M('tpl')->assign('regment',$regment);
 			M('tpl')->display('register');
 		}
 	}

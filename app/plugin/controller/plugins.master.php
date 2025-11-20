@@ -34,7 +34,23 @@ class action extends app
 	public function on()
 	{
 		$plugin = M('ev')->get('plugin');
-		M('plugin')->modifyPlugin($plugin,['pluginstatus' => 1]);
+		$plugin = M('plugin')->getPluginByName($plugin);
+		if($plugin['plugin'])
+		{
+			M('plugin')->modifyPlugin($plugin['plugin'],['pluginstatus' => 1]);
+		}
+		else
+		{
+			$id = M('plugin')->installPlugin($plugin);
+			if(!$id)
+			{
+				$message = array(
+					'statusCode' => 300,
+					"message" => "插件开启失败"
+				);
+				R($message);
+			}
+		}
 		$message = array(
 			'statusCode' => 200,
 			"message" => "操作成功",

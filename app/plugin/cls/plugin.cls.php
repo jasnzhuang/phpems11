@@ -136,6 +136,22 @@ class plugin
         return M('pepdo')->updateElement($data);
     }
 
+    public function installPlugin($plugin)
+    {
+        if(is_dir(PEPATH.'/plugins/'.$plugin))
+        {
+            $args = [
+                'plugin' => $plugin,
+                'pluginstatus' => 1
+            ];
+            return M('pepdo')->insertElement([
+                'table' => 'plugins',
+                'query' => $args
+            ]);
+        }
+        else return false;
+    }
+
     public function getPluginByName($plugin)
     {
         $data = [

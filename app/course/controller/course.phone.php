@@ -120,7 +120,10 @@ class action extends app
         {
             M('log','course')->modifyLog($r['logid'],array('logprogress' => $time));
         }
-        exit('1');
+		$message = array(
+			'statusCode' => 200
+		);
+		\PHPEMS\ginkgo::R($message);
     }
 
     private function endstatus()
@@ -131,7 +134,10 @@ class action extends app
         {
             M('log','course')->modifyLog($r['logid'],array('logstatus' => 1,'logendtime' => TIME,'logprogress' => 0));
         }
-        exit('1');
+		$message = array(
+			'statusCode' => 200
+		);
+		\PHPEMS\ginkgo::R($message);
     }
 
 	private function index()

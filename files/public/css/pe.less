@@ -14,6 +14,7 @@ html{
 			& {
 				background-color: @bgcolor;
 				color: #484848;
+				height: 100%;
 			}
 			.container-fluid{
 				padding: 0px;
@@ -138,6 +139,9 @@ html{
 		.pages{
 			&{
 				font-size: 16px;
+				display: flex;
+				flex-direction: column;
+				height: 100vh;
 			}
 			&.login{
 				height: 100vh;
@@ -151,6 +155,8 @@ html{
 					border-bottom: 1px solid #4f4f4f;
 					overflow: hidden;
 					clear: both;
+					display: flex;
+					flex-direction: column;
 				}
 				.topbar-box{
 					&{
@@ -182,6 +188,8 @@ html{
 					border-bottom: 1px solid @bgcolor;
 					clear: both;
 					overflow: hidden;
+					display: flex;
+					flex-direction: column;
 				}
 				.nav{
 					&{
@@ -217,6 +225,7 @@ html{
 					margin: 0px auto;
 					height: auto;
 					overflow-x: hidden;
+					flex:1;
 				}
 				&.fixtop{
 					margin-top: 75px;
@@ -704,16 +713,18 @@ html{
 			}
 			.footer{
 				&{
-					margin-top: 15px;
+					padding-top: 15px;
+					height:115px;
 					background-color: #4f4f4f;
 					color: #FFFFFF;
 					border-top: #444444 5px solid;
 					font-size: 14px;
+					display: flex;
+					flex-direction: column;
 				}
 				.footer-content{
 					width: @pgwidth;
 					margin: auto;
-					padding:25px 10px;
 					a{
 						color:#999999;
 						text-decoration: none;

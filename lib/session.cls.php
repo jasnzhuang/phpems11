@@ -33,7 +33,9 @@ class session
                     M("ev")->setCookie('psid',$this->sessionid,3600*24);
                 }
                 else
+                {
                     $this->sessionid = M("ev")->getCookie('psid');
+                }
             }
         }
         if(!$this->sessionid)
@@ -175,6 +177,7 @@ class session
             return true;
         }
     }
+
 
     //获取会话用户
     public function getSessionUser()

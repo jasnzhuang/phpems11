@@ -12,8 +12,6 @@ class tpl
 
     private $dir;
     private $cacheDir;
-    public $key = '356d9abc2532ceb0945b615a922c3370';
-	public $iv = '#*phpems1100iv*#';
 
 	public function __construct()
 	{
@@ -61,15 +59,7 @@ class tpl
 	//赋值变量
 	public function assign($target,$vars)
 	{
-		if(is_array($vars))
-		{
-			foreach($vars as $key => $cnt)
-				$this->tpl_var[$target][$key] = $vars[$key];
-		}
-		else
-		{
-			$this->tpl_var[$target] = $vars;
-		}
+        $this->tpl_var[$target] = $vars;
 	}
 
 	//初始化模板文件地址
@@ -372,12 +362,13 @@ class tpl
 	{
 		if(M('ev')->isApp())
 		{
-			$message = array(
+            $this->tpl_var = M('plugin')->filter('beforeAppOutput', $this->tpl_var);
+            $message = array(
 				"statusCode" => 200,
-				"encrypt" => 'yes',
-				"data" => openssl_encrypt(json_encode($this->tpl_var),'AES-ECB',$this->key,0,$this->iv)
+				"encrypt" => APPHASH?'yes':'no',
+				"data" => APPHASH?strings::encode($this->tpl_var,APPKEY,APPIV):$this->tpl_var
 			);
-			ginkgo::R($message);
+			exit(json_encode($message,256));
 		}
 		else
 		{
