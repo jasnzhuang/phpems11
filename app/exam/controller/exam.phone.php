@@ -130,6 +130,11 @@ class action extends app
                 \PHPEMS\ginkgo::R($message);
             }
             $question = M('ev')->get('question');
+			if(M('ev')->isapp())
+			{
+				$data = stripslashes($question);
+				$question = json_decode($data,true);
+			}
             $sessionvars['examsessionuseranswer'] = $question;
             $result = M('exam','exam')->markscore($sessionvars,$questype,$this->data['currentbasic']['basicexam']['batch']);
             if($result['wrongids'] && $this->setting['autorecord'])

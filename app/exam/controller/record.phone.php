@@ -75,6 +75,11 @@ class action extends app
         }
         M('exam','exam')->delExamSession();
         $args = M('ev')->get('args');
+        if(M('ev')->isapp())
+        {
+            $data = stripslashes($args);
+            $args = json_decode($data,true);
+        }
         $sessionvars = M('exam','exam')->getExamSessionBySessionid();
         arsort($args['number']);
         $snumber = 0;
@@ -153,7 +158,9 @@ class action extends app
             'statusCode' => 200,
             "message" => "抽题完毕，转入试卷页面",
             "callbackType" => 'forward',
-            "forwardUrl" => "index.php?exam-phone-exercise-paper&sessionid={$sargs['examsessionid']}&token={$token}"
+            "forwardUrl" => "index.php?exam-phone-exercise-paper&sessionid={$sargs['examsessionid']}&token={$token}",
+            "sessionid" => $sargs['examsessionid'],
+            "token" => $token
         );
         \PHPEMS\ginkgo::R($message);
     }
@@ -188,7 +195,7 @@ class action extends app
             $number = 0;
             if(is_array($tmp[$key]['questionrows']) && count($tmp[$key]['questionrows']))
             {
-                $number += M('exam','exam')->getQuestionrowsSumNumber($tmp[$key]['questionrows']);
+                $number += M('question','exam')->getQuestionrowsSumNumber($tmp[$key]['questionrows']);
             }
             if(is_array($tmp[$key]['question']))$number += count($tmp[$key]['question']);
             $questype[$key]['number'] = $number;

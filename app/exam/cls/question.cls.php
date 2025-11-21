@@ -455,7 +455,7 @@ class question
 		foreach($qt as $key => $t)
 		{
 			$ids = $data[$key];
-			if(count($ids['questionrows']))
+			if(is_array($ids['questionrows']) && count($ids['questionrows']))
 			{
 				$qrid = array_rand($ids['questionrows'],1);
 				if($qrid)
@@ -468,7 +468,7 @@ class question
 			}
 			if($t)
 			{
-				$tmpnumber = count($ids['question']);
+				$tmpnumber = is_array($ids['question'])?count($ids['question']):0;
 				if($tmpnumber >= $t)
 				{
 					$tmpids = array_rand($ids['question'],$t);
@@ -735,6 +735,20 @@ class question
 		}
 		$r = array('question'=>$question,'questionrow'=>$questionrow);
 		return $r;
+	}
+
+	public function getQuestionrowsSumNumber($ids)
+	{
+		$data = [
+			'select' => 'sum(qrnumber) as number',
+			'table' => 'questionrows',
+			'query' => [
+				['AND','qrid in (:ids)','ids',$ids],
+				['AND','qrstatus = 1']
+			]
+		];
+		$rs = M('pepdo')->getElement($data);
+		return intval($rs['number']);
 	}
 }
 ?>

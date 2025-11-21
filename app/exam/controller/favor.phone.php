@@ -36,7 +36,7 @@ class action extends app
 			{
 				$message = array(
 					'statusCode' => 200,
-					"message" => "收藏成功！".$questionid
+					"message" => "收藏成功！"
 				);
 			}
 			else
@@ -44,7 +44,7 @@ class action extends app
 				M('favor','exam')->favorQuestion($questionid,$this->user['userid'],$this->data['currentbasic']['basicsubjectid']);
 				$message = array(
 					'statusCode' => 200,
-					"message" => "收藏成功！".$questionid
+					"message" => "收藏成功！"
 				);
 			}
 			\PHPEMS\ginkgo::R($message);

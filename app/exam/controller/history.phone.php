@@ -265,7 +265,7 @@ class action extends app
 	{
 		$ehid = M('ev')->get('ehid');
 		$eh = M('favor','exam')->getExamHistoryById($ehid);
-		if($eh['ehuserid'] != $this->user['userid'] || $eh['ehbasicid'] != $this->user['sessioncurrent'])
+		if($eh['ehuserid'] != $this->user['userid'] || $eh['ehbasicid'] != $this->session['sessioncurrent'])
 		{
 			header("location:index.php?exam-app");
 			exit;
