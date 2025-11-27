@@ -622,7 +622,7 @@ function submitAjax(parms){
 						$.loginbox.hide();
 						$.zoombox.show('ajax',data);
 						$(".randCode:first").each(function(){
-							$(this).attr('src',$(this).attr('src')+'&'+Math.random());
+							$(this).attr('src',$(this).attr('src')+'&userhash='+Math.random());
 						});
 					}else if(parseInt(data.statusCode) == 301){
 						$.loginbox.show();
@@ -695,7 +695,7 @@ function autocombox(){
 		for(i=0;i<t.length;i++)
 		url = url.replace(eval("/{"+t[i]+"}/gi"),$('#'+t[i]).val());
 	}
-	$.get(url+'&rand='+Math.random(),function(dt){
+	$.get(url+'&userhash='+Math.random(),function(dt){
 		if(dt.statusCode == '200')
 		{
 			var d = dt.html;
@@ -808,7 +808,7 @@ function modalAjax(){
 		for(i=0;i<t.length;i++)
 		url = url.replace(eval("/{"+t[i]+"}/gi"),escape($('#'+t[i]).val()));
 	}
-	$.get(url+'&'+Math.random(),function(data){
+	$.get(url+'&userhash'+Math.random(),function(data){
 		var c = m.children().find(".modal-body");
 		c.html(data);
 		c.find(".autoloaditem").each(function(){if($(this).attr('autoload') && $(this).attr('autoload') != '');$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));});
@@ -1081,7 +1081,7 @@ $(function(){
 	$(".jckeditor").each(initEditor);
 	$('.datetimepicker').each(initdatepicker);
 	$(".randCode").on('click',function(){
-		$(this).attr('src',$(this).attr('src')+'&'+Math.random());
+		$(this).attr('src',$(this).attr('src')+'&userhash='+Math.random());
 	});
 	$("form").not('.dxform').on('submit',formsubmit);
 	$("a.ajax").each(htmlajax);

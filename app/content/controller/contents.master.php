@@ -224,7 +224,7 @@ class action extends app
 				$ids = M('ev')->get('ids');
 				foreach($ids as $key => $id)
 				{
-					M('content','content')->modifyBasciContent($key,array('contentsequence' => $id));
+					M('content','content')->modifyContent($key,array('contentsequence' => $id));
 				}
 			}
 			$message = array(
@@ -272,7 +272,7 @@ class action extends app
 			{
 				foreach($contentids as $key => $id)
 				{
-					if($id)M('content','content')->modifyBasciContent($id,array('contentcatid' => $targetcatid));
+					if($id)M('content','content')->modifyContent($id,array('contentcatid' => $targetcatid));
 				}
 				$message = array(
 					'statusCode' => 200,
