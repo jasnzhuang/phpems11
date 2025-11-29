@@ -214,7 +214,7 @@
             history.pushState({id:'index.php?exam-phone-exampaper-paper'},'{x2;$sessionvars['examsession']}','index.php?exam-phone-exampaper-paper&sessionid={x2;$sessionvars['examsessionid']}&token={x2;$token}');
 		}
 		$(function(){
-            $.get('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&rand'+Math.random(),function(data){
+            $.getJSON('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&userhash='+Math.random(),function(data){
                 var setting = {
                     time:{x2;$sessionvars['examsessiontime']},
                     hbox:$("#exampaper-timer_h"),
@@ -224,7 +224,7 @@
                         $('#exampaper').submit();
                     }
                 }
-                setting.lefttime = parseInt(data);
+                setting.lefttime = parseInt(data.lefttime);
 				clock = new countdown(setting);
             });
             pep.saveAnswer = setInterval(saveanswer,120000);
@@ -269,7 +269,7 @@
             $('#sign').on('click',function(){
                 var that = this;
                 var id = $('.order').eq(mySwiper.activeIndex).attr('data-questionid');
-                $.get("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&'+Math.random(),function(data){
+                $.get("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&userhash='+Math.random(),function(data){
                     if(parseInt(data) == 1){
                         $(that).addClass('active');
                         $('#sign_'+id).addClass('danger');

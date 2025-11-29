@@ -215,7 +215,7 @@
 		}
 		$(function(){
 			var clock = null;
-			$.get('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&rand'+Math.random(),function(data){
+			$.getJSON('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&userhash='+Math.random(),function(data){
 				var setting = {
 					time:{x2;$sessionvars['examsessiontime']},
 					hbox:$("#exampaper-timer_h"),
@@ -225,13 +225,13 @@
 						$('#exampaper').submit();
 					}
 				}
-				setting.lefttime = parseInt(data);
+				setting.lefttime = parseInt(data.lefttime);
 				clock = new countdown(setting);
 			});
 			pep.saveAnswer = setInterval(saveanswer,579000);
 			pep.leftTime = setInterval(function(){
-				$.get('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&rand'+Math.random(),function(data){
-					clock.refresh(data);
+				$.getJSON('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&userhash='+Math.random(),function(data){
+					clock.refresh(data.lefttime);
 				});
 			},179000);
 			$('.subpaperbtn').on('click',function(){
@@ -275,7 +275,7 @@
 			$('#sign').on('click',function(){
 				var that = this;
 				var id = $('.order').eq(mySwiper.activeIndex).attr('data-questionid');
-				$.get("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&'+Math.random(),function(data){
+				$.get("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&userhash='+Math.random(),function(data){
 					if(parseInt(data) == 1){
 						$(that).addClass('active');
 						$('#sign_'+id).addClass('danger');
