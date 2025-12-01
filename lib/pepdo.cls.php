@@ -725,8 +725,6 @@
 		$query = $this->linkid->prepare($sql['sql']);
 		foreach($sql['v'] as $p)
 		$rs = $query->execute($p);
-		//if($stmt->errorInfo())print_r($stmt->errorInfo());
-		//else
 		return $rs;
 	}
 
@@ -752,9 +750,9 @@
 
 	public function getElements($args)
 	{
-		$data = array($args['select'],$args['table'],$args['query'],$args['groupby'],$args['orderby'],$args['limit']);
+		$data = array($args['select'],$args['table'],$args['query'],isset($args['groupby'])?$args['groupby']:false,isset($args['orderby'])?$args['orderby']:false,$args['limit']);
 		$sql = $this->makeSelect($data);
-		return $this->fetchAll($sql,$args['index'],$args['serial']);
+		return $this->fetchAll($sql,isset($args['index'])?$args['index']:false,isset($args['serial'])?$args['serial']:false);
 	}
 
 	public function listElements($page = 1,$number = 20,$args = [])
