@@ -23,15 +23,14 @@ class action extends app
 		if(M('ev')->get('appconfig'))
 		{
 			$args = M('ev')->get('args');
-			$args['appsetting'] = $args['appsetting'];
-			$app = $this->apps->getApp($appid);
+			$app = M('apps','core')->getApp($appid);
 			if($app)
 			{
-				$this->apps->modifyApp($appid,$args);
+				M('apps','core')->modifyApp($appid,$args);
 			}
 			else
 			{
-				$this->apps->addApp($appid,$args);
+				M('apps','core')->addApp($appid,$args);
 			}
 			$message = array(
 				'statusCode' => 200,
