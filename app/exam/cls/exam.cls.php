@@ -89,7 +89,7 @@ class exam
 	//获取考试设置信息列表
 	//参数：当前页码，每页显示数，查询条件数组
 	//返回值：考试设置信息列表数组
-	public function getExamSettingList($args = array(),$page,$number = 20)
+	public function getExamSettingList($args = array(),$page = 1,$number = 20)
 	{
         $data = array(
             'select' => false,
@@ -745,7 +745,7 @@ class exam
 		$data = array($fields,'questionrows',array(array("AND","qrid = :qrid",'qrid',$id),array("AND","qrstatus = 1")));
 		$sql = M('pepdo')->makeSelect($data);
 		$r = M('pepdo')->fetch($sql,array('qrknowsid'));
-		if($r['qrid'] && $childs)
+		if($r && $r['qrid'] && $childs)
 		$r['data'] = $this->getSimpleQuestionListByArgs(array(array("AND","questionparent = :qrid",'qrid',$r['qrid']),array("AND","questionstatus = 1")));
 		return $r;
 	}

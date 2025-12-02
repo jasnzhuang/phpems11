@@ -269,8 +269,8 @@
             $('#sign').on('click',function(){
                 var that = this;
                 var id = $('.order').eq(mySwiper.activeIndex).attr('data-questionid');
-                $.get("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&userhash='+Math.random(),function(data){
-                    if(parseInt(data) == 1){
+                $.getJSON("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&userhash='+Math.random(),function(data){
+                    if(data.data == 1){
                         $(that).addClass('active');
                         $('#sign_'+id).addClass('danger');
                     }else{

@@ -115,7 +115,8 @@ class action extends app
 				$args['examsessionsign'] = $args['examsessionsign'];
 				M('exam','exam')->modifyExamSession($sessionid,$args);
 				$message = array(
-					'statusCode' => 200
+					'statusCode' => 200,
+					'data' => 1
 				);
 				\PHPEMS\ginkgo::R($message);
 			}
@@ -125,7 +126,8 @@ class action extends app
 				$args['examsessionsign'] = $args['examsessionsign'];
 				M('exam','exam')->modifyExamSession($sessionid,$args);
 				$message = array(
-					'statusCode' => 200
+					'statusCode' => 200,
+					'data' => 2
 				);
 				\PHPEMS\ginkgo::R($message);
 			}
