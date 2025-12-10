@@ -783,7 +783,7 @@ function inituploader()
 	    'multiple': ismul,
 	    'template': petemplate,
 	    'request': {
-	        'endpoint': 'index.php?document-api-fineuploader',
+	        'endpoint': 'index.php?document-api-fineuploader&userhash='+Math.random(),
 	        'method': 'POST'
 	    },
 	    'thumbnails': {

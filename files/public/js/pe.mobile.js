@@ -1002,7 +1002,7 @@ function inituploader()
         'multiple': ismul,
         'template': petemplate,
         'request': {
-            'endpoint': 'index.php?document-api-fineuploader&imgwidth=375',
+            'endpoint': 'index.php?document-api-fineuploader&imgwidth=375&userhash='+Math.random(),
             'method': 'POST'
         },
         'thumbnails': {

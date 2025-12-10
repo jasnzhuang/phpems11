@@ -191,6 +191,7 @@ class action extends app
 			break;
 		}
 		$logs = M('log','course')->getLogsByCsid($course['csid'],$this->user['userid']);
+		$content = M('plugin')->filter('beforeLessonDisplay',$content);
 		M('tpl')->assign('logs',$logs);
 		M('tpl')->assign('cat',$cat);
 		M('tpl')->assign('page',$page);
