@@ -48,6 +48,7 @@ class app
         }
         M('tpl')->assign('_user',$this->user);
         M('tpl')->assign('orderstatus',M('config','bank')->orderstatus);
+        M('tpl')->assign('menus',M('config','user')->getMenus());
 	}
 }
 

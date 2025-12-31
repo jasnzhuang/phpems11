@@ -104,7 +104,7 @@ class section
     {
         $data = array(false,'knows',array(array('AND',"knowsid = :knowsid",'knowsid',$knowsid)));
         $sql = M('pepdo')->makeSelect($data);
-        return M('pepdo')->fetch($sql);
+        return M('pepdo')->fetch($sql,'knowsquestions');
     }
 
 	//根据参数获取某一知识点

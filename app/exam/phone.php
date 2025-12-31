@@ -32,12 +32,15 @@ class app
             M('session')->setSessionValue(array('sessioncurrent'=>$this->session['sessioncurrent']));
         }
         else
+        {
             $this->data['currentbasic'] = $this->data['openbasics'][$this->session['sessioncurrent']];
+        }
         $app = M('apps','core')->getApp('exam');
         $this->setting = $app['appsetting'];
         M('tpl')->assign('ols',M('config','exam')->ols);
         M('tpl')->assign('selectorder',M('config','exam')->selectorder);
         M('tpl')->assign('data',$this->data);
+        M('tpl')->assign('menus',M('config','exam')->getMenus());
         if($this->data['currentbasic']['basicexam']['model'] == 2)
         {
             if(M('ev')->url('2') && !in_array(M('ev')->url('2'),array('index','basics','exam','recover','history')))

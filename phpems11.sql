@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `x2_answer` (
   `asrid` int NOT NULL,
   `asruserid` int DEFAULT NULL,
   `asraskid` int DEFAULT NULL,
-  `asrcontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `asrcontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `asrtime` int DEFAULT NULL,
   `asrstatus` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_answer`
@@ -49,12 +49,12 @@ INSERT INTO `x2_answer` (`asrid`, `asruserid`, `asraskid`, `asrcontent`, `asrtim
 --
 
 CREATE TABLE IF NOT EXISTS `x2_app` (
-  `appid` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `appname` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `appthumb` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `appid` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `appname` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `appthumb` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `appstatus` int NOT NULL DEFAULT '0',
-  `appsetting` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `appsetting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_app`
@@ -85,10 +85,10 @@ INSERT INTO `x2_app` (`appid`, `appname`, `appthumb`, `appstatus`, `appsetting`)
 
 CREATE TABLE IF NOT EXISTS `x2_area` (
   `areaid` int NOT NULL,
-  `area` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `area` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `areacode` int NOT NULL DEFAULT '0',
   `arealevel` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_area`
@@ -129,14 +129,14 @@ INSERT INTO `x2_area` (`areaid`, `area`, `areacode`, `arealevel`) VALUES
 CREATE TABLE IF NOT EXISTS `x2_ask` (
   `askid` int NOT NULL,
   `askuserid` int DEFAULT NULL,
-  `asktitle` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `asktitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `asktime` int DEFAULT NULL,
   `askcoin` int DEFAULT NULL,
-  `askcontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `askcontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `askisshow` int DEFAULT NULL,
   `askstatus` int DEFAULT NULL,
   `askorder` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_ask`
@@ -155,15 +155,15 @@ INSERT INTO `x2_ask` (`askid`, `askuserid`, `asktitle`, `asktime`, `askcoin`, `a
 
 CREATE TABLE IF NOT EXISTS `x2_attach` (
   `attid` int NOT NULL,
-  `attpath` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `atttitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `attext` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `attpath` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `atttitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `attext` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `attinputtime` int NOT NULL DEFAULT '0',
   `attsize` int NOT NULL DEFAULT '0',
-  `attmd5` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `attmd5` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `attuserid` int NOT NULL DEFAULT '0',
-  `attcntype` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `attcntype` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_attach`
@@ -189,9 +189,9 @@ INSERT INTO `x2_attach` (`attid`, `attpath`, `atttitle`, `attext`, `attinputtime
 
 CREATE TABLE IF NOT EXISTS `x2_attachtype` (
   `atid` int NOT NULL,
-  `attachtype` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `attachexts` tinytext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `attachtype` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `attachexts` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_attachtype`
@@ -213,8 +213,8 @@ INSERT INTO `x2_attachtype` (`atid`, `attachtype`, `attachexts`) VALUES
 
 CREATE TABLE IF NOT EXISTS `x2_autoform_sample` (
   `sampleid` int NOT NULL,
-  `title` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `title` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -224,20 +224,20 @@ CREATE TABLE IF NOT EXISTS `x2_autoform_sample` (
 
 CREATE TABLE IF NOT EXISTS `x2_basic` (
   `basicid` int NOT NULL,
-  `basic` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `basic` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `basicareaid` int NOT NULL DEFAULT '0',
   `basicsubjectid` int NOT NULL DEFAULT '0',
-  `basicsection` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `basicknows` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `basicexam` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `basicapi` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `basicsection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `basicknows` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `basicexam` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `basicapi` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `basicdemo` int NOT NULL DEFAULT '0',
-  `basicthumb` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `basicprice` tinytext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `basicthumb` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `basicprice` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `basicclosed` int NOT NULL DEFAULT '0',
   `basictop` int DEFAULT NULL,
-  `basicdescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `basicdescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_basic`
@@ -254,11 +254,11 @@ INSERT INTO `x2_basic` (`basicid`, `basic`, `basicareaid`, `basicsubjectid`, `ba
 
 CREATE TABLE IF NOT EXISTS `x2_block` (
   `blockid` int NOT NULL,
-  `block` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `block` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `blocktype` int NOT NULL DEFAULT '0',
-  `blockposition` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `blockcontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `blockposition` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `blockcontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_block`
@@ -275,20 +275,20 @@ INSERT INTO `x2_block` (`blockid`, `block`, `blocktype`, `blockposition`, `block
 
 CREATE TABLE IF NOT EXISTS `x2_category` (
   `catid` int NOT NULL,
-  `catapp` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `catapp` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `catlite` int NOT NULL DEFAULT '0',
-  `catname` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `catimg` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `caturl` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `catname` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `catimg` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `caturl` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `catuseurl` int NOT NULL DEFAULT '0',
   `catparent` int DEFAULT '0',
-  `catdes` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `cattpl` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `catmanager` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `catdes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cattpl` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `catmanager` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `catinmenu` int NOT NULL DEFAULT '0',
   `catindex` int NOT NULL DEFAULT '0',
   `catsubject` int NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_category`
@@ -328,12 +328,12 @@ CREATE TABLE IF NOT EXISTS `x2_cequeue` (
   `ceqid` int NOT NULL,
   `ceqceid` int NOT NULL,
   `cequserid` int NOT NULL,
-  `ceqinfo` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `ceqinfo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ceqtime` int NOT NULL,
   `ceqstatus` tinyint(1) NOT NULL,
-  `ceqordersn` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `ceqordersn` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ceqpubtime` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -343,17 +343,17 @@ CREATE TABLE IF NOT EXISTS `x2_cequeue` (
 
 CREATE TABLE IF NOT EXISTS `x2_certificate` (
   `ceid` int NOT NULL,
-  `cetitle` varchar(72) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `cethumb` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `cetitle` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cethumb` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ceprice` int NOT NULL,
   `cebasic` int DEFAULT NULL,
   `cedays` int DEFAULT NULL,
   `cetime` int DEFAULT NULL,
-  `cetpl` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `cetags` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `cedescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `cetext` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `cetpl` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cetags` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `cedescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cetext` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_certificate`
@@ -370,10 +370,10 @@ INSERT INTO `x2_certificate` (`ceid`, `cetitle`, `cethumb`, `ceprice`, `cebasic`
 
 CREATE TABLE IF NOT EXISTS `x2_city` (
   `id` int NOT NULL,
-  `cityid` varchar(6) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `city` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `father` varchar(6) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=371 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `cityid` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `father` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=371 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_city`
@@ -754,10 +754,10 @@ INSERT INTO `x2_city` (`id`, `cityid`, `city`, `father`) VALUES
 
 CREATE TABLE IF NOT EXISTS `x2_cityarea` (
   `id` int NOT NULL,
-  `areaid` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `area` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `father` varchar(6) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=820103 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `areaid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `father` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=820103 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_cityarea`
@@ -4005,7 +4005,7 @@ CREATE TABLE IF NOT EXISTS `x2_cnttouser` (
   `cturuserid` int DEFAULT NULL,
   `cturcontentid` int DEFAULT NULL,
   `cturtime` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_cnttouser`
@@ -4022,12 +4022,12 @@ INSERT INTO `x2_cnttouser` (`cturid`, `cturuserid`, `cturcontentid`, `cturtime`)
 
 CREATE TABLE IF NOT EXISTS `x2_comment` (
   `cmtid` int NOT NULL,
-  `cmtopenid` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `cmtopenid` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `cmtuserid` int NOT NULL,
-  `cmtreply` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `cmtcontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `cmtreply` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cmtcontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cmttime` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4036,9 +4036,9 @@ CREATE TABLE IF NOT EXISTS `x2_comment` (
 --
 
 CREATE TABLE IF NOT EXISTS `x2_config` (
-  `cfgapp` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `cfgsetting` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `cfgapp` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cfgsetting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4050,10 +4050,10 @@ CREATE TABLE IF NOT EXISTS `x2_consumelog` (
   `conlid` int NOT NULL,
   `conlcost` int NOT NULL,
   `conluserid` int NOT NULL,
-  `conlinfo` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `conlinfo` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `conltype` int NOT NULL,
   `conltime` int NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4066,23 +4066,23 @@ CREATE TABLE IF NOT EXISTS `x2_content` (
   `contentcatid` int NOT NULL DEFAULT '0',
   `contentmoduleid` int NOT NULL DEFAULT '0',
   `contentuserid` int NOT NULL DEFAULT '0',
-  `contentusername` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `contentmodifier` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `contenttitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `contenttags` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `contentkeywords` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `contentthumb` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `contentlink` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `contentusername` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `contentmodifier` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contenttitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `contenttags` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contentkeywords` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contentthumb` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `contentlink` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `contentinputtime` int NOT NULL DEFAULT '0',
   `contentmodifytime` int NOT NULL DEFAULT '0',
   `contentsequence` int NOT NULL DEFAULT '0',
-  `contentdescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `contentinfo` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `contentdescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contentinfo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `contentstatus` int NOT NULL DEFAULT '0',
-  `contenttemplate` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `contenttext` mediumtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `contenttemplate` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `contenttext` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `contentview` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_content`
@@ -4104,14 +4104,14 @@ INSERT INTO `x2_content` (`contentid`, `contentcatid`, `contentmoduleid`, `conte
 --
 
 CREATE TABLE IF NOT EXISTS `x2_coupon` (
-  `couponsn` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `couponsn` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `couponvalue` int NOT NULL DEFAULT '0',
   `couponstatus` int NOT NULL DEFAULT '0',
   `couponaddtime` int NOT NULL DEFAULT '0',
   `couponendtime` int NOT NULL DEFAULT '0',
-  `couponusername` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `couponusername` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `couponusetime` int DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_coupon`
@@ -4147,24 +4147,24 @@ INSERT INTO `x2_coupon` (`couponsn`, `couponvalue`, `couponstatus`, `couponaddti
 
 CREATE TABLE IF NOT EXISTS `x2_course` (
   `courseid` int NOT NULL,
-  `coursetitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `coursetitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `coursemoduleid` int DEFAULT NULL,
   `coursecsid` int DEFAULT NULL,
   `coursedirid` int DEFAULT NULL,
-  `coursethumb` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `coursethumb` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `courseuserid` int DEFAULT NULL,
   `courseinputtime` int DEFAULT NULL,
   `coursemodifytime` int DEFAULT NULL,
   `coursesequence` int DEFAULT NULL,
-  `coursedescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `course_files` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `course_oggfile` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `course_webmfile` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `course_youtu` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `pdf_file` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `coursedescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `course_files` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `course_oggfile` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `course_webmfile` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `course_youtu` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pdf_file` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `coursepasstime` int NOT NULL,
   `YPJX_YP` int NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_course`
@@ -4186,20 +4186,20 @@ INSERT INTO `x2_course` (`courseid`, `coursetitle`, `coursemoduleid`, `coursecsi
 
 CREATE TABLE IF NOT EXISTS `x2_coursesubject` (
   `csid` int NOT NULL,
-  `cstitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT '',
+  `cstitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
   `cscatid` int DEFAULT NULL,
   `csuserid` int DEFAULT '0',
   `csbasicid` int DEFAULT '0',
   `cssubjectid` int DEFAULT '0',
   `cstime` int DEFAULT '0',
-  `csthumb` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT '',
+  `csthumb` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
   `cssequence` int DEFAULT NULL,
-  `csdescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `csdescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `csdemo` tinyint(1) DEFAULT NULL,
-  `csprice` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `csprice` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `cstype` tinyint(1) DEFAULT NULL,
   `csprogress` tinyint(1) DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_coursesubject`
@@ -4217,12 +4217,12 @@ INSERT INTO `x2_coursesubject` (`csid`, `cstitle`, `cscatid`, `csuserid`, `csbas
 
 CREATE TABLE IF NOT EXISTS `x2_docfloder` (
   `dfid` int NOT NULL,
-  `dftitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `dftitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `dfcatid` int DEFAULT NULL,
-  `dfthumb` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `dfthumb` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `dftime` int NOT NULL,
-  `dfdecrbie` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `dfdecrbie` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4233,13 +4233,13 @@ CREATE TABLE IF NOT EXISTS `x2_docfloder` (
 CREATE TABLE IF NOT EXISTS `x2_dochistory` (
   `dhid` int NOT NULL,
   `dhdocid` int DEFAULT NULL,
-  `dhtitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `dhcontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `dhtitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dhcontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `dhtime` int NOT NULL,
-  `dhusername` varchar(72) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `dhusername` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dhstatus` tinyint NOT NULL,
   `dhtop` tinyint NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_dochistory`
@@ -4258,21 +4258,21 @@ INSERT INTO `x2_dochistory` (`dhid`, `dhdocid`, `dhtitle`, `dhcontent`, `dhtime`
 
 CREATE TABLE IF NOT EXISTS `x2_docs` (
   `docid` int NOT NULL,
-  `doctitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `docthumb` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `doctitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `docthumb` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `doccatid` int NOT NULL,
-  `dockeywords` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `dockeywords` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `doccontentid` int NOT NULL,
   `docinputtime` int NOT NULL,
   `docmodifytime` int NOT NULL,
   `docsequence` int DEFAULT NULL,
-  `docdescribe` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `doclocker` varchar(72) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `docdescribe` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `doclocker` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `doclocktime` int DEFAULT NULL,
   `docneedmore` int DEFAULT NULL,
   `docsyslock` tinyint(1) DEFAULT NULL,
   `docistop` tinyint(1) DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_docs`
@@ -4291,16 +4291,16 @@ CREATE TABLE IF NOT EXISTS `x2_enroll` (
   `enrollid` int NOT NULL,
   `enrollbatid` int DEFAULT NULL,
   `enrolluserid` int DEFAULT NULL,
-  `enrolltruename` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `enrollpassport` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `enrollphone` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `enrolltruename` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `enrollpassport` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `enrollphone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `enrolltime` int DEFAULT NULL,
   `enrollstatus` int DEFAULT NULL,
-  `enrollordersn` varchar(18) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `enrollsign` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `enrollordersn` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `enrollsign` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `enrollverify` int DEFAULT NULL,
-  `enroll_address` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `enroll_address` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_enroll`
@@ -4317,15 +4317,15 @@ INSERT INTO `x2_enroll` (`enrollid`, `enrollbatid`, `enrolluserid`, `enrolltruen
 
 CREATE TABLE IF NOT EXISTS `x2_enroll_bats` (
   `enbid` int NOT NULL,
-  `enbthumb` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `enbname` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `enbthumb` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `enbname` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `enbprice` decimal(10,2) DEFAULT NULL,
   `enbmoduleid` int DEFAULT NULL,
   `enbstarttime` int DEFAULT NULL,
   `enbendtime` int DEFAULT NULL,
-  `enbintro` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `enbintro` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `enbtime` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_enroll_bats`
@@ -4343,29 +4343,29 @@ INSERT INTO `x2_enroll_bats` (`enbid`, `enbthumb`, `enbname`, `enbprice`, `enbmo
 CREATE TABLE IF NOT EXISTS `x2_examhistory` (
   `ehid` int NOT NULL,
   `ehexamid` int NOT NULL DEFAULT '0',
-  `ehexam` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ehexam` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `ehtype` int NOT NULL DEFAULT '0',
   `ehbasicid` int NOT NULL DEFAULT '0',
-  `ehquestion` longtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `ehsetting` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `ehscorelist` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `ehuseranswer` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `ehquestion` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ehsetting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `ehscorelist` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `ehuseranswer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `ehtime` int NOT NULL DEFAULT '0',
   `ehscore` decimal(10,2) NOT NULL DEFAULT '0.00',
   `ehuserid` int NOT NULL DEFAULT '0',
-  `ehusername` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ehusername` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `ehstarttime` int NOT NULL DEFAULT '0',
   `ehendtime` int NOT NULL,
   `ehstatus` int NOT NULL DEFAULT '1',
   `ehdecide` int NOT NULL DEFAULT '0',
-  `ehtimelist` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `ehopenid` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `ehtimelist` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `ehopenid` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ehneedresit` tinyint(1) NOT NULL,
   `ehispass` tinyint(1) DEFAULT NULL,
-  `ehteacher` varchar(72) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `ehteacher` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ehdecidetime` int DEFAULT NULL,
-  `ehbatch` varchar(18) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `ehbatch` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4378,9 +4378,9 @@ CREATE TABLE IF NOT EXISTS `x2_examhistory_log` (
   `ehlehid` int DEFAULT NULL,
   `ehluserid` int DEFAULT NULL,
   `ehltype` int DEFAULT NULL,
-  `ehlinfo` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `ehlinfo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `ehltime` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -4391,18 +4391,18 @@ CREATE TABLE IF NOT EXISTS `x2_examhistory_log` (
 CREATE TABLE IF NOT EXISTS `x2_exams` (
   `examid` int NOT NULL,
   `examsubject` int NOT NULL DEFAULT '0',
-  `exam` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `examsetting` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `examquestions` mediumtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `examscore` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `exam` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `examsetting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `examquestions` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `examscore` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `examstatus` int NOT NULL DEFAULT '0',
   `examtype` int NOT NULL DEFAULT '0',
   `examauthorid` int NOT NULL DEFAULT '0',
-  `examauthor` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_estonian_ci NOT NULL DEFAULT '',
+  `examauthor` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8_estonian_ci NOT NULL DEFAULT '',
   `examtime` int NOT NULL DEFAULT '0',
-  `examkeyword` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `examkeyword` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `examdecide` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_exams`
@@ -4419,25 +4419,25 @@ INSERT INTO `x2_exams` (`examid`, `examsubject`, `exam`, `examsetting`, `examque
 --
 
 CREATE TABLE IF NOT EXISTS `x2_examsession` (
-  `examsessionid` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `examsessionid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `examsessionuserid` int NOT NULL DEFAULT '0',
-  `examsession` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `examsessionsetting` mediumtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `examsessionsign` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `examsession` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `examsessionsetting` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `examsessionsign` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `examsessionbasic` int NOT NULL DEFAULT '0',
   `examsessiontype` int NOT NULL,
-  `examsessionkey` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `examsessionquestion` longtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `examsessionuseranswer` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `examsessionkey` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `examsessionquestion` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `examsessionuseranswer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `examsessionstarttime` int NOT NULL DEFAULT '0',
   `examsessiontime` int NOT NULL DEFAULT '0',
   `examsessionstatus` int NOT NULL DEFAULT '0',
   `examsessionscore` decimal(10,1) NOT NULL DEFAULT '0.0',
-  `examsessionscorelist` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `examsessionscorelist` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `examsessionissave` int NOT NULL DEFAULT '0',
-  `examsessiontimelist` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `examsessiontoken` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `examsessiontimelist` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `examsessiontoken` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4453,7 +4453,7 @@ CREATE TABLE IF NOT EXISTS `x2_exercise` (
   `exernumber` int NOT NULL,
   `exerqutype` int NOT NULL,
   `exertype` varchar(24) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -4467,7 +4467,7 @@ CREATE TABLE IF NOT EXISTS `x2_favor` (
   `favorsubjectid` int NOT NULL DEFAULT '0',
   `favorquestionid` int NOT NULL DEFAULT '0',
   `favortime` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -4478,14 +4478,14 @@ CREATE TABLE IF NOT EXISTS `x2_favor` (
 CREATE TABLE IF NOT EXISTS `x2_feedback` (
   `fbid` int NOT NULL,
   `fbquestionid` int NOT NULL,
-  `fbtype` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `fbcontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `fbtype` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fbcontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fbuserid` int NOT NULL,
   `fbtime` int NOT NULL,
   `fbstatus` tinyint NOT NULL,
   `fbdoneuserid` int NOT NULL,
   `fbdonetime` int NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4495,14 +4495,14 @@ CREATE TABLE IF NOT EXISTS `x2_feedback` (
 
 CREATE TABLE IF NOT EXISTS `x2_knows` (
   `knowsid` int NOT NULL,
-  `knows` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `knows` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `knowssectionid` int NOT NULL DEFAULT '0',
-  `knowsdescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `knowsdescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `knowsstatus` int NOT NULL DEFAULT '1',
   `knowssequence` int NOT NULL,
-  `knowsnumber` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `knowsquestions` mediumtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `knowsnumber` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `knowsquestions` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_knows`
@@ -4527,7 +4527,7 @@ CREATE TABLE IF NOT EXISTS `x2_log` (
   `logstatus` int DEFAULT NULL,
   `logendtime` int DEFAULT NULL,
   `logprogress` int DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -4537,16 +4537,16 @@ CREATE TABLE IF NOT EXISTS `x2_log` (
 
 CREATE TABLE IF NOT EXISTS `x2_module` (
   `moduleid` int NOT NULL,
-  `modulecode` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `modulename` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `moduledescribe` tinytext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `moduleapp` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `moduletable` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `modulecode` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `modulename` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `moduledescribe` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `moduleapp` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `moduletable` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `moduleallowreg` tinyint(1) NOT NULL DEFAULT '0',
   `modulestatus` int NOT NULL DEFAULT '0',
-  `modulelockfields` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `modulebrands` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `modulelockfields` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `modulebrands` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_module`
@@ -4571,24 +4571,24 @@ INSERT INTO `x2_module` (`moduleid`, `modulecode`, `modulename`, `moduledescribe
 
 CREATE TABLE IF NOT EXISTS `x2_module_fields` (
   `fieldid` int NOT NULL,
-  `fieldappid` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `fieldappid` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `fieldmoduleid` int NOT NULL DEFAULT '0',
   `fieldsequence` tinyint NOT NULL DEFAULT '0',
-  `field` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fieldtitle` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fieldlength` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fielddescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `fieldtype` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fieldhtmltype` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fieldhtmlproperty` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `fieldvalues` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `fielddefault` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `field` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `fieldtitle` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `fieldlength` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `fielddescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fieldtype` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `fieldhtmltype` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `fieldhtmlproperty` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fieldvalues` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fielddefault` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fieldlock` tinyint(1) NOT NULL DEFAULT '0',
-  `fieldindextype` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fieldforbidactors` tinytext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `fieldindextype` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `fieldforbidactors` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fieldsystem` int NOT NULL DEFAULT '0',
   `fieldpublic` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_module_fields`
@@ -4621,11 +4621,11 @@ INSERT INTO `x2_module_fields` (`fieldid`, `fieldappid`, `fieldmoduleid`, `field
 
 CREATE TABLE IF NOT EXISTS `x2_navs` (
   `navid` int NOT NULL,
-  `navtitle` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `navurl` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `navtitle` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `navurl` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `navsequence` int DEFAULT NULL,
   `navstatus` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_navs`
@@ -4652,7 +4652,7 @@ CREATE TABLE IF NOT EXISTS `x2_openbasics` (
   `obbasicid` int NOT NULL DEFAULT '0',
   `obtime` int NOT NULL DEFAULT '0',
   `obendtime` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -4666,7 +4666,7 @@ CREATE TABLE IF NOT EXISTS `x2_opencourse` (
   `occourseid` int NOT NULL,
   `octime` int NOT NULL,
   `ocendtime` int NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -4675,25 +4675,25 @@ CREATE TABLE IF NOT EXISTS `x2_opencourse` (
 --
 
 CREATE TABLE IF NOT EXISTS `x2_orders` (
-  `ordersn` varchar(18) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `ordertitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `orderdescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `orderitems` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `ordersn` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ordertitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `orderdescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `orderitems` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `orderprice` decimal(10,2) NOT NULL,
   `orderuserid` int NOT NULL,
-  `orderuserinfo` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `orderuserinfo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `orderstatus` int NOT NULL,
   `orderfullprice` decimal(10,2) NOT NULL,
   `ordercreatetime` int NOT NULL,
   `orderpaytime` int NOT NULL,
   `orderouttime` int NOT NULL,
   `orderrecivetime` int NOT NULL,
-  `orderfaq` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `orderpost` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `orderapp` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `orderpaytype` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `orderbill` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `orderfaq` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `orderpost` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `orderapp` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `orderpaytype` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `orderbill` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4706,7 +4706,7 @@ CREATE TABLE IF NOT EXISTS `x2_plugins` (
   `plugin` varchar(24) DEFAULT NULL,
   `pluginsetting` text,
   `pluginstatus` int unsigned DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转存表中的数据 `x2_plugins`
@@ -4724,14 +4724,14 @@ INSERT INTO `x2_plugins` (`pluginid`, `plugin`, `pluginsetting`, `pluginstatus`)
 CREATE TABLE IF NOT EXISTS `x2_poscontent` (
   `pcid` int NOT NULL,
   `pcposid` int NOT NULL DEFAULT '0',
-  `pcposapp` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `pcposapp` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pccontentid` int NOT NULL DEFAULT '0',
-  `pcthumb` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `pcthumb` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `pcsequence` int NOT NULL DEFAULT '0',
-  `pctitle` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `pctitle` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `pctime` int NOT NULL DEFAULT '0',
-  `pcdescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `pcdescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4741,9 +4741,9 @@ CREATE TABLE IF NOT EXISTS `x2_poscontent` (
 
 CREATE TABLE IF NOT EXISTS `x2_position` (
   `posid` int NOT NULL,
-  `posname` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `posapp` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `posname` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `posapp` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_position`
@@ -4771,7 +4771,7 @@ CREATE TABLE IF NOT EXISTS `x2_progress` (
   `prsexamid` int NOT NULL,
   `prsexamstatus` tinyint(1) NOT NULL,
   `prstatus` tinyint(1) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 --
 -- 转存表中的数据 `x2_progress`
@@ -4788,9 +4788,9 @@ INSERT INTO `x2_progress` (`prsid`, `prsuserid`, `prstime`, `prsendtime`, `prsco
 
 CREATE TABLE IF NOT EXISTS `x2_province` (
   `id` int NOT NULL,
-  `provinceid` varchar(6) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `province` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `provinceid` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `province` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_province`
@@ -4843,7 +4843,7 @@ CREATE TABLE IF NOT EXISTS `x2_quest2knows` (
   `qkquestionid` int NOT NULL DEFAULT '0',
   `qkknowsid` int NOT NULL DEFAULT '0',
   `qktype` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=9616 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=9616 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 --
 -- 转存表中的数据 `x2_quest2knows`
@@ -4883,7 +4883,7 @@ CREATE TABLE IF NOT EXISTS `x2_questionanalysis` (
   `qalaststatus` int DEFAULT NULL,
   `qarate` int DEFAULT NULL,
   `qaqnparent` int DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -4894,18 +4894,18 @@ CREATE TABLE IF NOT EXISTS `x2_questionanalysis` (
 CREATE TABLE IF NOT EXISTS `x2_questionrows` (
   `qrid` int NOT NULL,
   `qrtype` tinyint NOT NULL DEFAULT '2',
-  `qrquestion` mediumtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `qrknowsid` tinytext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `qrquestion` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `qrknowsid` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `qrlevel` int NOT NULL DEFAULT '0',
   `qrnumber` int NOT NULL DEFAULT '0',
   `qruserid` int NOT NULL DEFAULT '0',
-  `qrusername` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `qrlastmodifyuser` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `qrusername` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `qrlastmodifyuser` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `qrtime` int NOT NULL DEFAULT '0',
   `qrstatus` tinyint(1) NOT NULL DEFAULT '1',
-  `qrdeler` varchar(72) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `qrdeler` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `qrdeltime` int DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -4916,24 +4916,24 @@ CREATE TABLE IF NOT EXISTS `x2_questionrows` (
 CREATE TABLE IF NOT EXISTS `x2_questions` (
   `questionid` int NOT NULL,
   `questiontype` int NOT NULL DEFAULT '0',
-  `question` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `question` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `questionuserid` int NOT NULL DEFAULT '0',
-  `questionusername` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `questionlastmodifyuser` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `questionselect` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `questionusername` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `questionlastmodifyuser` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `questionselect` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `questionselectnumber` tinyint NOT NULL DEFAULT '0',
-  `questionanswer` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `questiondescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `questionknowsid` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `questionanswer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `questiondescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `questionknowsid` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `questioncreatetime` int NOT NULL DEFAULT '0',
   `questionstatus` int NOT NULL DEFAULT '1',
-  `questionhtml` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `questionhtml` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `questionparent` int NOT NULL DEFAULT '0',
   `questionsequence` int NOT NULL DEFAULT '0',
   `questionlevel` int NOT NULL DEFAULT '0',
-  `questiondeler` varchar(72) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `questiondeler` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `questiondeltime` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=9771 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=9771 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_questions`
@@ -4962,10 +4962,10 @@ INSERT INTO `x2_questions` (`questionid`, `questiontype`, `question`, `questionu
 
 CREATE TABLE IF NOT EXISTS `x2_questype` (
   `questid` int NOT NULL,
-  `questype` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `questype` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `questsort` int NOT NULL DEFAULT '0',
   `questchoice` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_questype`
@@ -4992,7 +4992,7 @@ CREATE TABLE IF NOT EXISTS `x2_record` (
   `recorduserid` int NOT NULL DEFAULT '0',
   `recordtime` int NOT NULL DEFAULT '0',
   `recordsubjectid` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
@@ -5004,9 +5004,9 @@ CREATE TABLE IF NOT EXISTS `x2_recorddata` (
   `rdid` int NOT NULL,
   `rduserid` int DEFAULT NULL,
   `rdsubjectid` int DEFAULT NULL,
-  `rddata` mediumtext CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `rddata` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `rdtime` int DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -5017,11 +5017,11 @@ CREATE TABLE IF NOT EXISTS `x2_recorddata` (
 CREATE TABLE IF NOT EXISTS `x2_reply` (
   `replyid` int NOT NULL,
   `replyuserid` int NOT NULL DEFAULT '0',
-  `replyusername` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `replyusername` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `replycommentid` int NOT NULL DEFAULT '0',
   `replytime` int NOT NULL DEFAULT '0',
-  `replycontent` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `replycontent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -5031,11 +5031,11 @@ CREATE TABLE IF NOT EXISTS `x2_reply` (
 
 CREATE TABLE IF NOT EXISTS `x2_sections` (
   `sectionid` int NOT NULL,
-  `section` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `section` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `sectionsubjectid` int NOT NULL DEFAULT '0',
-  `sectiondescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `sectiondescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sectionsequence` int NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_sections`
@@ -5051,20 +5051,20 @@ INSERT INTO `x2_sections` (`sectionid`, `section`, `sectionsubjectid`, `sectiond
 --
 
 CREATE TABLE IF NOT EXISTS `x2_session` (
-  `sessionid` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `sessionid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sessionuserid` int NOT NULL DEFAULT '0',
-  `sessionusername` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `sessionpassword` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `sessionip` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `sessionusername` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `sessionpassword` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `sessionip` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `sessionmanage` tinyint(1) DEFAULT '0',
   `sessiongroupid` int NOT NULL DEFAULT '0',
-  `sessioncurrent` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `sessionrandcode` char(6) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `sessioncurrent` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `sessionrandcode` char(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `sessionlogintime` int NOT NULL DEFAULT '0',
   `sessiontimelimit` int NOT NULL DEFAULT '0',
   `sessionlasttime` int NOT NULL DEFAULT '0',
   `sessionmaster` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_session`
@@ -5082,9 +5082,9 @@ INSERT INTO `x2_session` (`sessionid`, `sessionuserid`, `sessionusername`, `sess
 
 CREATE TABLE IF NOT EXISTS `x2_subject` (
   `subjectid` int NOT NULL,
-  `subject` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `subjectsetting` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `subject` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `subjectsetting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_subject`
@@ -5101,15 +5101,15 @@ INSERT INTO `x2_subject` (`subjectid`, `subject`, `subjectsetting`) VALUES
 
 CREATE TABLE IF NOT EXISTS `x2_survey` (
   `svyid` int NOT NULL,
-  `svytitle` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `svythumb` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `svytitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `svythumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `svytime` int DEFAULT NULL,
   `svytype` int DEFAULT NULL,
-  `svydescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `svydescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `svystime` int DEFAULT NULL,
   `svyendtime` int DEFAULT NULL,
   `svyuserid` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_survey`
@@ -5128,10 +5128,10 @@ CREATE TABLE IF NOT EXISTS `x2_survey_history` (
   `syhyid` int NOT NULL,
   `syhyuserid` int DEFAULT NULL,
   `syhysvyid` int DEFAULT NULL,
-  `syhyanswers` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `syhycode` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `syhyanswers` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `syhycode` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `syhytime` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_survey_history`
@@ -5149,9 +5149,9 @@ INSERT INTO `x2_survey_history` (`syhyid`, `syhyuserid`, `syhysvyid`, `syhyanswe
 CREATE TABLE IF NOT EXISTS `x2_survey_node` (
   `syneid` int NOT NULL,
   `synesvyid` int DEFAULT NULL,
-  `synetitle` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `synedescribe` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `synetitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `synedescribe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_survey_node`
@@ -5171,11 +5171,11 @@ CREATE TABLE IF NOT EXISTS `x2_survey_questions` (
   `syqnid` int NOT NULL,
   `syqnsvyid` int DEFAULT NULL,
   `syqnsyneid` int DEFAULT NULL,
-  `syqnquestion` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `syqnquestion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `syqnquestiontype` int DEFAULT NULL,
-  `syqnquestionselect` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
+  `syqnquestionselect` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `syqnquestionselectnumber` int DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_survey_questions`
@@ -5193,32 +5193,32 @@ INSERT INTO `x2_survey_questions` (`syqnid`, `syqnsvyid`, `syqnsyneid`, `syqnque
 
 CREATE TABLE IF NOT EXISTS `x2_user` (
   `userid` int NOT NULL,
-  `useropenid` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `userunionid` varchar(48) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `username` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `useremail` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `userpassword` char(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `useropenid` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userunionid` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `username` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `useremail` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `userpassword` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `usercoin` int NOT NULL DEFAULT '0',
-  `userregip` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `userregip` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `userregtime` int NOT NULL DEFAULT '0',
   `userlogtime` int NOT NULL DEFAULT '0',
   `userverifytime` int DEFAULT NULL,
   `usergroupid` int NOT NULL DEFAULT '0',
   `usermoduleid` int NOT NULL DEFAULT '0',
-  `useranswer` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `manager_apps` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `usertruename` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `normal_favor` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `teacher_subjects` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `userprofile` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `usergender` varchar(6) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `userphone` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `useraddress` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `userphoto` varchar(240) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `useranswer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `manager_apps` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `usertruename` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `normal_favor` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `teacher_subjects` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userprofile` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `usergender` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userphone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `useraddress` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userphoto` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `userstatus` int DEFAULT NULL,
   `userdisable` tinyint DEFAULT NULL,
-  `userpassport` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `userpassport` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_user`
@@ -5237,13 +5237,13 @@ INSERT INTO `x2_user` (`userid`, `useropenid`, `userunionid`, `username`, `usere
 
 CREATE TABLE IF NOT EXISTS `x2_user_group` (
   `groupid` int NOT NULL,
-  `groupname` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `groupname` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `groupmoduleid` tinyint NOT NULL DEFAULT '0',
-  `groupdescribe` tinytext CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `groupright` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `groupdescribe` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `groupright` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `groupmoduledefault` int NOT NULL DEFAULT '0',
   `groupdefault` int NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `x2_user_group`
@@ -5263,10 +5263,10 @@ INSERT INTO `x2_user_group` (`groupid`, `groupname`, `groupmoduleid`, `groupdesc
 CREATE TABLE IF NOT EXISTS `x2_user_log` (
   `ulid` int NOT NULL,
   `uluserid` int DEFAULT NULL,
-  `ulip` varchar(24) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `ulcliect` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `ulip` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ulcliect` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ultime` int DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -5275,11 +5275,11 @@ CREATE TABLE IF NOT EXISTS `x2_user_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `x2_wxlogin` (
-  `wxsid` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `wxinfo` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `wxsid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `wxinfo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `wxtime` int NOT NULL,
-  `wxtoken` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+  `wxtoken` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Indexes for dumped tables

@@ -33,15 +33,15 @@ class action extends app
 
 	public function on()
 	{
-		$plugin = M('ev')->get('plugin');
-		$plugin = M('plugin')->getPluginByName($plugin);
+		$pluginname = M('ev')->get('plugin');
+		$plugin = M('plugin')->getPluginByName($pluginname);
 		if($plugin['plugin'])
 		{
 			M('plugin')->modifyPlugin($plugin['plugin'],['pluginstatus' => 1]);
 		}
 		else
 		{
-			$id = M('plugin')->installPlugin($plugin);
+			$id = M('plugin')->installPlugin($pluginname);
 			if(!$id)
 			{
 				$message = array(

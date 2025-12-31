@@ -266,7 +266,8 @@ class user
 		$args[] = array("AND","uluserid = userid");
 		$data = array(
 			'table' => array('user_log','user'),
-			'query' => $args
+			'query' => $args,
+			'orderby' => 'ulid desc'
 		);
 		return M('pepdo')->listElements($page,$number,$data);
 	}

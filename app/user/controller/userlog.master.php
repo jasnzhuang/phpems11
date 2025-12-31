@@ -23,6 +23,8 @@ class action extends app
 			M('tpl')->assign('u',$this->u);
 		}
 		M('tpl')->assign('search',$this->search);
+		$groups = M('user','user')->getUserGroups();
+		M('tpl')->assign('groups',$groups);
 		if(!method_exists($this,$action))
 		$action = "index";
 		$this->$action();

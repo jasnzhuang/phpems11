@@ -3,7 +3,7 @@ namespace PHPEMS;
 class app
 {
     public $user;
-    public $session;
+    public $session; 
 
     public function __construct()
     {

@@ -38,6 +38,7 @@ class app
 		M('tpl')->assign('ols',M('config','exam')->ols);
 		M('tpl')->assign('selectorder',M('config','exam')->selectorder);
 		M('tpl')->assign('data',$this->data);
+        M('tpl')->assign('menus',M('config','exam')->getMenus());
 		if($this->data['currentbasic']['basicexam']['model'] == 2)
 		{
 			if(M('ev')->url('2') && !in_array(M('ev')->url('2'),array('index','basics','exam','recover','history')))
