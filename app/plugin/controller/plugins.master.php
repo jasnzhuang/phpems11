@@ -18,6 +18,29 @@ class action extends app
 		exit;
 	}
 
+	public function uninstall()
+	{
+		$plugin = M('ev')->get('plugin');
+		$id = M('plugin')->uninstallPlugin($plugin);
+		if($id)
+		{
+			$message = array(
+				'statusCode' => 200,
+				"message" => "操作成功",
+				"callbackType" => "forward",
+				"forwardUrl" => "reload"
+			);
+		}
+		else
+		{
+			$message = array(
+				'statusCode' => 300,
+				"message" => "操作失败"
+			);
+		}
+		R($message);
+	}
+
 	public function off()
 	{
 		$plugin = M('ev')->get('plugin');
@@ -63,6 +86,7 @@ class action extends app
 	public function index()
 	{
 		$plugins = M('plugin')->getLocalPlugins();
+		$installs = M('plugin')->getInstalledPlugins();
 		$actives = M('plugin')->getActivePlugins();
 		$plugins = $plugins['dir'];
 		foreach($plugins as $key => $plugin)
@@ -72,6 +96,8 @@ class action extends app
 			$plugins[$key]['describe'] = $config->describe;
 			$plugins[$key]['manageUrl'] = $config->manageUrl;
 			if(in_array($plugin['name'],$actives))$plugins[$key]['actived'] = 1;
+			if(in_array($plugin['name'],$installs))$plugins[$key]['installed'] = 1;
+			
 		}
 		M('tpl')->assign('plugins',$plugins);
 		M('tpl')->display('plugins');

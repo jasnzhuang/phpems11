@@ -122,6 +122,26 @@ class plugin
         }
         return $plugins;
     }
+	
+	public function getInstalledPlugins()
+    {
+        $data = [
+            'select' => 'plugin',
+            'table' => 'plugins',
+            'query' => [],
+            'limit' => false
+        ];
+        $rs = M('pepdo')->getElements($data);
+        $plugins = array();
+        foreach($rs as $r)
+        {
+            if(is_dir($this->_pluginDir.$r['plugin']))
+            {
+                $plugins[] = $r['plugin'];
+            }
+        }
+        return $plugins;
+    }
 
     public function modifyPlugin($plugin,$args = array())
     {
@@ -140,6 +160,13 @@ class plugin
     {
         if(is_dir(PEPATH.'/plugins/'.$plugin))
         {
+            if(method_exists(P('config',$plugin),'install'))
+            {
+                if(!P('config',$plugin)->install())
+                {
+                    return false;
+                }
+            }
             $args = [
                 'plugin' => $plugin,
                 'pluginstatus' => 1
@@ -148,6 +175,25 @@ class plugin
                 'table' => 'plugins',
                 'query' => $args
             ]);
+        }
+        else return false;
+    }
+
+    public function uninstallPlugin($plugin)
+    {
+        if(is_dir(PEPATH.'/plugins/'.$plugin))
+        {
+            if(method_exists(P('config',$plugin),'uninstall'))
+            {
+                if(!P('config',$plugin)->uninstall())
+                {
+                    return false;
+                }
+            }
+            $args = [
+                'pluginstatus' => 0
+            ];
+            return $this->modifyPlugin($plugin,$args);
         }
         else return false;
     }
