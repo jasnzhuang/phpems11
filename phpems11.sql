@@ -4398,7 +4398,7 @@ CREATE TABLE IF NOT EXISTS `x2_exams` (
   `examstatus` int NOT NULL DEFAULT '0',
   `examtype` int NOT NULL DEFAULT '0',
   `examauthorid` int NOT NULL DEFAULT '0',
-  `examauthor` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8_estonian_ci NOT NULL DEFAULT '',
+  `examauthor` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `examtime` int NOT NULL DEFAULT '0',
   `examkeyword` varchar(240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `examdecide` int NOT NULL DEFAULT '0'
