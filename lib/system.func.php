@@ -16,4 +16,4 @@ function P($G,$app = 'demo',$param = 'default'){
 function R($message){
 	ginkgo::R($message);
 }
-ginkgo::loadMoudle();
+ginkgo::loadModule();

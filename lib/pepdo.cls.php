@@ -648,10 +648,10 @@
 					{
 						foreach($unserialize as $value)
 						{
-							$tmp[$value] = $tmp[$value]?unserialize($tmp[$value]):'';
+							$tmp[$value] = $tmp[$value]?unserialize($tmp[$value], ['allowed_classes' => false]):'';
 						}
 					}
-					else $tmp[$unserialize] = $tmp[$unserialize]?unserialize($tmp[$unserialize]):'';
+					else $tmp[$unserialize] = $tmp[$unserialize]?unserialize($tmp[$unserialize], ['allowed_classes' => false]):'';
 				}
 				if($index)
 				{
@@ -684,10 +684,10 @@
 					{
 						foreach($unserialize as $value)
 						{
-							$tmp[$value] = isset($tmp[$value])?unserialize($tmp[$value]):'';
+							$tmp[$value] = isset($tmp[$value])?unserialize($tmp[$value], ['allowed_classes' => false]):'';
 						}
 					}
-					else $tmp[$unserialize] = unserialize($tmp[$unserialize]);
+					else $tmp[$unserialize] = unserialize($tmp[$unserialize], ['allowed_classes' => false]);
 				}
 			}
 			return $tmp;

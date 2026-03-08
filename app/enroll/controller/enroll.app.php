@@ -20,7 +20,14 @@ class action extends app
     public function detail()
     {
         $enrollid = M('ev')->get('enrollid');
-        $enroll = M('enroll','enroll')->getEnrollById($enrollid);
+        $enroll = M('enroll','enroll')->getEnrollByIdWithUser($enrollid);
+		if(!$enroll)
+		{
+			R(array(
+				'statusCode' => 300,
+				'message' => '不存在的报名'
+			));
+		}
         $enbat = M('enroll','enroll')->getEnrollBatById($enroll['enrollbatid']);
         $args = array();
         $args[] = array("AND","enbstarttime <= :stime","stime",TIME);

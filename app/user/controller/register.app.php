@@ -119,6 +119,18 @@ class action extends app
             }
 			$fob = array('admin','管理员','站长');
 			$args = M('ev')->get('args');
+			if(!M('ev')->validate(array(
+				'username' => 'required|username',
+				'useremail' => 'required|email',
+				'userpassword' => 'required|password'
+			),$args))
+			{
+				$message = array(
+					'statusCode' => 300,
+					"message" => "请检查表单内容"
+				);
+				\PHPEMS\ginkgo::R($message);
+			}
 			$defaultgroup = M('user','user')->getDefaultGroup();
 			if(!$defaultgroup['groupid'] || !trim($args['username']))
 			{

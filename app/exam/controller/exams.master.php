@@ -530,12 +530,12 @@ class action extends app
 	{
 		if(M('ev')->get('submitsetting'))
 		{
+			$questypes = M('basic','exam')->getQuestypeList();
 			$args = M('ev')->get('args');
 			$args['examsetting'] = $args['examsetting'];
 			$args['examauthorid'] = $this->user['userid'];
 			$args['examauthor'] = $this->user['sessionusername'];
 			$args['examtype'] = 1;
-
 			$totalscore = 0;
 			foreach($args['examsetting']['questype'] as $key => $p)
 			{
@@ -543,6 +543,46 @@ class action extends app
 				{
 					unset($args['examsetting']['questype'][$key],$args['examquestions'][$key]);
 				}
+				if($args['examsetting']['scalemodel'])
+				{
+					$examscales =  explode('\n',$args['examsetting']['examscale'][$key]);
+					$tol = 0;
+					foreach ($examscales as $examscale)
+					{
+						$s = explode(':',$examscale);
+						if($s[2])
+						{
+							$ns = explode(',',$s[2]);
+							$n = array_sum($ns);
+							if($n != $s[1])
+							{
+								$message = array(
+									'statusCode' => 300,
+									"message" => $questypes[$key]['questype']."试题数量与难度数量总和不一致"
+								);
+								\PHPEMS\ginkgo::R($message);
+							}
+						}
+						$tol += $s[1];
+					}
+					if($tol != $p['number'])
+					{
+						$message = array(
+							'statusCode' => 300,
+							"message" => $questypes[$key]['questype']."配题数量与试题数量不一致"
+						);
+						\PHPEMS\ginkgo::R($message);
+					}
+				}
+				if($p['number'] != $p['easynumber'] + $p['middlenumber'] + $p['hardnumber'] && !$args['examsetting']['scalemodel'])
+				{
+					$message = array(
+						'statusCode' => 300,
+						"message" => $questypes[$key]['questype']."试题数量与难度数量总和不一致"
+					);
+					\PHPEMS\ginkgo::R($message);
+				}
+
 				$totalscore += $p['number'] * $p['score'];
 			}
 			if($args['examsetting']['score'] != $totalscore)
@@ -581,15 +621,23 @@ class action extends app
 			$args['examauthor'] = $this->user['sessionusername'];
 			$args['examtype'] = 2;
 			$args['examquestions'] = $args['examquestions'];
-
+			$totalscore = 0;
 			foreach($args['examsetting']['questype'] as $key => $p)
 			{
 				if(!$args['examsetting']['questypelite'][$key])
 				{
 					unset($args['examsetting']['questype'][$key],$args['examquestions'][$key]);
 				}
+				$totalscore += $p['number'] * $p['score'];
 			}
-
+			if($args['examsetting']['score'] != $totalscore)
+			{
+				$message = array(
+					'statusCode' => 300,
+					"message" => "分数设置不正确，请检查"
+				);
+				\PHPEMS\ginkgo::R($message);
+			}
 			$id = M('exam','exam')->addExamSetting($args);
 			$message = array(
 				'statusCode' => 200,
@@ -973,6 +1021,56 @@ class action extends app
 				{
 					unset($args['examsetting']['questype'][$key],$args['examquestions'][$key]);
 				}
+
+				if($args['examsetting']['scalemodel'])
+				{
+					$examscales =  explode('\n',$args['examsetting']['examscale'][$key]);
+					$tol = 0;
+					foreach ($examscales as $examscale)
+					{
+						$s = explode(':',$examscale);
+						if($s[2])
+						{
+							$ns = explode(',',$s[2]);
+							$n = array_sum($ns);
+							if($n != $s[1])
+							{
+								$message = array(
+									'statusCode' => 300,
+									"message" => "试题数量与难度数量总和不一致"
+								);
+								\PHPEMS\ginkgo::R($message);
+							}
+						}
+						$tol += $s[1];
+					}
+					if($tol != $p['number'])
+					{
+						$message = array(
+							'statusCode' => 300,
+							"message" => "配题数量与试题数量不一致"
+						);
+						\PHPEMS\ginkgo::R($message);
+					}
+				}
+
+				if($p['number'] != $p['easynumber'] + $p['middlenumber'] + $p['hardnumber'] && !$args['examsetting']['scalemodel'] && $exam['examtype'] == 1)
+				{
+					$message = array(
+						'statusCode' => 300,
+						"message" => "试题数量与难度数量总和不一致"
+					);
+					\PHPEMS\ginkgo::R($message);
+				}
+				$totalscore += $p['number'] * $p['score'];
+			}
+			if($args['examsetting']['score'] != $totalscore)
+			{
+				$message = array(
+					'statusCode' => 300,
+					"message" => "分数设置不正确，请检查"
+				);
+				\PHPEMS\ginkgo::R($message);
 			}
 
 			M('exam','exam')->modifyExamSetting($examid,$args);

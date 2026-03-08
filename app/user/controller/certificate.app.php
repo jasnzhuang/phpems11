@@ -26,7 +26,7 @@ class action extends app
 		$news = M('ce','certificate')->getCeList(array(),$page,10);
 		M('tpl')->assign('news',$news['data']);
 		M('tpl')->assign('certificates',$certificates);
-		M('tpl')->assign('status',M('config','user')->status);
+		M('tpl')->assign('status',M('config','certificate')->status);
 		M('tpl')->assign('page',$page);
 		M('tpl')->display('certificate');
 	}

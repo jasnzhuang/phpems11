@@ -125,29 +125,6 @@ function setAnswerHtml(t,o)
 		$("#selecttext").show();
 	}
 }
-jQuery.cookie = function(key, value, options) {
-    if (arguments.length > 1 && String(value) !== "[object Object]") {
-        options = jQuery.extend({},
-        options);
-        if (value === null || value === undefined) {
-            options.expires = -1;
-        }
-        if (typeof options.expires === 'number') {
-            var days = options.expires,
-            t = options.expires = new Date();
-            t.setDate(t.getDate() + days);
-        }
-        value = String(value);
-        return (document.cookie = [encodeURIComponent(key), '=', options.raw ? value: encodeURIComponent(value), options.expires ? '; expires=' + options.expires.toUTCString() : '', options.path ? '; path=' + options.path: '', options.domain ? '; domain=' + options.domain: '', options.secure ? '; secure': ''].join(''));
-    }
-    options = value || {};
-    var result,
-    decode = options.raw ?
-    function(s) {
-        return s;
-    }: decodeURIComponent;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
-};
 function xvars(x){
 	var _this = this;
 	String.prototype.replaceAll  = function(s1,s2){
@@ -444,18 +421,21 @@ function submitAjax(parms){
 					if(data && data.substring(0,6) != 'error:')
 					if(parms.target)
 					{
-						$('#'+parms.target).html(data);
-						var dom = document.getElementById(parms.target);
-						$('.di-style',dom).find('span').on('click',function(){
-							var _this = $(this);
-							_this.parents('.di-style').parent().find('span').removeClass('dis-select');
-							_this.addClass('dis-select');
-							if(_this.attr('data-element'))
-							{
-								$('#'+_this.attr('data-element')).val(_this.attr('data-value'));
-							}
+						if(parms.target == 'body')
+						{
+							var newpage = $('body');
+							newpage.html(data);
+						}
+						else
+						{
+							var newpage = $('#'+parms.target).html(data);
+						}
+						console.log(newpage);
+						var dom = newpage[0];
+						$(".autoloaditem",dom).each(function(){
+							if($(this).attr('autoload') && $(this).attr('autoload') != '');
+							$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));
 						});
-						$(".autoloaditem",dom).each(function(){if($(this).attr('autoload') && $(this).attr('autoload') != '');$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));});
 						$("a.ajax",dom).each(htmlajax);
 						$("form",dom).not('.dxform').on('submit',formsubmit);
 						$("select.combox",dom).on("change",combox);
@@ -572,7 +552,18 @@ function formsubmit(){
 	var status = false;
 	var query;
 	var target = $(_this).attr('direct');
-	if(!target || target == '')target = 'datacontent';
+	if(!target || target == '')
+	{
+		if($('#datacontent').length > 0)
+		{
+			target = 'datacontent';
+		}
+		else
+		{
+			target = 'body';
+		}
+	}
+
 	for ( instance in CKEDITOR.instances )
 	CKEDITOR.instances[instance].updateElement();
 	query = $(":input",_this).serialize()+'&userhash='+Math.random();

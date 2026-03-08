@@ -21,11 +21,6 @@ class app
         }
         $localapps = M('apps','core')->getLocalAppList();
         $apps = M('apps','core')->getAppList();
-        if(!in_array(ginkgo::$app,is_array($this->user['manager_apps'])?$this->user['manager_apps']:[]) && $apps['user']['appsetting']['managemodel'])
-        {
-            header("location:index.php?core-master");
-            exit();
-        }
         M('tpl')->assign('localapps',$localapps);
         M('tpl')->assign('apps',$apps);
         M('tpl')->assign('_user',$this->user);

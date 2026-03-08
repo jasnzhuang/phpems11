@@ -301,8 +301,8 @@ class favor
 		$data = array(false,'examhistory',array(array("AND","ehid = :ehid",'ehid',$id)));
 		$sql = M('pepdo')->makeSelect($data);
 		$r = M('pepdo')->fetch($sql,array('ehscorelist','ehuseranswer','ehtimelist'));
-		$r['ehquestion'] = unserialize(gzuncompress(base64_decode($r['ehquestion'])));
-		$r['ehsetting'] = unserialize(gzuncompress(base64_decode($r['ehsetting'])));
+		$r['ehquestion'] = unserialize(gzuncompress(base64_decode($r['ehquestion'])), ['allowed_classes' => false]);
+		$r['ehsetting'] = unserialize(gzuncompress(base64_decode($r['ehsetting'])), ['allowed_classes' => false]);
 		return $r;
 	}
 
@@ -311,8 +311,8 @@ class favor
         $data = array(false,'examhistory',$args);
         $sql = M('pepdo')->makeSelect($data);
         $r = M('pepdo')->fetch($sql,array('ehscorelist','ehuseranswer','ehtimelist'));
-        $r['ehquestion'] = unserialize(gzuncompress(base64_decode($r['ehquestion'])));
-        $r['ehsetting'] = unserialize(gzuncompress(base64_decode($r['ehsetting'])));
+        $r['ehquestion'] = unserialize(gzuncompress(base64_decode($r['ehquestion'])), ['allowed_classes' => false]);
+        $r['ehsetting'] = unserialize(gzuncompress(base64_decode($r['ehsetting'])), ['allowed_classes' => false]);
         return $r;
     }
 

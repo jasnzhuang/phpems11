@@ -10,34 +10,34 @@ namespace PHPEMS;
 class strings
 {
 
-	public function isEmail($str)
+	static public function isEmail($str)
 	{
 		$j = "/^[\w|\.]+@\w+\.\w+/i";
 		if(preg_match($j,$str))return $str;
 		else return false;
 	}
 
-	public function isTelphone($str)
+	static public function isTelphone($str)
 	{
 		$j = "/^\d+-?\d+/i";
 		if(preg_match($j,$str))return $str;
 		else return false;
 	}
 
-	public function isZipCode($str)
+	static public function isZipCode($str)
 	{
 		$j = "/^\d{6}/i";
 		if(preg_match($j,$str))return $str;
 		else return false;
 	}
 
-	public function isUserName($str)
+	static public function isUserName($str)
 	{
 		if(preg_match('/^[\x7f-\xff|\w]{2,40}$/i',$str))return $str;
 		else return false;
 	}
 
-	public function isAllowKey($str)
+	static public function isAllowKey($str)
 	{
 		//$j = "/^[\w|\[|\]|\-|_]+$/i";
 		$j = "/^[\w|\-|_]+$/i";
@@ -45,7 +45,7 @@ class strings
 		else return false;
 	}
 
-	public function isPassword($str)
+	static public function isPassword($str)
 	{
 		//$j = "/^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/i";
 		//if(preg_match($j,$str))return $str;
@@ -55,21 +55,21 @@ class strings
 		else return false;
 	}
 
-	public function isUrl($str)
+	static public function isUrl($str)
 	{
 		$j = "/^http:\/\/.+/i";
 		if(preg_match($j,$str))return $str;
 		else return false;
 	}
 
-	public function isCellphone($str)
+	static public function isCellphone($str)
 	{
 		$j = "/^1[3,4,5,6,7,8,9]\d{9}/i";
 		if(preg_match($j,$str))return $str;
 		else return false;
 	}
 
-	public function subString($str,$lenth,$start = 0)
+	static public function subString($str,$lenth,$start = 0)
 	{
 		if(strlen($str) < $lenth && !$start)return $str;
 		$l = 3;
@@ -93,7 +93,7 @@ class strings
 		return $t.(strlen($str) <= $lenth?'':'...');
 	}
 
-	public function hexString($str,$hex = 16)
+	static public function hexString($str,$hex = 16)
 	{
 		$tmp = "";
 		$e = strlen($str);
@@ -119,21 +119,21 @@ class strings
 		return $info;
 	}
 
-	public function enstr($str)
+	static public function enstr($str)
 	{
 		$str = base64_encode($str);
 		$str = str_replace(array('+','/','='),array('-','_',''),$str);
 		return $str;
 	}
 
-	public function destr($str)
+	static public function destr($str)
 	{
 		$str = str_replace(array('-','_'),array('+','/'),$str);
 		$str = base64_decode($str);
 		return $str;
 	}
 
-	public function parseDataImg($str)
+	static public function parseDataImg($str)
 	{
 		$fl = M('files');
 		$str = str_replace('<IMG','<img',$str);

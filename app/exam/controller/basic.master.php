@@ -221,8 +221,8 @@ class action extends app
 			$questiontype = M('basic','exam')->getQuestypeList();
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -286,8 +286,8 @@ class action extends app
 		{
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -364,9 +364,9 @@ class action extends app
 			$score[$key] = 0;
 			foreach($rs['data'] as $sessionvars)
 			{
-				$sessionvars['ehquestion'] = unserialize(gzuncompress(base64_decode($sessionvars['ehquestion'])));
-				$sessionvars['ehsetting'] = unserialize(gzuncompress(base64_decode($sessionvars['ehsetting'])));
-				$sessionvars['ehscorelist'] = unserialize($sessionvars['ehscorelist']);
+				$sessionvars['ehquestion'] = unserialize(gzuncompress(base64_decode($sessionvars['ehquestion'])), ['allowed_classes' => false]);
+				$sessionvars['ehsetting'] = unserialize(gzuncompress(base64_decode($sessionvars['ehsetting'])), ['allowed_classes' => false]);
+				$sessionvars['ehscorelist'] = unserialize($sessionvars['ehscorelist'], ['allowed_classes' => false]);
 				if ($sessionvars['ehquestion']['questions'][$key])
 				{
 					foreach ($sessionvars['ehquestion']['questions'][$key] as $p)
@@ -1226,7 +1226,28 @@ class action extends app
 			$subjectid = M('ev')->get('subjectid');
 			$subject = M('basic','exam')->getSubjectById($subjectid);
 			$questypes = M('basic','exam')->getQuestypeList();
+			$isquests = array();
+			foreach ($questypes as $questype)
+			{
+				$tmpknows = '0';
+				$knows = M('section','exam')->getAllKnowsBySubject($subjectid);
+				foreach($knows as $p)
+				{
+					if($p['knowsid'])$tmpknows .= ','.$p['knowsid'];
+				}
+				$args = array(array("AND","quest2knows.qkquestionid = questions.questionid"),array("AND","questions.questionstatus = '1'"),array("AND","questions.questionparent = 0"),array("AND","quest2knows.qktype = 0") );
+				$args[] = array("AND","find_in_set(quest2knows.qkknowsid,:qkknowsid)",'qkknowsid',$tmpknows);
+				$args[] = array("AND","questions.questiontype = :questiontype",'questiontype',$questype['questid']);
+				$questions = M('exam','exam')->getQuestionListByArgs($args);
+				//if($questions)$isquests[$questype['questid']] = $questype['questid'];
+				$qrargs = array(array("AND","quest2knows.qkquestionid = questionrows.qrid"),array("AND","quest2knows.qktype = 1"),array("AND","questionrows.qrstatus = '1'"));
+				$qrargs[] = array("AND","questionrows.qrtype = :qrtype",'qrtype',$questype['questid']);
+				$qrargs[] = array("AND","find_in_set(quest2knows.qkknowsid,:qkknowsid)",'qkknowsid',$tmpknows);
+				$questionsrows = M('exam','exam')->getAllQuestionRowsByArgs($qrargs);
+				if($questions  || $questionsrows)$isquests[$questype['questid']] = $questype['questid'];
+			}
 			M('tpl')->assign('questypes',$questypes);
+			M('tpl')->assign('isquests',$isquests);
 			M('tpl')->assign('subject',$subject);
 			M('tpl')->display('basic_modifysubject');
 		}
@@ -1581,14 +1602,14 @@ class action extends app
 		$args = 1;
 		else
 		$args = array();
-		if(isset($this->search['basicid']))$args[] = array("AND","basicid = :basicid",'basicid',$this->search['basicid']);
+		if($this->search['basicid'])$args[] = array("AND","basicid = :basicid",'basicid',$this->search['basicid']);
 		else
 		{
-			if(isset($this->search['keyword']))$args[] = array("AND","basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
-			if(isset($this->search['basicareaid']))$args[] = array("AND","basicareaid = :basicareaid",'basicareaid',$this->search['basicareaid']);
-			if(isset($this->search['basicsubjectid']))$args[] = array("AND","basicsubjectid = :basicsubjectid",'basicsubjectid',$this->search['basicsubjectid']);
-			if(isset($this->search['basicapi']))$args[] = array("AND","basicapi = :basicapi",'basicapi',$this->search['basicapi']);
-			if(isset($this->search['basicclosed']))
+			if($this->search['keyword'])$args[] = array("AND","basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
+			if($this->search['basicareaid'])$args[] = array("AND","basicareaid = :basicareaid",'basicareaid',$this->search['basicareaid']);
+			if($this->search['basicsubjectid'])$args[] = array("AND","basicsubjectid = :basicsubjectid",'basicsubjectid',$this->search['basicsubjectid']);
+			if($this->search['basicapi'])$args[] = array("AND","basicapi = :basicapi",'basicapi',$this->search['basicapi']);
+			if($this->search['basicclosed'])
 			{
 				if($this->search['basicclosed'] == 1)$basicclosed = 1;
 				else

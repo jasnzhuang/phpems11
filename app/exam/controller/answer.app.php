@@ -11,13 +11,17 @@ class action extends app
 	public function display()
 	{
 		$action = M('ev')->url(3);
-		if(!method_exists($this,$action))
+		if($action == 'display' || !method_exists($this,$action))
 		$action = "index";
-		$this->$action();
-		exit;
+		$ref = new \ReflectionMethod($this,$action);
+		if($ref->isPublic())$this->$action();
+		else R(array(
+			'statusCode' => 300,
+			'message' => '不存在的引用'
+		));
 	}
 
-	private function ajax()
+	public function ajax()
 	{
 		switch(M('ev')->url(4))
 		{
@@ -66,7 +70,7 @@ class action extends app
 		}
 	}
 
-	private function batdel()
+	public function batdel()
 	{
 		$askids = M('ev')->get('askids');
 		foreach($askids as $id)
@@ -76,7 +80,7 @@ class action extends app
 		header("location:index.php?exam-app-answer");
 	}
 
-	private function ask()
+	public function ask()
 	{
 		$askid = M('ev')->get('askid');
 		$page = M('ev')->get('page');
@@ -112,7 +116,7 @@ class action extends app
 		M('tpl')->display('ask');
 	}
 
-	private function addanswer()
+	public function addanswer()
 	{
 		$questionid = M('ev')->get('questionid');
 		$args = M('ev')->get('args');
@@ -140,7 +144,7 @@ class action extends app
 		}
 	}
 
-	private function index()
+	public function index()
 	{
 		$page = M('ev')->get('page');
 		$knowsid = M('ev')->get('knowsid');

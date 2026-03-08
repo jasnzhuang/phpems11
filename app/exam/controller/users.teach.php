@@ -80,8 +80,8 @@ class action extends app
 			$questiontype = M('basic','exam')->getQuestypeList();
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -141,8 +141,8 @@ class action extends app
 		{
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -231,8 +231,8 @@ class action extends app
             foreach($rs as $p)
             {
                 $info[] = array('ehstarttime' => $p['ehstarttime'],'useremail' =>$p['useremail'],'ehusername' =>$p['ehusername'],'usertruename' => $p['usertruename'],'ehtime' => $p['ehtime']);
-            	$p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehuseranswer'] = unserialize($p['ehuseranswer']);
+            	$p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehuseranswer'] = unserialize($p['ehuseranswer'], ['allowed_classes' => false]);
                 foreach($p['ehquestion']['questions'] as $fquestions)
                 {
                     foreach($fquestions as $key => $question)

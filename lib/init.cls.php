@@ -2,7 +2,7 @@
 namespace PHPEMS;
 
 ini_set("display_errors","on");
-error_reporting(0);
+error_reporting(E_ALL);
 class ginkgo
 {
     static $G = array();
@@ -13,7 +13,7 @@ class ginkgo
     static $method;
     static $defaultApp = 'core';
 
-    static function loadMoudle()
+    static function loadModule()
     {
         spl_autoload_register([self::class, 'autoLoadClass']);
         include PEPATH.'/lib/config.inc.php';
@@ -25,7 +25,6 @@ class ginkgo
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, App-Agent');
         //header("Content-Security-Policy: default-src 'self'; script-src 'self';style-src 'self' 'sha256-Kfm50PMQvu1vvfq+iHjwXC0a2D4fa0A5RVvMCgH2N+c='");
-        ini_set('date.timezone','Asia/Shanghai');
         date_default_timezone_set("Etc/GMT-8");
         $path = PEPATH."/vendor/vendor/autoload.php";
         if(file_exists($path) && COMPOSER)
@@ -160,8 +159,10 @@ class ginkgo
             {
                 exit(header("location:{$message['forwardUrl']}"));
             }
+            $style = style::loadStyle();
             $tpl = M('tpl')->setErrorType();
             $tpl->setDir('core','app');
+            $tpl->assign('_style',$style);
             $tpl->assign('message',$message);
             $tpl->display('error');
 			exit;
