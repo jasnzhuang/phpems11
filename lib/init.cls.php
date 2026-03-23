@@ -2,7 +2,7 @@
 namespace PHPEMS;
 
 ini_set("display_errors","on");
-error_reporting(E_ALL);
+error_reporting(0);
 class ginkgo
 {
     static $G = array();
