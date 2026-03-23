@@ -1,3 +1,15 @@
+# PHPEMS已支持在Windows和Linux下使用Docker进行在线和离线两种方式的部署，脚本和镜像由热心网友 [戴戴的Linux](https://daishenghui.club) 制作提供
+# Linux系统Docker部署方式
+
+```
+https://github.com/StephenJose-Dai/phpems_linux
+```
+
+# Windows系统Docker部署方式
+```
+https://github.com/StephenJose-Dai/phpems_windows
+```
+
 # 官方网站
 http://www.phpems.net  
 
