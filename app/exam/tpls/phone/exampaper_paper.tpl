@@ -23,8 +23,12 @@
 						{x2;eval: v:quest = v:key}
 						{x2;if:$sessionvars['examsessionquestion']['questions'][v:quest] || $sessionvars['examsessionquestion']['questionrows'][v:quest]}
                         {x2;if:$data['currentbasic']['basicexam']['changesequence']}
-                        {x2;eval: shuffle($sessionvars['examsessionquestion']['questions'][v:quest]);}
-                        {x2;eval: shuffle($sessionvars['examsessionquestion']['questionrows'][v:quest]);}
+						{x2;eval: v:tmp = $sessionvars['examsessionquestion']['questions'][v:quest]?:[]}
+                        {x2;eval: shuffle(v:tmp);}
+						{x2;eval: $sessionvars['examsessionquestion']['questions'][v:quest] = v:tmp}
+						{x2;eval: v:tmp = $sessionvars['examsessionquestion']['questionrows'][v:quest]?:[]}
+                        {x2;eval: shuffle(v:tmp);}
+                        {x2;eval: $sessionvars['examsessionquestion']['questionrows'][v:quest] = v:tmp}
                         {x2;endif}
 						{x2;eval: v:oid++}
 						{x2;eval: v:tid = 0}
@@ -214,7 +218,7 @@
             history.pushState({id:'index.php?exam-phone-exampaper-paper'},'{x2;$sessionvars['examsession']}','index.php?exam-phone-exampaper-paper&sessionid={x2;$sessionvars['examsessionid']}&token={x2;$token}');
 		}
 		$(function(){
-            $.get('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&rand'+Math.random(),function(data){
+            $.getJSON('index.php?exam-phone-index-ajax-lefttime&sessionid={x2;$sessionvars['examsessionid']}&userhash='+Math.random(),function(data){
                 var setting = {
                     time:{x2;$sessionvars['examsessiontime']},
                     hbox:$("#exampaper-timer_h"),
@@ -224,7 +228,7 @@
                         $('#exampaper').submit();
                     }
                 }
-                setting.lefttime = parseInt(data);
+                setting.lefttime = parseInt(data.lefttime);
 				clock = new countdown(setting);
             });
             pep.saveAnswer = setInterval(saveanswer,120000);
@@ -269,8 +273,8 @@
             $('#sign').on('click',function(){
                 var that = this;
                 var id = $('.order').eq(mySwiper.activeIndex).attr('data-questionid');
-                $.get("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&'+Math.random(),function(data){
-                    if(parseInt(data) == 1){
+                $.getJSON("index.php?exam-phone-index-ajax-sign&sessionid={x2;$sessionvars['examsessionid']}&questionid="+id+'&userhash='+Math.random(),function(data){
+                    if(data.data == 1){
                         $(that).addClass('active');
                         $('#sign_'+id).addClass('danger');
                     }else{

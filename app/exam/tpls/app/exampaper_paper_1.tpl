@@ -41,8 +41,12 @@
                         {x2;eval: v:quest = v:key}
                         {x2;if:$sessionvars['examsessionquestion']['questions'][v:quest] || $sessionvars['examsessionquestion']['questionrows'][v:quest]}
                         {x2;if:$data['currentbasic']['basicexam']['changesequence']}
-                        {x2;eval: shuffle($sessionvars['examsessionquestion']['questions'][v:quest]);}
-                        {x2;eval: shuffle($sessionvars['examsessionquestion']['questionrows'][v:quest]);}
+						{x2;eval: v:tmp = $sessionvars['examsessionquestion']['questions'][v:quest]?:[]}
+                        {x2;eval: shuffle(v:tmp);}
+						{x2;eval: $sessionvars['examsessionquestion']['questions'][v:quest] = v:tmp}
+						{x2;eval: v:tmp = $sessionvars['examsessionquestion']['questionrows'][v:quest]?:[]}
+                        {x2;eval: shuffle(v:tmp);}
+                        {x2;eval: $sessionvars['examsessionquestion']['questionrows'][v:quest] = v:tmp}
                         {x2;endif}
 						{x2;eval: v:oid++}
 						<h3 class="title">
