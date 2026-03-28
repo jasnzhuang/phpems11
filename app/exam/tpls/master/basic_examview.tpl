@@ -1,10 +1,10 @@
 {x2;include:header}
-<body data-spy="scroll" data-target="#myScrollspy">
+<body>
 <div class="container-fluid" id="questioncontent">
 	<div class="row-fluid">
 		<div class="main box" style="width: 1200px;">
 			<div class="col-xs-3" id="questionbar">
-				<dl class="clear" style="width:270px;" data-spy="affix" data-offset-top="235">
+				<dl class="clear" style="width:270px;position:fixed;top:0px;">
 					<dt class="float_l"><h4>&nbsp;</h4></dt>
 					<ul class="nav nav-tabs" role="tablist">
 						{x2;eval: v:oid = 0}

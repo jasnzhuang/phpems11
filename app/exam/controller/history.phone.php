@@ -69,6 +69,11 @@ class action extends app
 		if(M('ev')->get('makescore'))
 		{
             $score = M('ev')->get('score');
+            if(M('ev')->isapp())
+            {
+                $data = stripslashes($score);
+                $score = json_decode($data,true);
+            }
             $scorelist = $eh['ehscorelist'];
             foreach($score as $key => $p)
 			{
@@ -265,7 +270,7 @@ class action extends app
 	{
 		$ehid = M('ev')->get('ehid');
 		$eh = M('favor','exam')->getExamHistoryById($ehid);
-		if($eh['ehuserid'] != $this->user['userid'] || $eh['ehbasicid'] != $this->user['sessioncurrent'])
+		if($eh['ehuserid'] != $this->user['userid'] || $eh['ehbasicid'] != $this->session['sessioncurrent'])
 		{
 			header("location:index.php?exam-app");
 			exit;

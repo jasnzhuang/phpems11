@@ -104,7 +104,7 @@ class section
     {
         $data = array(false,'knows',array(array('AND',"knowsid = :knowsid",'knowsid',$knowsid)));
         $sql = M('pepdo')->makeSelect($data);
-        return M('pepdo')->fetch($sql);
+        return M('pepdo')->fetch($sql,['knowsnumber','knowsquestions']);
     }
 
 	//根据参数获取某一知识点
@@ -169,8 +169,6 @@ class section
     public function getQuestionsByKnows($knowsid)
     {
         $knows = $this->getKnowsById($knowsid);
-        $knows['knowsnumber'] = unserialize($knows['knowsnumber']);
-        $knows['knowsquestions'] = unserialize($knows['knowsquestions']);
         if(!$knows['knowsquestions'])
 		{
 			$data = array('DISTINCT questionid',array('questions','quest2knows'),array(array("AND","find_in_set(quest2knows.qkknowsid,:knowsid)",'knowsid',$knowsid),array("AND","quest2knows.qktype = 0"),array("AND","quest2knows.qkquestionid = questions.questionid"),array("AND","questions.questionstatus = 1")),false,false,false);

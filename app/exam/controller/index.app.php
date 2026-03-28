@@ -45,7 +45,7 @@ class action extends app
 				);
 				\PHPEMS\ginkgo::R($message);
 			}
-			if($this->data['openbasics'][$basicid]['basicexam']['modal'] == 2)
+			if(isset($this->data['openbasics'][$basicid]['basicexam']['modal']) && $this->data['openbasics'][$basicid]['basicexam']['modal'] == 2)
 			{
 				$message = array(
 					'statusCode' => 200,
@@ -183,7 +183,7 @@ class action extends app
 		$page = $page > 1?$page:1;
 		$subjects = M('basic','exam')->getSubjectList();
 		$args = array();
-		if($this->search['keyword'])$args[] = array("AND","basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
+		if(isset($this->search['keyword']))$args[] = array("AND","basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
 		$basics = M('basic','exam')->getBasicList($args,$page,15);
 		$areas = M('area','exam')->getAreaList();
 		$args = array();

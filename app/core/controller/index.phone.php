@@ -17,6 +17,10 @@ class action extends app
 		exit;
 	}
 
+    private function pdfview()
+    {
+        M('tpl')->display('viewer');
+    }
 
     public function index()
 	{

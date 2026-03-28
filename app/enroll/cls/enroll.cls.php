@@ -12,6 +12,15 @@ class enroll
         );
         return M('pepdo')->getElement($data);
     }
+	
+	public function getEnrollByIdWithUser($enrollid,$userid)
+	{
+		$args = array(
+			array("AND","enrollid = :enrollid","enrollid",$enrollid),
+			array("AND","enrolluserid = :enrolluserid","enrolluserid",$userid)
+		);
+		return $this->getEnrollByArgs($args);
+	}
 
     public function getEnrollByArgs($args)
     {

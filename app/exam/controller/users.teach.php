@@ -8,21 +8,22 @@
  */
 class action extends app
 {
+	public $search;
+	public $u;
 	public function display()
 	{
-		M('module') = M('module');
 		$action = M('ev')->url(3);
-		$search = M('ev')->get('search');
-		$u = '';
-		if($search)
+		$this->search = M('ev')->get('search');
+		if($this->search)
 		{
-			M('tpl')->assign('search',$search);
-			foreach($search as $key => $arg)
+			$this->u = '';
+			M('tpl')->assign('search',$this->search);
+			foreach($this->search as $key => $arg)
 			{
-				$u .= "&search[{$key}]={$arg}";
+				$this->u .= "&search[{$key}]={$arg}";
 			}
+			M('tpl')->assign('u',$this->u);
 		}
-		M('tpl')->assign('u',$u);
 		if(!method_exists($this,$action))
 		$action = "index";
 		$this->$action();
@@ -39,7 +40,7 @@ class action extends app
 
 	private function stats()
 	{
-		$search = M('ev')->get('search');
+		$this->search = M('ev')->get('search');
 		$page = M('ev')->get('page');
 		if($page < 1)$page = 1;
 		M('tpl')->assign('page',$page);
@@ -48,27 +49,27 @@ class action extends app
 		$type = M('ev')->get('type');
 		M('tpl')->assign('type',$type);
 		$args[] =  array('AND',"ehbasicid = :ehbasicid",'ehbasicid',$basicid);
-		if($search['stime'])
+		if($this->search['stime'])
 		{
-			$stime = strtotime($search['stime']);
+			$stime = strtotime($this->search['stime']);
 			$args[] = array('AND',"ehstarttime >= :stime",'stime',$stime);
 		}
-		if($search['etime'])
+		if($this->search['etime'])
 		{
-			$etime = strtotime($search['etime']);
+			$etime = strtotime($this->search['etime']);
 			$args[] = array('AND',"ehstarttime <= :etime",'etime',$etime);
 		}
-		if($search['sscore'])
+		if($this->search['sscore'])
 		{
-			$args[] = array('AND',"ehscore >= :sscore",'sscore',$search['sscore']);
+			$args[] = array('AND',"ehscore >= :sscore",'sscore',$this->search['sscore']);
 		}
-		if($search['escore'])
+		if($this->search['escore'])
 		{
-			$args[] = array('AND',"ehscore <= :escore",'escore',$search['escore']);
+			$args[] = array('AND',"ehscore <= :escore",'escore',$this->search['escore']);
 		}
-		if($search['examid'])
+		if($this->search['examid'])
 		{
-			$args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$search['examid']);
+			$args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$this->search['examid']);
 		}
 		$rs = M('favor','exam')->getStatsAllExamHistoryByArgs($args);
 		$number = count($rs);
@@ -79,8 +80,8 @@ class action extends app
 			$questiontype = M('basic','exam')->getQuestypeList();
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -131,7 +132,7 @@ class action extends app
 			$start = $page - 1;
 			$start = $start >= 0?$start:0;
 			$tmp = array_slice($stats,$start * 20,20);
-			$pages = $this->pg->outPage($this->pg->getPagesNumber(count($stats),20),$page);
+			$pages = M('pg')->outPage(M('pg')->getPagesNumber(count($stats),20),$page);
 			M('tpl')->assign('stats',array('data' => $tmp,'pages' => $pages));
 			M('tpl')->assign('basicid',$basicid);
 			M('tpl')->display('users_stats');
@@ -140,8 +141,8 @@ class action extends app
 		{
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -179,7 +180,7 @@ class action extends app
 			$start = $page - 1;
 			$start = $start >= 0?$start:0;
 			$tmp = array_slice($stats,$start * 20,20);
-			$pages = $this->pg->outPage($this->pg->getPagesNumber(count($stats),20),$page);
+			$pages = M('pg')->outPage(M('pg')->getPagesNumber(count($stats),20),$page);
 			M('tpl')->assign('stats',array('data' => $tmp,'pages' => $pages));
 			M('tpl')->assign('basicid',$basicid);
 			M('tpl')->display('users_knowsstats');
@@ -188,7 +189,7 @@ class action extends app
 
     private function outanswer()
     {
-        $search = M('ev')->get('search');
+        $this->search = M('ev')->get('search');
         $args = array();
         $basicid = M('ev')->get('basicid');
         if($basicid)
@@ -198,27 +199,27 @@ class action extends app
             $args[] =  array('AND',"ehneedresit = 0");
             $args[] = array('AND',"ehstatus = '1'");
             $args[] =  array('AND',"ehtype = 2");
-            if($search['stime'])
+            if($this->search['stime'])
             {
-                $stime = strtotime($search['stime']);
+                $stime = strtotime($this->search['stime']);
                 $args[] = array('AND',"ehstarttime >= :stime",'stime',$stime);
             }
-            if($search['etime'])
+            if($this->search['etime'])
             {
-                $etime = strtotime($search['etime']);
+                $etime = strtotime($this->search['etime']);
                 $args[] = array('AND',"ehstarttime <= :etime",'etime',$etime);
             }
-            if($search['sscore'])
+            if($this->search['sscore'])
             {
-                $args[] = array('AND',"ehscore >= :sscore",'sscore',$search['sscore']);
+                $args[] = array('AND',"ehscore >= :sscore",'sscore',$this->search['sscore']);
             }
-            if($search['escore'])
+            if($this->search['escore'])
             {
-                $args[] = array('AND',"ehscore <= :escore",'escore',$search['escore']);
+                $args[] = array('AND',"ehscore <= :escore",'escore',$this->search['escore']);
             }
-            if($search['examid'])
+            if($this->search['examid'])
             {
-                $args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$search['examid']);
+                $args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$this->search['examid']);
             }
             $sf = array('ehusername','useremail','usertruename','ehstarttime','ehtime','ehquestion','ehuseranswer');
             $rs = M('favor','exam')->getAllExamHistoryByArgs($args,$sf);
@@ -230,8 +231,8 @@ class action extends app
             foreach($rs as $p)
             {
                 $info[] = array('ehstarttime' => $p['ehstarttime'],'useremail' =>$p['useremail'],'ehusername' =>$p['ehusername'],'usertruename' => $p['usertruename'],'ehtime' => $p['ehtime']);
-            	$p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehuseranswer'] = unserialize($p['ehuseranswer']);
+            	$p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehuseranswer'] = unserialize($p['ehuseranswer'], ['allowed_classes' => false]);
                 foreach($p['ehquestion']['questions'] as $fquestions)
                 {
                     foreach($fquestions as $key => $question)
@@ -328,7 +329,7 @@ class action extends app
 			}
 		}
 
-		$search = M('ev')->get('search');
+		$this->search = M('ev')->get('search');
 		$args = array();
 		$basicid = M('ev')->get('basicid');
 		if($basicid)
@@ -337,39 +338,39 @@ class action extends app
 			$args[] =  array('AND',"ehbasicid = :ehbasicid",'ehbasicid',$basicid);
 			$args[] =  array('AND',"ehneedresit = 0");
 			$args[] =  array('AND',"ehtype > 0");
-			if($search['ehbatch'])
+			if($this->search['ehbatch'])
 			{
-				$args[] = array('AND',"ehbatch = :ehbatch",'ehbatch',$search['ehbatch']);
+				$args[] = array('AND',"ehbatch = :ehbatch",'ehbatch',$this->search['ehbatch']);
 			}
-			if($search['username'])
+			if($this->search['username'])
 			{
-				$args[] = array('AND',"ehusername = :ehusername",'ehusername',$search['username']);
+				$args[] = array('AND',"ehusername = :ehusername",'ehusername',$this->search['username']);
 			}
-			if($search['stime'])
+			if($this->search['stime'])
 			{
-				$stime = strtotime($search['stime']);
+				$stime = strtotime($this->search['stime']);
 				$args[] = array('AND',"ehstarttime >= :stime",'stime',$stime);
 			}
-			if($search['etime'])
+			if($this->search['etime'])
 			{
-				$etime = strtotime($search['etime']);
+				$etime = strtotime($this->search['etime']);
 				$args[] = array('AND',"ehstarttime <= :etime",'etime',$etime);
 			}
-			if($search['sscore'])
+			if($this->search['sscore'])
 			{
-				$args[] = array('AND',"ehscore >= :sscore",'sscore',$search['sscore']);
+				$args[] = array('AND',"ehscore >= :sscore",'sscore',$this->search['sscore']);
 			}
-			if($search['escore'])
+			if($this->search['escore'])
 			{
-				$args[] = array('AND',"ehscore <= :escore",'escore',$search['escore']);
+				$args[] = array('AND',"ehscore <= :escore",'escore',$this->search['escore']);
 			}
-			if($search['examid'])
+			if($this->search['examid'])
 			{
-				$args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$search['examid']);
+				$args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$this->search['examid']);
 			}
-			if($search['examtype'])
+			if($this->search['examtype'])
 			{
-				$args[] = array('AND',"ehtype = :ehtype",'ehtype',$search['examtype']);
+				$args[] = array('AND',"ehtype = :ehtype",'ehtype',$this->search['examtype']);
 			}
 			$sf = array('ehusername','ehscore','ehtime','ehstarttime');
 			foreach($fields as $p)
@@ -500,7 +501,7 @@ class action extends app
 			}
 		}
 		$page = M('ev')->get('page');
-		$search = M('ev')->get('search');
+		$this->search = M('ev')->get('search');
 		$basicid = intval(M('ev')->get('basicid'));
 		$basic = M('basic','exam')->getBasicById($basicid);
 		$page = $page > 0?$page:1;
@@ -508,48 +509,48 @@ class action extends app
 		$args[] =  array('AND',"ehtype > 0");
 		$args[] = array('AND',"ehstatus = '1'");
 		$args[] = array('AND',"ehbasicid = :ehbasicid",'ehbasicid',$basicid);
-		if($search['ehbatch'])
+		if($this->search['ehbatch'])
 		{
-			$args[] = array('AND',"ehbatch = :ehbatch",'ehbatch',$search['ehbatch']);
+			$args[] = array('AND',"ehbatch = :ehbatch",'ehbatch',$this->search['ehbatch']);
 		}
-		if($search['username'])
+		if($this->search['username'])
 		{
-			$args[] = array('AND',"ehusername = :ehusername",'ehusername',$search['username']);
+			$args[] = array('AND',"ehusername = :ehusername",'ehusername',$this->search['username']);
 		}
-		if($search['stime'])
+		if($this->search['stime'])
 		{
-			$stime = strtotime($search['stime']);
+			$stime = strtotime($this->search['stime']);
 			$args[] = array('AND',"ehstarttime >= :stime",'stime',$stime);
 		}
-		if($search['etime'])
+		if($this->search['etime'])
 		{
-			$etime = strtotime($search['etime']);
+			$etime = strtotime($this->search['etime']);
 			$args[] = array('AND',"ehstarttime <= :etime",'etime',$etime);
 		}
-		if($search['sscore'])
+		if($this->search['sscore'])
 		{
-			$args[] = array('AND',"ehscore >= :sscore",'sscore',$search['sscore']);
+			$args[] = array('AND',"ehscore >= :sscore",'sscore',$this->search['sscore']);
 		}
-		if($search['escore'])
+		if($this->search['escore'])
 		{
-			$args[] = array('AND',"ehscore <= :escore",'escore',$search['escore']);
+			$args[] = array('AND',"ehscore <= :escore",'escore',$this->search['escore']);
 		}
-		if($search['examid'])
+		if($this->search['examid'])
 		{
-			$args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$search['examid']);
+			$args[] = array('AND',"ehexamid = :ehexamid",'ehexamid',$this->search['examid']);
 		}
-		if($search['examtype'])
+		if($this->search['examtype'])
 		{
-			$args[] = array('AND',"ehtype = :ehtype",'ehtype',$search['examtype']);
+			$args[] = array('AND',"ehtype = :ehtype",'ehtype',$this->search['examtype']);
 		}
-		if($search['order'])$order = null;
+		if($this->search['order'])$order = null;
 		else $order = "ehid desc";
 		$exams = M('favor','exam')->getExamHistoryListByArgs($args,$page,30,false,$order);
 		$ids = trim($basic['basicexam']['self'],', ');
 		if(!$ids)$ids = '0';
 		$exampaper = M('exam','exam')->getExamSettingsByArgs(array(array("AND","find_in_set(examid,:examid)",'examid',$ids)));
 		M('tpl')->assign('basicid',$basicid);
-		M('tpl')->assign('search',$search);
+		M('tpl')->assign('search',$this->search);
 		M('tpl')->assign('basic',$basic);
 		M('tpl')->assign('page',$page);
 		M('tpl')->assign('fields',$fields);
@@ -587,17 +588,16 @@ class action extends app
 	private function index()
 	{
 		$page = M('ev')->get('page');
-		$search = M('ev')->get('search');
 		$page = $page > 1?$page:1;
 		$subjects = M('basic','exam')->getSubjectList(array(array('AND',"find_in_set(subjectid,:subjectid)",'subjectid',$this->teachsubjects)));
 		$args = array(array('AND',"find_in_set(basicsubjectid,:basicsubjectid)",'basicsubjectid',$this->teachsubjects));
-		if($search['basicid'])$args[] = array('AND',"basicid = :basicid",'basicid',$search['basicid']);
+		if($this->search['basicid'])$args[] = array('AND',"basicid = :basicid",'basicid',$this->search['basicid']);
 		else
 		{
-			if($search['keyword'])$args[] = array('AND',"basic LIKE :basic",'basic',"%{$search['keyword']}%");
-			if($search['basicareaid'])$args[] = array('AND',"basicareaid = :basicareaid",'basicareaid',$search['basicareaid']);
-			if($search['basicsubjectid'])$args[] = array('AND',"basicsubjectid = :basicsubjectid",'basicsubjectid',$search['basicsubjectid']);
-			if($search['basicapi'])$args[] = array('AND',"basicapi = :basicapi",'basicapi',$search['basicapi']);
+			if($this->search['keyword'])$args[] = array('AND',"basic LIKE :basic",'basic',"%{$this->search['keyword']}%");
+			if($this->search['basicareaid'])$args[] = array('AND',"basicareaid = :basicareaid",'basicareaid',$this->search['basicareaid']);
+			if($this->search['basicsubjectid'])$args[] = array('AND',"basicsubjectid = :basicsubjectid",'basicsubjectid',$this->search['basicsubjectid']);
+			if($this->search['basicapi'])$args[] = array('AND',"basicapi = :basicapi",'basicapi',$this->search['basicapi']);
 		}
 		$basics = M('basic','exam')->getBasicList($args,$page,10);
 		$areas = M('area','exam')->getAreaList();

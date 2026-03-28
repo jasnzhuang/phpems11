@@ -43,6 +43,7 @@ class action extends app
 			}
 			$coin = $user['usercoin'] - $this->coin;
 			$args = M('ev')->get('args');
+			$args['asktitle'] = M('safe')->tidyHtml($args['asktitle']);
 			$args['askcontent'] = M('safe')->tidyHtml($args['askcontent']);
 			$args['askuserid'] = $this->user['userid'];
 			M('ask','ask')->addAsk($args);

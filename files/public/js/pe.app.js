@@ -1,187 +1,3 @@
-(function ($) {
-	'use strict';
-	var escape = /["\\\x00-\x1f\x7f-\x9f]/g,
-		meta = {
-			'\b': '\\b',
-			'\t': '\\t',
-			'\n': '\\n',
-			'\f': '\\f',
-			'\r': '\\r',
-			'"' : '\\"',
-			'\\': '\\\\'
-		},
-		hasOwn = Object.prototype.hasOwnProperty;
-
-	/**
-	 * jQuery.toJSON
-	 * Converts the given argument into a JSON representation.
-	 *
-	 * @param o {Mixed} The json-serializable *thing* to be converted
-	 *
-	 * If an object has a toJSON prototype, that will be used to get the representation.
-	 * Non-integer/string keys are skipped in the object, as are keys that point to a
-	 * function.
-	 *
-	 */
-	$.toJSON = typeof JSON === 'object' && JSON.stringify ? JSON.stringify : function (o) {
-		if (o === null) {
-			return 'null';
-		}
-
-		var pairs, k, name, val,
-			type = $.type(o);
-
-		if (type === 'undefined') {
-			return undefined;
-		}
-
-		// Also covers instantiated Number and Boolean objects,
-		// which are typeof 'object' but thanks to $.type, we
-		// catch them here. I don't know whether it is right
-		// or wrong that instantiated primitives are not
-		// exported to JSON as an {"object":..}.
-		// We choose this path because that's what the browsers did.
-		if (type === 'number' || type === 'boolean') {
-			return String(o);
-		}
-		if (type === 'string') {
-			return $.quoteString(o);
-		}
-		if (typeof o.toJSON === 'function') {
-			return $.toJSON(o.toJSON());
-		}
-		if (type === 'date') {
-			var month = o.getUTCMonth() + 1,
-				day = o.getUTCDate(),
-				year = o.getUTCFullYear(),
-				hours = o.getUTCHours(),
-				minutes = o.getUTCMinutes(),
-				seconds = o.getUTCSeconds(),
-				milli = o.getUTCMilliseconds();
-
-			if (month < 10) {
-				month = '0' + month;
-			}
-			if (day < 10) {
-				day = '0' + day;
-			}
-			if (hours < 10) {
-				hours = '0' + hours;
-			}
-			if (minutes < 10) {
-				minutes = '0' + minutes;
-			}
-			if (seconds < 10) {
-				seconds = '0' + seconds;
-			}
-			if (milli < 100) {
-				milli = '0' + milli;
-			}
-			if (milli < 10) {
-				milli = '0' + milli;
-			}
-			return '"' + year + '-' + month + '-' + day + 'T' +
-				hours + ':' + minutes + ':' + seconds +
-				'.' + milli + 'Z"';
-		}
-
-		pairs = [];
-
-		if ($.isArray(o)) {
-			for (k = 0; k < o.length; k++) {
-				pairs.push($.toJSON(o[k]) || 'null');
-			}
-			return '[' + pairs.join(',') + ']';
-		}
-
-		// Any other object (plain object, RegExp, ..)
-		// Need to do typeof instead of $.type, because we also
-		// want to catch non-plain objects.
-		if (typeof o === 'object') {
-			for (k in o) {
-				// Only include own properties,
-				// Filter out inherited prototypes
-				if (hasOwn.call(o, k)) {
-					// Keys must be numerical or string. Skip others
-					type = typeof k;
-					if (type === 'number') {
-						name = '"' + k + '"';
-					} else if (type === 'string') {
-						name = $.quoteString(k);
-					} else {
-						continue;
-					}
-					type = typeof o[k];
-
-					// Invalid values like these return undefined
-					// from toJSON, however those object members
-					// shouldn't be included in the JSON string at all.
-					if (type !== 'function' && type !== 'undefined') {
-						val = $.toJSON(o[k]);
-						pairs.push(name + ':' + val);
-					}
-				}
-			}
-			return '{' + pairs.join(',') + '}';
-		}
-	};
-
-	/**
-	 * jQuery.evalJSON
-	 * Evaluates a given json string.
-	 *
-	 * @param str {String}
-	 */
-	$.evalJSON = typeof JSON === 'object' && JSON.parse ? JSON.parse : function (str) {
-		/*jshint evil: true */
-		return eval('(' + str + ')');
-	};
-
-	/**
-	 * jQuery.secureEvalJSON
-	 * Evals JSON in a way that is *more* secure.
-	 *
-	 * @param str {String}
-	 */
-	$.secureEvalJSON = typeof JSON === 'object' && JSON.parse ? JSON.parse : function (str) {
-		var filtered =
-			str
-			.replace(/\\["\\\/bfnrtu]/g, '@')
-			.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-			.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
-
-		if (/^[\],:{}\s]*$/.test(filtered)) {
-			/*jshint evil: true */
-			return eval('(' + str + ')');
-		}
-		throw new SyntaxError('Error parsing JSON, source is not valid.');
-	};
-
-	/**
-	 * jQuery.quoteString
-	 * Returns a string-repr of a string, escaping quotes intelligently.
-	 * Mostly a support function for toJSON.
-	 * Examples:
-	 * >>> jQuery.quoteString('apple')
-	 * "apple"
-	 *
-	 * >>> jQuery.quoteString('"Where are we going?", she asked.')
-	 * "\"Where are we going?\", she asked."
-	 */
-	$.quoteString = function (str) {
-		if (str.match(escape)) {
-			return '"' + str.replace(escape, function (a) {
-				var c = meta[a];
-				if (typeof c === 'string') {
-					return c;
-				}
-				c = a.charCodeAt();
-				return '\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
-			}) + '"';
-		}
-		return '"' + str + '"';
-	};
-}(jQuery));
 String.prototype.replaceAll = function(s1,s2) {
     return this.replace(new RegExp(s1,"gm"),s2);
 }
@@ -317,29 +133,6 @@ function setAnswerHtml(t,o)
 		$("#selecttext").show();
 	}
 }
-jQuery.cookie = function(key, value, options) {
-    if (arguments.length > 1 && String(value) !== "[object Object]") {
-        options = jQuery.extend({},
-        options);
-        if (value === null || value === undefined) {
-            options.expires = -1;
-        }
-        if (typeof options.expires === 'number') {
-            var days = options.expires,
-            t = options.expires = new Date();
-            t.setDate(t.getDate() + days);
-        }
-        value = String(value);
-        return (document.cookie = [encodeURIComponent(key), '=', options.raw ? value: encodeURIComponent(value), options.expires ? '; expires=' + options.expires.toUTCString() : '', options.path ? '; path=' + options.path: '', options.domain ? '; domain=' + options.domain: '', options.secure ? '; secure': ''].join(''));
-    }
-    options = value || {};
-    var result,
-    decode = options.raw ?
-    function(s) {
-        return s;
-    }: decodeURIComponent;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
-};
 function xvars(x){
 	var _this = this;
 	String.prototype.replaceAll  = function(s1,s2){
@@ -622,7 +415,7 @@ function submitAjax(parms){
 						$.loginbox.hide();
 						$.zoombox.show('ajax',data);
 						$(".randCode:first").each(function(){
-							$(this).attr('src',$(this).attr('src')+'&'+Math.random());
+							$(this).attr('src',$(this).attr('src')+'&userhash='+Math.random());
 						});
 					}else if(parseInt(data.statusCode) == 301){
 						$.loginbox.show();
@@ -695,7 +488,7 @@ function autocombox(){
 		for(i=0;i<t.length;i++)
 		url = url.replace(eval("/{"+t[i]+"}/gi"),$('#'+t[i]).val());
 	}
-	$.get(url+'&rand='+Math.random(),function(dt){
+	$.get(url+'&userhash='+Math.random(),function(dt){
 		if(dt.statusCode == '200')
 		{
 			var d = dt.html;
@@ -808,7 +601,7 @@ function modalAjax(){
 		for(i=0;i<t.length;i++)
 		url = url.replace(eval("/{"+t[i]+"}/gi"),escape($('#'+t[i]).val()));
 	}
-	$.get(url+'&'+Math.random(),function(data){
+	$.get(url+'&userhash'+Math.random(),function(data){
 		var c = m.children().find(".modal-body");
 		c.html(data);
 		c.find(".autoloaditem").each(function(){if($(this).attr('autoload') && $(this).attr('autoload') != '');$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));});
@@ -1002,7 +795,7 @@ function inituploader()
 	    'multiple': ismul,
 	    'template': petemplate,
 	    'request': {
-	        'endpoint': 'index.php?document-api-fineuploader',
+	        'endpoint': 'index.php?document-api-fineuploader&userhash='+Math.random(),
 	        'method': 'POST'
 	    },
 	    'thumbnails': {
@@ -1081,7 +874,7 @@ $(function(){
 	$(".jckeditor").each(initEditor);
 	$('.datetimepicker').each(initdatepicker);
 	$(".randCode").on('click',function(){
-		$(this).attr('src',$(this).attr('src')+'&'+Math.random());
+		$(this).attr('src',$(this).attr('src')+'&userhash='+Math.random());
 	});
 	$("form").not('.dxform').on('submit',formsubmit);
 	$("a.ajax").each(htmlajax);

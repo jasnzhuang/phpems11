@@ -10,7 +10,6 @@ class action extends app
 {
     public function display()
     {
-        M('enroll','enroll') = M('enroll','enroll');
         $action = M('ev')->url(3);
         if(!method_exists($this,$action))
             $action = "index";

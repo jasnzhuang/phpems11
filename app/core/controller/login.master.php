@@ -23,10 +23,10 @@ class action extends app
 		{
 			$args = M('ev')->get('args');
 			$randcode = strtoupper(M('ev')->get('randcode'));
-			$_user = $this->session->getSessionValue();
+			$_user = M('session')->getSessionValue();
 			if($randcode && ($randcode == $_user['sessionrandcode']))
 			{
-				$this->session->setRandCode(0);
+				M('session')->setRandCode(0);
 				$user = M('user','user')->getUserByUserName($args['username']);
 				if($user['userdisable'] == 1)
 				{
@@ -52,7 +52,7 @@ class action extends app
 						}
 						else
 						{
-							$this->session->setSessionUser(array('sessionuserid'=>$user['userid'],'sessionpassword'=>$user['userpassword'],'sessionip'=>M('ev')->getClientIp(),'sessiongroupid'=>$user['usergroupid'],'sessionlogintime'=>TIME,'sessionusername'=>$user['username']));
+							M('session')->setSessionUser(array('sessionuserid'=>$user['userid'],'sessionpassword'=>$user['userpassword'],'sessionip'=>M('ev')->getClientIp(),'sessiongroupid'=>$user['usergroupid'],'sessionlogintime'=>TIME,'sessionusername'=>$user['username']));
 							$message = array(
 								'statusCode' => 200,
 								"message" => "操作成功，正在转入目标页面",

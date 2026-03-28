@@ -19,6 +19,33 @@ class action extends app
 		$this->$action();
 		exit;
 	}
+
+    public function mpassword()
+    {
+        $data = [
+            'table' => 'user1107',
+            'query' => [
+                ["AND","userid >= 3831"]
+            ],
+            'limit' => false
+        ];
+        $users = M('pepdo')->getElements($data);
+        $number = 0;
+        foreach($users as $user)
+        {
+            $password = md5(substr($user['username'],-6));
+            $data = [
+                'table' => 'user1107',
+                'query' => [
+                    ["AND","userid = :userid","userid",$user['userid']]
+                ],
+                'value' => ['userpassword' => $password]
+            ];
+            M('pepdo')->updateElement($data);
+            $number++;
+        }
+        echo "重置完成".$number;
+    }
 	
 	public function sendmail()
 	{
@@ -115,7 +142,8 @@ class action extends app
 
 	public function index()
 	{
-		exit;
+		echo strings::encode("123456",APPKEY,APPIV);
+        exit;
 	}
 }
 

@@ -11,6 +11,7 @@ class ev
 	public $url;
 	public $server;
 	private $e;
+	public $unValidateKey;
 
 	public function __construct()
     {
@@ -122,7 +123,8 @@ class ev
 				$r[$key] = urlencode($p);
 			}
 		}
-		else return false;		
+		else return false;
+		$p = $r;
         if(!$r[0] || !file_exists('app/'.$r[0].'/'))
         {
             $r[0] = \PHPEMS\ginkgo::$defaultApp;
@@ -132,16 +134,12 @@ class ev
 		{
 			$r[1] = 'app';
 		}
-		if(!isset($r[2]))$r[2] = 'index';
-		if(!file_exists('app/'.$r[0].'/controller/'.$r[2].'.'.$r[1].'.php'))
+		if($r[1] == 'app' && $this->isMobile())
 		{
-			$r[2] = 'index';
+			$r[1] = 'phone';
 		}
-        if($r[1] == 'app' && $this->isMobile())
-		{
-            $r[1] = 'phone';
-		}
-		if(!isset($r[3]))$r[3] = 'index';
+		if(!isset($r[2]) || !M('strings')->isAllowKey($r[2]))$r[2] = 'index';
+        if(!isset($r[3]) || !M('strings')->isAllowKey($r[3]))$r[3] = 'index';
 		if(substr($r[3],0,1) == '_')$r[3] = 'index';
         return $r;
 	}
@@ -280,6 +278,77 @@ class ev
 			$this->e['ip'] = $ip;
 		}
 		return $this->e['ip'];
+	}
+
+	private function _validate($var,$rules)
+	{
+		if(is_array($var))return false;
+		list($rule,$type) = explode(":",$rules,2);
+		switch($rule)
+		{
+			case 'true':
+				if(!$var)return false;
+				break;
+
+			case 'min':
+				$type = intval($type);
+				if($type && (strlen((string) $var) < $type))return false;
+				break;
+
+			case 'max':
+				$type = intval($type);
+				if($type && (strlen((string) $var) > $type))return false;
+				break;
+
+			case 'number':
+				if(!is_numeric($var))return false;
+				break;
+
+			case 'password':
+				if(!strings::isPassword($var))return false;
+				break;
+
+			case 'url':
+				if(!strings::isUrl($var))return false;
+				break;
+
+			case 'username':
+				if(!strings::isUserName($var))return false;
+				break;
+
+			case 'email':
+				if(!strings::isEmail($var))return false;
+				break;
+
+			case 'required':
+				if(strlen((string) $var) < 1)return false;
+				break;
+
+			default:
+				break;
+		}
+		return true;
+	}
+
+	public function validate($rules = array(),$values = false)
+	{
+		if(empty($rules))return true;
+		$values = $values?$values:$this->get;
+		foreach($rules as $key => $rule)
+		{
+			$value = $values[$key];
+			$rule = explode('|',$rule);
+			foreach($rule as $rl)
+			{
+				$rs = $this->_validate($value,$rl);
+				if(!$rs)
+				{
+					$this->unValidateKey = $key;
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
 ?>

@@ -130,6 +130,11 @@ class action extends app
                 \PHPEMS\ginkgo::R($message);
             }
             $question = M('ev')->get('question');
+			if(M('ev')->isapp())
+			{
+				$data = stripslashes($question);
+				$question = json_decode($data,true);
+			}
             $sessionvars['examsessionuseranswer'] = $question;
             $result = M('exam','exam')->markscore($sessionvars,$questype,$this->data['currentbasic']['basicexam']['batch']);
             if($result['wrongids'] && $this->setting['autorecord'])
@@ -142,7 +147,9 @@ class action extends app
                     'statusCode' => 200,
                     "message" => "交卷成功",
                     "callbackType" => 'forward',
-                    "forwardUrl" => "index.php?exam-phone-history-makescore&ehid={$result['ehid']}"
+                    "forwardUrl" => "index.php?exam-phone-history-makescore&ehid={$result['ehid']}",
+					'needhand' => 1,
+					'ehid' => $result['ehid'],
                 );
             }
             else
@@ -151,7 +158,8 @@ class action extends app
                     'statusCode' => 200,
                     "message" => "交卷成功",
                     "callbackType" => 'forward',
-                    "forwardUrl" => "index.php?exam-phone-history-stats&ehid={$result['ehid']}"
+                    "forwardUrl" => "index.php?exam-phone-history-stats&ehid={$result['ehid']}",
+					'ehid' => $result['ehid'],
                 );
             }
             \PHPEMS\ginkgo::R($message);
@@ -425,7 +433,9 @@ class action extends app
 				'statusCode' => 200,
 				"message" => "抽题完毕，转入试卷页面",
 				"callbackType" => 'forward',
-				"forwardUrl" => "index.php?exam-phone-exam-paper&sessionid={$sargs['examsessionid']}&token={$token}"
+				"forwardUrl" => "index.php?exam-phone-exam-paper&sessionid={$sargs['examsessionid']}&token={$token}",
+				"sessionid" => $sargs['examsessionid'],
+				"token" => $token
 			);
 			\PHPEMS\ginkgo::R($message);
 		}

@@ -24,41 +24,62 @@ class action extends app
 		$upfile = M('ev')->getFile('qqfile');
 		$args['attext'] = M('files')->getFileExtName($upfile['name']);
 		if(!in_array(strtolower($args['attext']),$this->allowexts) || in_array(strtolower($args['attext']),M('config','document')->forbidden))
-		exit(json_encode(array('status' => 'fail','message' => '上传失败，附件类型不符!')));
+		{
+			$message = array(
+				'statusCode' => 300,
+				'status' => 'fail',
+				'message' => '上传失败，附件类型不符!'
+			);
+			R($message);
+		}
 		if($upfile)
-		$fileurl = M('files')->uploadFile($upfile,$path,NULL,NULL,$this->allowexts);
+		{
+			$upfile = M('plugin')->filter('beforeUpload',$upfile);
+			if($upfile['error'])
+			{
+				$errormessage = $upfile['errormessage']?$upfile['errormessage']:'附件上传失败!';
+				$message = array(
+					'statusCode' => 300,
+					'message' => $errormessage,
+					'status' => 'fail'
+				);
+				R($message);
+			}
+			$fileurl = M('files')->uploadFile($upfile,$path,NULL,NULL,$this->allowexts);
+		}
 		if($fileurl)
 		{
-			$osspath = false;
-			if(defined('OPENOSS') && OPENOSS)
-			{
-				$osspath = M('oss')->upload($fileurl);
-				$osspath = str_ireplace(array('http://','https://'),'//',$osspath);
-			}
-			$args['attpath'] = $fileurl;
-			$args['atttitle'] = $upfile['name'];
-
-			$args['attsize'] = $upfile['size'];
+			$info = array(
+				'title' => $upfile['name'],
+				'size' => $upfile['size'],
+				'path' => $fileurl,
+				'type' => $upfile['type']
+			);
+			$info = M('plugin')->filter('afterUpload',$info);
+			$args = array();
+			$args['attpath'] = $info['path'];
+			$args['atttitle'] = $info['title'];
+			$args['attsize'] = $info['size'];
 			$args['attuserid'] = $this->user['userid'];
-			//$args['attcntype'] = $upfile['type'];
+			$args['attcntype'] = $info['type'];
 			M('attach','document')->addAttach($args);
-			if(M('ev')->get('imgwidth') || M('ev')->get('imgheight'))
-			{
-				if(M('files')->thumb($fileurl,$fileurl.'.png',M('ev')->get('imgwidth'),M('ev')->get('imgheight')))
-				$thumb = $fileurl.'.png';
-				else
-				$thumb = $fileurl;
-			}
-			else
-			$thumb = $fileurl;
-			if($osspath)
-			exit(json_encode(array('success' => true,'thumb' => $osspath,'title' => $upfile['name'])));
-			else
-			exit(json_encode(array('success' => true,'thumb' => $thumb,'title' => $upfile['name'])));
+			$message = array(
+				'statusCode' => 200,
+				'message' => '上传成功！',
+				'success' => true,
+				'thumb' => $info['path'],
+				'title' => $info['title']
+			);
+			R($message);
 		}
 		else
 		{
-			exit(json_encode(array('status' => 'fail')));
+			$message = array(
+				'status' => 'fail',
+				'statusCode' => 300,
+				'message' => '上传失败！'
+			);
+			R($message);
 		}
 	}
 }

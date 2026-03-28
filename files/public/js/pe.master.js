@@ -125,29 +125,6 @@ function setAnswerHtml(t,o)
 		$("#selecttext").show();
 	}
 }
-jQuery.cookie = function(key, value, options) {
-    if (arguments.length > 1 && String(value) !== "[object Object]") {
-        options = jQuery.extend({},
-        options);
-        if (value === null || value === undefined) {
-            options.expires = -1;
-        }
-        if (typeof options.expires === 'number') {
-            var days = options.expires,
-            t = options.expires = new Date();
-            t.setDate(t.getDate() + days);
-        }
-        value = String(value);
-        return (document.cookie = [encodeURIComponent(key), '=', options.raw ? value: encodeURIComponent(value), options.expires ? '; expires=' + options.expires.toUTCString() : '', options.path ? '; path=' + options.path: '', options.domain ? '; domain=' + options.domain: '', options.secure ? '; secure': ''].join(''));
-    }
-    options = value || {};
-    var result,
-    decode = options.raw ?
-    function(s) {
-        return s;
-    }: decodeURIComponent;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
-};
 function xvars(x){
 	var _this = this;
 	String.prototype.replaceAll  = function(s1,s2){
@@ -444,18 +421,21 @@ function submitAjax(parms){
 					if(data && data.substring(0,6) != 'error:')
 					if(parms.target)
 					{
-						$('#'+parms.target).html(data);
-						var dom = document.getElementById(parms.target);
-						$('.di-style',dom).find('span').on('click',function(){
-							var _this = $(this);
-							_this.parents('.di-style').parent().find('span').removeClass('dis-select');
-							_this.addClass('dis-select');
-							if(_this.attr('data-element'))
-							{
-								$('#'+_this.attr('data-element')).val(_this.attr('data-value'));
-							}
+						if(parms.target == 'body')
+						{
+							var newpage = $('body');
+							newpage.html(data);
+						}
+						else
+						{
+							var newpage = $('#'+parms.target).html(data);
+						}
+						console.log(newpage);
+						var dom = newpage[0];
+						$(".autoloaditem",dom).each(function(){
+							if($(this).attr('autoload') && $(this).attr('autoload') != '');
+							$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));
 						});
-						$(".autoloaditem",dom).each(function(){if($(this).attr('autoload') && $(this).attr('autoload') != '');$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));});
 						$("a.ajax",dom).each(htmlajax);
 						$("form",dom).not('.dxform').on('submit',formsubmit);
 						$("select.combox",dom).on("change",combox);
@@ -508,7 +488,7 @@ function autocombox(){
 		for(i=0;i<t.length;i++)
 		url = url.replace(eval("/{"+t[i]+"}/gi"),$('#'+t[i]).val());
 	}
-	$.get(url+'&rand='+Math.random(),function(dt){
+	$.get(url+'&userhash='+Math.random(),function(dt){
 		if(dt.statusCode == '200')
 		{
 			var d = dt.html;
@@ -572,7 +552,18 @@ function formsubmit(){
 	var status = false;
 	var query;
 	var target = $(_this).attr('direct');
-	if(!target || target == '')target = 'datacontent';
+	if(!target || target == '')
+	{
+		if($('#datacontent').length > 0)
+		{
+			target = 'datacontent';
+		}
+		else
+		{
+			target = 'body';
+		}
+	}
+
 	for ( instance in CKEDITOR.instances )
 	CKEDITOR.instances[instance].updateElement();
 	query = $(":input",_this).serialize()+'&userhash='+Math.random();
@@ -621,7 +612,7 @@ function modalAjax(){
 		for(i=0;i<t.length;i++)
 		url = url.replace(eval("/{"+t[i]+"}/gi"),escape($('#'+t[i]).val()));
 	}
-	$.get(url+'&'+Math.random(),function(data){
+	$.get(url+'&userhash='+Math.random(),function(data){
 		var c = m.children().find(".modal-body");
 		c.html(data);
 		c.find(".autoloaditem").each(function(){if($(this).attr('autoload') && $(this).attr('autoload') != '');$(this).load($(this).attr('autoload')+"&current="+$(this).attr('current'));});
@@ -783,7 +774,7 @@ function inituploader()
 	    'multiple': ismul,
 	    'template': petemplate,
 	    'request': {
-	        'endpoint': 'index.php?document-api-fineuploader',
+	        'endpoint': 'index.php?document-api-fineuploader&userhash='+Math.random(),
 	        'method': 'POST'
 	    },
 	    'thumbnails': {
@@ -853,7 +844,7 @@ $(function(){
 	$(".jckeditor").each(initEditor);
 	$('.datetimepicker').each(initdatepicker);
 	$(".randCode").on('click',function(){
-		$(this).attr('src',$(this).attr('src')+'&'+Math.random());
+		$(this).attr('src',$(this).attr('src')+'&userhash'+Math.random());
 	});
 	$("form").not('.dxform').on('submit',formsubmit);
 	$("a.ajax").each(htmlajax);
@@ -869,67 +860,4 @@ $(function(){
 	$('.sortable').sortable();
 	$('.fineuploader').each(inituploader);
 	$('body').delegate('.listimgselector','dblclick',function(){$(this).remove();});
-	autoSize();
-	setInterval(autoSize,500);
 });
-
-function openmenu(_this){
-	if($(_this).attr("data") != '1')
-	{
-		if($(_this).attr("app"))
-		var app = $(_this).attr("app");
-		else
-		var app = 'content';
-		var o = $(_this).parents("tr");
-		var t = '';
-		$.getJSON('index.php?'+app+'-master-category-ajax-getchilddata&'+Math.random(),{'catid':$(_this).attr('rel')},function(data){
-			for(x in data){
-				var s = $('<tr>'+o.html()+'<tr />');
-				s.children("td").eq(0).children("input").eq(0).attr('name','ids['+data[x].catid+']');
-				s.children("td").eq(0).children("input").eq(0).attr('value',data[x].catlite);
-				s.children("td").eq(1).html(data[x].catid);
-				s.children("td").eq(2).children('img').eq(0).attr('src',data[x].catimg == ''?'app/core/styles/images/noupload.gif':data[x].catimg);
-				s.children("td").eq(3).children('a').eq(0).attr('rel',data[x].catid);
-				s.children("td").eq(3).children('span').eq(0).html(data[x].catname);
-				s.children("td").eq(3).html('<em class="span1"></em>'+s.children("td").eq(3).html());
-				s.children("td").eq(4).html(s.children("td").eq(4).html().replaceAll('catid='+$(_this).attr('rel'),'catid='+data[x].catid).replaceAll('parent='+$(_this).attr('rel'),'parent='+data[x].catid));
-				s.children("td").eq(4).find("a.ajax").each(function(){
-					var _this = this;
-					var d = $(_this).attr('data');
-					$(_this).attr('href',d);
-					$(_this).attr('data',null);
-				});
-				t = t+'<tr class="submenu'+$(_this).attr('rel')+'">'+s.html()+'<tr />';
-			}
-			o.after($(t));
-			$('.submenu'+$(_this).attr('rel')).find("a.ajax").each(htmlajax);
-			$(_this).attr("data","1");
-			$(_this).attr("class","icon-minus-sign catool");
-			$(_this).attr("onclick","javascript:closemenu(this);");
-		});
-	}
-	else
-	{
-		$('.submenu'+$(_this).attr('rel')).show();
-		$(_this).attr("class","icon-minus-sign catool");
-		$(_this).attr("onclick","javascript:closemenu(this);");
-	}
-}
-
-function closemenu(_this){
-	if($(_this).attr('rel') && $(_this).attr('rel') != '')
-	{
-		var p = $('.submenu'+$(_this).attr('rel'));
-		if(p)
-		{
-			p.each(function(){
-				var x = $('.submenu'+$(this).children("td").eq(3).children("a").eq(0).attr('rel')).eq(0);
-				if(x.attr('class'))
-				closemenu($(this).children("td").eq(3).children("a").eq(0).get(0));
-				$('.submenu'+$(_this).attr('rel')).hide();
-			});
-		}
-		$(_this).attr("class","icon-plus-sign catool");
-		$(_this).attr("onclick","javascript:openmenu(this);");
-	}
-}

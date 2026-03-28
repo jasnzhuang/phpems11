@@ -11,6 +11,7 @@ class app
         $this->user = M('user','user')->getUserById($this->session['sessionuserid']);
         M('tpl')->assign('_user',$this->user);
         M('tpl')->assign('navs',M('nav','core')->getWebNavs());
+        M('tpl')->assign('menus',M('config','user')->getMenus());
     }
 }
 

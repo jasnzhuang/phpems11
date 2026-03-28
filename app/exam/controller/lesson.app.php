@@ -71,13 +71,12 @@ class action extends app
 			}
 			if(!$number)
 			{
-				$exer = $this->exer->getExerciseProcessByUser($this->user['userid'],$this->data['currentbasic']['basicid'],$knowsid);
+				$exer = $this->exer->getExerciseProcessByUser($this->user['userid'],$this->data['currentbasic']['basicid'],$knowsid,'lesson');
 				if($exer['exernumber'])$number = $exer['exernumber'];
 				else $number = 1;
             }
-            else
-			$args = array('exeruserid' => $this->user['userid'],'exerbasicid' => $this->data['currentbasic']['basicid'],'exerknowsid' => $knowsid,'exernumber' => $number,'exerqutype' => $questid);
-            $this->exer->setExercise($args);
+			$args = array('exeruserid' => $this->user['userid'],'exerbasicid' => $this->data['currentbasic']['basicid'],'exerknowsid' => $knowsid,'exernumber' => $number,'exerqutype' => $questid,'exertype' => 'lesson');
+			$this->exer->setExercise($args);
             $knows = M('section','exam')->getQuestionsByKnows($knowsid);
 			if($questid)
 			{
@@ -125,6 +124,18 @@ class action extends app
 		M('tpl')->display('lesson_paper');
 	}
 
+	private function recite()
+	{
+		$questid = M('ev')->get('questype');
+		$knowsid = M('ev')->get('knowsid');
+		if($questid)
+			$questype = M('basic','exam')->getQuestypeById($questid);
+		$knows = M('section','exam')->getKnowsById($knowsid);
+		M('tpl')->assign('knows',$knows);
+		M('tpl')->assign('questype',$questype);
+		M('tpl')->display('lesson_recite');
+	}
+
 	public function index()
 	{
 		$basic = $this->data['currentbasic'];
@@ -137,7 +148,7 @@ class action extends app
                 $knows[$knowsid] = M('section','exam')->getQuestionsByKnows($knowsid);
 			}
 		}
-		$record = $this->exer->getExerciseProcessByUser($this->user['userid'],$basic['basicid']);
+		$record = $this->exer->getExerciseProcessByUser($this->user['userid'],$basic['basicid'],null,'lesson');
 		M('tpl')->assign('record',$record);
 		M('tpl')->assign('basic',$basic);
 		M('tpl')->assign('sections',$sections);

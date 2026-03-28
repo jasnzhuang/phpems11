@@ -224,7 +224,7 @@ class action extends app
 				$ids = M('ev')->get('ids');
 				foreach($ids as $key => $id)
 				{
-					M('content','content')->modifyBasciContent($key,array('contentsequence' => $id));
+					M('content','content')->modifyContent($key,array('contentsequence' => $id));
 				}
 			}
 			$message = array(
@@ -245,8 +245,8 @@ class action extends app
 				{
 					if($id)
 					{
-						$basic = M('content','content')->getBasicContentById($id);
-						$args = array('pctitle' => $basic['contenttitle'],'pctime' => $basic['contentinputtime'],'pcposapp' => 'content','pccontentid' => $id,'pcthumb' => $basic['contentthumb'],'pcdescribe' => $basic['contentdescribe'],'pcposid' => $position);
+						$content = M('content','content')->getContentById($id);
+						$args = array('pctitle' => $content['contenttitle'],'pctime' => $content['contentinputtime'],'pcposapp' => 'content','pccontentid' => $id,'pcthumb' => $content['contentthumb'],'pcdescribe' => $content['contentdescribe'],'pcposid' => $position);
 						M('position','content')->addPosContent($args);
 					}
 				}
@@ -272,7 +272,7 @@ class action extends app
 			{
 				foreach($contentids as $key => $id)
 				{
-					if($id)M('content','content')->modifyBasciContent($id,array('contentcatid' => $targetcatid));
+					if($id)M('content','content')->modifyContent($id,array('contentcatid' => $targetcatid));
 				}
 				$message = array(
 					'statusCode' => 200,

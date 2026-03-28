@@ -53,7 +53,9 @@ class user
     {
         $args['userregip'] = M('ev')->getClientIp();
         $args['userregtime'] = TIME;
-        return M('pepdo')->insertElement(array('table' => 'user','query' => $args));
+        $id = M('pepdo')->insertElement(array('table' => 'user','query' => $args));
+		M('plugin')->trigger('userRegister',$id);
+		return $id;
     }
 
     public function delUserById($userid)
@@ -64,7 +66,8 @@ class user
     public function getUserById($id)
     {
 		$args = array(
-			array("AND","userid = :userid","userid",$id)
+			array("AND","userid = :userid","userid",$id),
+			array("AND","groupid = usergroupid")
 		);
 		return $this->getUserByArgs($args);
     }
@@ -73,7 +76,7 @@ class user
     {
         $data = array(false,array('user','user_group'),$args);
         $sql = M('pepdo')->makeSelect($data);
-        return M('pepdo')->fetch($sql,array('userinfo','groupright','manager_apps'));
+        return M('pepdo')->fetch($sql,array('userinfo','groupright','manager_apps','teacher_subjects'));
     }
 
     public function getUsersByArgs($args)
@@ -263,7 +266,8 @@ class user
 		$args[] = array("AND","uluserid = userid");
 		$data = array(
 			'table' => array('user_log','user'),
-			'query' => $args
+			'query' => $args,
+			'orderby' => 'ulid desc'
 		);
 		return M('pepdo')->listElements($page,$number,$data);
 	}

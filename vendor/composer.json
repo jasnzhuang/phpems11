@@ -1,0 +1,9 @@
+{
+    "require": {
+        "workerman/workerman": "^4.1",
+        "thiagoalessio/tesseract_ocr": "^2.12",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-gd": "*"
+    }
+}

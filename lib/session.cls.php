@@ -33,7 +33,9 @@ class session
                     M("ev")->setCookie('psid',$this->sessionid,3600*24);
                 }
                 else
+                {
                     $this->sessionid = M("ev")->getCookie('psid');
+                }
             }
         }
         if(!$this->sessionid)
@@ -176,12 +178,13 @@ class session
         }
     }
 
+
     //获取会话用户
     public function getSessionUser()
     {
         if($this->sessionuser)return $this->sessionuser;
         $cookie = M("strings")->decode(M("ev")->getCookie($this->sessionname));
-        if($cookie['sessionuserid'])
+        if(isset($cookie['sessionuserid']) && $cookie['sessionuserid'])
         {
             $user = $this->getSessionValue();
             if($cookie['sessionuserid'] == $user['sessionuserid'] && $cookie['sessionpassword'] == $user['sessionpassword'] && $cookie['sessionip'] == $user['sessionip'])

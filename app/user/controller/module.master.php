@@ -63,7 +63,7 @@ class action extends app
 			$module = M('module')->getModuleById($moduleid);
 			if(!$args['fieldpublic'])
 			$args['field'] = $module['modulecode'].'_'.$args['field'];
-			$args['fieldforbidactors'] = ','.implode(',',$args['fieldforbidactors']).',';
+			$args['fieldforbidactors'] = ','.implode(',',is_array($args['fieldforbidactors'])?$args['fieldforbidactors']:[]).',';
 			$id = M('module')->insertModuleField($args);
 			if($id)
 			{
@@ -111,7 +111,7 @@ class action extends app
 		if(M('ev')->get('modifyfieldhtml'))
 		{
 			$args = M('ev')->post('args');
-			$args['fieldforbidactors'] = ','.implode(',',$args['fieldforbidactors']).',';
+			$args['fieldforbidactors'] = ','.implode(',',is_array($args['fieldforbidactors'])?$args['fieldforbidactors']:[]).',';
 			$fieldid = M('ev')->post('fieldid');
 			$field = M('module')->getFieldById($fieldid);
 			M('module')->modifyFieldHtmlType($fieldid,$args);

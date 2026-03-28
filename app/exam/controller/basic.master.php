@@ -8,6 +8,8 @@
  */
 class action extends app
 {
+	public $search;
+	public $u;
 	public function display()
 	{
 		$action = M('ev')->url(3);
@@ -219,8 +221,8 @@ class action extends app
 			$questiontype = M('basic','exam')->getQuestypeList();
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -275,7 +277,7 @@ class action extends app
 			$start = $page - 1;
 			$start = $start >= 0?$start:0;
 			$tmp = array_slice($stats,$start * 20,20);
-			$pages = $this->pg->outPage($this->pg->getPagesNumber(count($stats),20),$page);
+			$pages = M('pg')->outPage(M('pg')->getPagesNumber(count($stats),20),$page);
 			M('tpl')->assign('stats',array('data' => $tmp,'pages' => $pages));
 			M('tpl')->assign('basicid',$basicid);
 			M('tpl')->display('basic_stats');
@@ -284,8 +286,8 @@ class action extends app
 		{
 			foreach($rs as $p)
 			{
-                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+                $p['ehquestion'] = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+                $p['ehsetting'] = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 				foreach($p['ehquestion']['questions'] as $questions)
 				{
 					foreach($questions as $key => $question)
@@ -323,7 +325,7 @@ class action extends app
 			$start = $page - 1;
 			$start = $start >= 0?$start:0;
 			$tmp = array_slice($stats,$start * 20,20);
-			$pages = $this->pg->outPage($this->pg->getPagesNumber(count($stats),20),$page);
+			$pages = M('pg')->outPage(M('pg')->getPagesNumber(count($stats),20),$page);
 			M('tpl')->assign('stats',array('data' => $tmp,'pages' => $pages));
 			M('tpl')->assign('basicid',$basicid);
 			M('tpl')->display('basic_knowsstats');
@@ -362,9 +364,9 @@ class action extends app
 			$score[$key] = 0;
 			foreach($rs['data'] as $sessionvars)
 			{
-				$sessionvars['ehquestion'] = unserialize(gzuncompress(base64_decode($sessionvars['ehquestion'])));
-				$sessionvars['ehsetting'] = unserialize(gzuncompress(base64_decode($sessionvars['ehsetting'])));
-				$sessionvars['ehscorelist'] = unserialize($sessionvars['ehscorelist']);
+				$sessionvars['ehquestion'] = unserialize(gzuncompress(base64_decode($sessionvars['ehquestion'])), ['allowed_classes' => false]);
+				$sessionvars['ehsetting'] = unserialize(gzuncompress(base64_decode($sessionvars['ehsetting'])), ['allowed_classes' => false]);
+				$sessionvars['ehscorelist'] = unserialize($sessionvars['ehscorelist'], ['allowed_classes' => false]);
 				if ($sessionvars['ehquestion']['questions'][$key])
 				{
 					foreach ($sessionvars['ehquestion']['questions'][$key] as $p)
@@ -764,7 +766,7 @@ class action extends app
 		$target = M('ev')->get('target');
 		$page = M('ev')->get('page');
 		$page = $page > 0?$page:1;
-		$this->pg->setUrlTarget('modal-body" class="ajax');
+		M('pg')->setUrlTarget('modal-body" class="ajax');
 		$args = array();
 		$actors = M('user','user')->getUserGroupList($args,$page,10);
 		M('tpl')->assign('page',$page);
@@ -1224,7 +1226,28 @@ class action extends app
 			$subjectid = M('ev')->get('subjectid');
 			$subject = M('basic','exam')->getSubjectById($subjectid);
 			$questypes = M('basic','exam')->getQuestypeList();
+			$isquests = array();
+			foreach ($questypes as $questype)
+			{
+				$tmpknows = '0';
+				$knows = M('section','exam')->getAllKnowsBySubject($subjectid);
+				foreach($knows as $p)
+				{
+					if($p['knowsid'])$tmpknows .= ','.$p['knowsid'];
+				}
+				$args = array(array("AND","quest2knows.qkquestionid = questions.questionid"),array("AND","questions.questionstatus = '1'"),array("AND","questions.questionparent = 0"),array("AND","quest2knows.qktype = 0") );
+				$args[] = array("AND","find_in_set(quest2knows.qkknowsid,:qkknowsid)",'qkknowsid',$tmpknows);
+				$args[] = array("AND","questions.questiontype = :questiontype",'questiontype',$questype['questid']);
+				$questions = M('exam','exam')->getQuestionListByArgs($args);
+				//if($questions)$isquests[$questype['questid']] = $questype['questid'];
+				$qrargs = array(array("AND","quest2knows.qkquestionid = questionrows.qrid"),array("AND","quest2knows.qktype = 1"),array("AND","questionrows.qrstatus = '1'"));
+				$qrargs[] = array("AND","questionrows.qrtype = :qrtype",'qrtype',$questype['questid']);
+				$qrargs[] = array("AND","find_in_set(quest2knows.qkknowsid,:qkknowsid)",'qkknowsid',$tmpknows);
+				$questionsrows = M('exam','exam')->getAllQuestionRowsByArgs($qrargs);
+				if($questions  || $questionsrows)$isquests[$questype['questid']] = $questype['questid'];
+			}
 			M('tpl')->assign('questypes',$questypes);
+			M('tpl')->assign('isquests',$isquests);
 			M('tpl')->assign('subject',$subject);
 			M('tpl')->display('basic_modifysubject');
 		}

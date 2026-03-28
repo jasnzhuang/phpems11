@@ -69,15 +69,6 @@ class action extends app
         }
         else
         {
-            $apps = M('apps','core')->getAppList();
-            foreach($apps as $id => $app)
-            {
-                $tmp = M('api',$app['appid']);
-                if($tmp && method_exists($tmp,'parseBlock'))
-                    continue;
-                else
-                    unset($apps[$id]);
-            }
             M('tpl')->assign('pos',$pos);
             M('tpl')->display('positions_modify');
         }

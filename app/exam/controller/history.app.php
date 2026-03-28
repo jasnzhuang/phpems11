@@ -281,7 +281,7 @@ class action extends app
 	{
 		$ehid = M('ev')->get('ehid');
 		$eh = M('favor','exam')->getExamHistoryById($ehid);
-		if($eh['ehuserid'] != $this->user['userid'] || $eh['ehbasicid'] != $this->user['sessioncurrent'])
+		if($eh['ehuserid'] != $this->user['userid'] || $eh['ehbasicid'] != $this->session['sessioncurrent'])
 		{
 			header("location:index.php?exam-app");
 			exit;
@@ -359,9 +359,9 @@ class action extends app
 		foreach($exams['data'] as $key => $p)
 		{
 			$exams['data'][$key]['errornumber'] = 0;
-			$questions = unserialize(gzuncompress(base64_decode($p['ehquestion'])));
-			$scorelist = unserialize($p['ehscorelist']);
-			$examsetting = unserialize(gzuncompress(base64_decode($p['ehsetting'])));
+			$questions = unserialize(gzuncompress(base64_decode($p['ehquestion'])), ['allowed_classes' => false]);
+			$scorelist = unserialize($p['ehscorelist'], ['allowed_classes' => false]);
+			$examsetting = unserialize(gzuncompress(base64_decode($p['ehsetting'])), ['allowed_classes' => false]);
 			if(is_array($questions['questions']) && is_array($scorelist))
 			{
 				foreach($questions['questions'] as $nkey => $q)

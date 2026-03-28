@@ -8,22 +8,25 @@
  */
 class action extends app
 {
+	public $u;
+	public $search;
+
 	public function display()
 	{
 		$action = M('ev')->url(3);
 		if(!method_exists($this,$action))
 		$action = "index";
-		$search = M('ev')->get('search');
-		$this->u = '';
-		if($search)
+		$this->search = M('ev')->get('search');
+		if($this->search)
 		{
-			M('tpl')->assign('search',$search);
-			foreach($search as $key => $arg)
+			$this->u = '';
+			M('tpl')->assign('search',$this->search);
+			foreach($this->search as $key => $arg)
 			{
 				$this->u .= "&search[{$key}]={$arg}";
 			}
+			M('tpl')->assign('u',$this->u);
 		}
-		M('tpl')->assign('u',$this->u);
 		$this->$action();
 		exit;
 	}
@@ -34,7 +37,7 @@ class action extends app
 			"statusCode" => 200,
 			"message" => "操作成功，正在转入查询结果",
 			"callbackType" => "forward",
-		    "forwardUrl" => "index.php?exam-master-questions{$u}"
+		    "forwardUrl" => "index.php?exam-master-questions{$this->u}"
 		);
 		\PHPEMS\ginkgo::R($message);
 	}

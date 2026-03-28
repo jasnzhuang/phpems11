@@ -256,7 +256,7 @@ class module
 	//编辑字段的数据库属性
 	public function modifyFieldDataType($fieldid,$args)
 	{
-		$this->modifyModuleField($args,$fieldid);
+		$this->modifyModuleField($fieldid,$args);
 		$data = array('module_fields',$args,array(array('AND',"fieldid = :fieldid",'fieldid',$fieldid)));
 		$sql = M('pepdo')->makeUpdate($data);
 		return M('pepdo')->exec($sql);

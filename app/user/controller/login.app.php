@@ -47,7 +47,7 @@ class action extends app
 			{
 				if($user['userpassword'] == md5($args['userpassword']))
 				{
-                    if($_SESSION['openid'] && USEWX)
+                    if(isset($_SESSION['openid']) && $_SESSION['openid'] && USEWX)
                     {
                         M('user','user')->modifyUserInfo($user['userid'],array('useropenid' => $_SESSION['openid']));
                     }
@@ -55,6 +55,7 @@ class action extends app
 					M('session')->offOnlineUser($user['userid']);
 					M('session')->setSessionUser(array('sessionuserid'=>$user['userid'],'sessionpassword'=>$user['userpassword'],'sessionip'=>M('ev')->getClientIp(),'sessiongroupid'=>$user['usergroupid'],'sessionlogintime'=>TIME,'sessionusername'=>$user['username']));
 					M('user','user')->insertUserLog(array('uluserid'=>$user['userid'],'ulcliect'=>'pc'));
+					M('plugin')->trigger('userLogin',$user['userid']);
 					$message = array(
 						'statusCode' => 200,
 						"message" => "操作成功",

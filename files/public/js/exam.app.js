@@ -2,7 +2,7 @@ var storage = window.localStorage;
 var initData = {};
 
 function setStorage(){
-    storage.setItem('questions',$.toJSON(initData));
+    storage.setItem('questions',JSON.stringfy(initData));
 }
 
 function clearStorage()

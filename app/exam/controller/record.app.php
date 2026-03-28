@@ -164,7 +164,7 @@ class action extends app
             $number = 0;
             if(is_array($tmp[$key]['questionrows']) && count($tmp[$key]['questionrows']))
             {
-                $number += M('exam','exam')->getQuestionrowsSumNumber($tmp[$key]['questionrows']);
+                $number += M('question','exam')->getQuestionrowsSumNumber($tmp[$key]['questionrows']);
             }
             if(is_array($tmp[$key]['question']))$number += count($tmp[$key]['question']);
             $questype[$key]['number'] = $number;

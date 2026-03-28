@@ -11,7 +11,6 @@ class action extends app
 	public function display()
 	{
 		$action = M('ev')->url(3);
-		$this->coupon = M('coupon','bank');
 		if(!method_exists($this,$action))
 		$action = "index";
 		$this->$action();
@@ -27,7 +26,7 @@ class action extends app
 			if($stime < $etime)
 			{
 				$fname = 'data/coupon/'.$stime.'-'.$etime.'-coupon.xlsx';
-				$r = $this->coupon->getAllOKCoupon($stime,$etime);
+				$r = M('coupon','bank')->getAllOKCoupon($stime,$etime);
 				M('files')->mdir(PEPATH.'/data/coupon/');
 				if(M('xlsx')->putExcelContent(PEPATH.'/'.$fname,$r))
 				$message = array(
@@ -47,7 +46,7 @@ class action extends app
 				'statusCode' => 300,
 				"message" => "请选择正确的起止时间"
 			);
-			\PHPEMS\ginkgo::R($message);
+			R($message);
 		}
 		else
 		{
@@ -57,7 +56,7 @@ class action extends app
 
 	private function clearouttime()
 	{
-		$this->coupon->clearOutTimeCoupon();
+		M('coupon','bank')->clearOutTimeCoupon();
 		$message = array(
 			'statusCode' => 200,
 			"message" => "优惠券清理成功",
@@ -80,7 +79,7 @@ class action extends app
 				if($value > 9999)$value = 9999;
 				for($i = 0;$i<$number;$i++)
 				{
-					$this->coupon->randCoupon($value);
+					M('coupon','bank')->randCoupon($value);
 				}
 				$message = array(
 					'statusCode' => 200,
@@ -94,7 +93,7 @@ class action extends app
 				'statusCode' => 300,
 				"message" => "代金券生成失败"
 			);
-			\PHPEMS\ginkgo::R($message);
+			R($message);
 		}
 		else
 		{
@@ -123,7 +122,7 @@ class action extends app
 		}
 		else
 		$args = 1;
-		$coupons = $this->coupon->getCouponList($args,$page);
+		$coupons = M('coupon','bank')->getCouponList($args,$page);
 		M('tpl')->assign('coupons',$coupons);
 		M('tpl')->display('coupon');
 	}

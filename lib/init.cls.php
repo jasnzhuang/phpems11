@@ -1,16 +1,19 @@
 <?php
-
 namespace PHPEMS;
+
+ini_set("display_errors","on");
+error_reporting(0);
 class ginkgo
 {
     static $G = array();
     static $L = array();
+	static $P = array();
     static $app;
     static $module;
     static $method;
     static $defaultApp = 'core';
 
-    static function loadMoudle()
+    static function loadModule()
     {
         spl_autoload_register([self::class, 'autoLoadClass']);
         include PEPATH.'/lib/config.inc.php';
@@ -18,8 +21,10 @@ class ginkgo
 		header('X-Frame-Options:SAMEORIGIN');
 		header('X-XSS-Protection:1;mode=block');
 		header('X-Content-Type-Options: nosniff');
+        header('Access-Control-Allow-Origin: http://localhost:5173');
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, App-Agent');
         //header("Content-Security-Policy: default-src 'self'; script-src 'self';style-src 'self' 'sha256-Kfm50PMQvu1vvfq+iHjwXC0a2D4fa0A5RVvMCgH2N+c='");
-        ini_set('date.timezone','Asia/Shanghai');
         date_default_timezone_set("Etc/GMT-8");
         $path = PEPATH."/vendor/vendor/autoload.php";
         if(file_exists($path) && COMPOSER)
@@ -34,24 +39,36 @@ class ginkgo
         if($class[0] == 'PHPEMS')
         {
             $number = count($class);
-            if ($number >= 2 && $number <= 3 )
-            {
-                if ($number == 2)
-                {
-                    $class = $class[1];
-                    $path = PEPATH . '/lib/' . $class . '.cls.php';
-                }
-                else
-                {
-                    unset($class[0]);
-                    $path = PEPATH . '/app/' . $class[1] . '/cls/'.$class[2].'.cls.php';
-                }
-                if (file_exists($path)) {
-                    include $path;
-                }
-            }
+            if ($number == 2)
+			{
+				$class = $class[1];
+				$path = PEPATH . '/lib/' . $class . '.cls.php';
+			}
+			elseif($class[1] == 'plugins')
+			{
+				$path = PEPATH . '/plugins/' . $class[2] . '/cls/'.$class[3].'.cls.php';
+			}
+			else
+			{
+				unset($class[0]);
+				$path = PEPATH . '/app/' . $class[1] . '/cls/'.$class[2].'.cls.php';
+			}
+			if (file_exists($path)) {
+				include $path;
+			}
         }
     }
+	
+	static function plugin($G,$app,$param = 'default')
+	{
+		if(!isset(self::$P[$app][$G][$param]))
+		{
+			$o = $app.'\\'.$G;
+			$clsname = '\\PHPEMS\\plugins\\'.$o;
+			self::$P[$app][$G][$param] = new $clsname($param);
+		}
+		return self::$P[$app][$G][$param];
+	}
 
     static public function make($G,$app = NULL,$param = 'default')
     {
@@ -76,46 +93,6 @@ class ginkgo
         }
 
     }
-	
-    /**
-     * @param $G
-     * @param null $app
-     * @return static
-     */
-	static public function make2($G,$app = NULL,$param = 'default')
-	{
-		if($app)
-        {
-            if(!isset(self::$L[$app][$G][$param]))
-            {
-                $fl = PEPATH.'/app/'.$app.'/cls/'.$G.'.cls.php';
-                if(file_exists($fl))
-                {
-                    include_once $fl;
-                }
-                else return false;
-                $o = $app.'\\'.$G;
-                $clsname = '\\PHPEMS\\'.$o;
-                self::$L[$app][$G][$param] = new $clsname($param);
-            }
-            return self::$L[$app][$G][$param];
-        }
-		else
-		{
-			if(!isset(self::$G[$G][$param]))
-			{
-				if(file_exists(PEPATH.'/lib/'.$G.'.cls.php'))
-				{
-					include_once PEPATH.'/lib/'.$G.'.cls.php';
-				}
-				else return false;
-				$clsname = '\\PHPEMS\\'.$G;
-                self::$G[$G][$param] = new $clsname($param);
-			}
-			return self::$G[$G][$param];
-		}
-
-	}
 
 	//执行页面
 	static function run()
@@ -131,19 +108,30 @@ class ginkgo
 		if(!self::$module)self::$module = 'app';
 		if(!self::$method)self::$method = 'index';
 		include PEPATH.'/app/'.self::$app.'/'.self::$module.'.php';
-		
-		$modulefile = PEPATH.'/app/'.self::$app.'/controller/'.self::$method.'.'.self::$module.'.php';
+        $modulefile = PEPATH.'/app/'.self::$app.'/controller/'.self::$method.'.'.self::$module.'.php';
         if(file_exists($modulefile))
 		{			
-			include $modulefile;			
+			include $modulefile;
+            $style = style::loadStyle();
 			$tpl = self::make('tpl');
+            $tpl->assign('_style',$style);
 			$tpl->assign('_app',self::$app);
 			$tpl->assign('method',self::$method);
             $tpl->assign('userhash',$ev->get('userhash'));
 			$run = new action();
-			$run->display();
-		}
-		else die('error:Unknown app to load, the app is '.self::$app);
+            $run->display();
+        }
+        elseif(self::$app == 'plugin')
+        {
+            $run = new app();
+            $run->plugin();
+        }
+		else self::R(array(
+            'statusCode' => 300,
+            "message" => "需要引用的文件不存在",
+            "callbackType" => 'forward',
+            "forwardUrl" => "index.php"
+        ));
 	}
 
 	static public function R($message)
@@ -171,8 +159,10 @@ class ginkgo
             {
                 exit(header("location:{$message['forwardUrl']}"));
             }
-            $tpl = clone M('tpl');
-            $tpl->setDir();
+            $style = style::loadStyle();
+            $tpl = M('tpl')->setErrorType();
+            $tpl->setDir('core','app');
+            $tpl->assign('_style',$style);
             $tpl->assign('message',$message);
             $tpl->display('error');
 			exit;

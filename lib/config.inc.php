@@ -6,7 +6,8 @@ define('CH','exam_');
 define('CDO','');
 define('CP','/');
 define('CRT',180);
-define('CS','1hqfx6ticwRxtfviTp940vng!yC^QK^6');//请随机生成32位字符串修改此处值
+define('CSKEY','1hqfx6ticwRxtfviTp940vng!yC^QK^6');//请随机生成32位字符串修改此处值
+define('CSIV','1234567812345678');
 define('PN',10);
 define('TIME',time());
 if(dirname($_SERVER['SCRIPT_NAME']))
@@ -48,7 +49,12 @@ define('ALIPAY',true);
 /**RAS2**/
 define('ALIAPPID','2016092200000000');
 define('ALIPRIKEY','ALIPRIKEY');
-define('ALIPUBKEY','');
+define('ALIPUBKEY','ALIPRIKEY');
+
+/**APP相关设置**/
+define("APPHASH",0);
+define("APPKEY","12345678123456781234567812345678");//请随机生成32位字符串修改此处值
+define("APPIV","1234567812345678");
 
 
 ?>

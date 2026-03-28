@@ -3,11 +3,14 @@ namespace PHPEMS;
 
 class xlsx
 {
-    public function getExcelContent($path,$sheet = 'Sheet1')
+    public function getExcelContent($path)
     {
         require_once(PEPATH . '/lib/include/xlsx/reader.cls.php');
         $reader = new xlsx\reader($path);
-        if($reader)return $reader->getSheetData($sheet);
+        if($reader)
+        {
+            return $reader->getSheetData(1);
+        }
         return false;
     }
 

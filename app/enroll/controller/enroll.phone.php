@@ -21,11 +21,8 @@ class action extends app
             }
             M('tpl')->assign('u',$this->u);
         }
-	    M('enroll','enroll') = M('enroll','enroll');
-        $this->order = M('orders','bank');
-        M('module') = M('module');
-        M('html') = M('html');
-		$action = M('ev')->url(3);
+	    $this->order = M('orders','bank');
+        $action = M('ev')->url(3);
 		if(!method_exists($this,$action))
 		$action = "index";
 		$this->$action();
@@ -35,8 +32,15 @@ class action extends app
     public function detail()
     {
         $enrollid = M('ev')->get('enrollid');
-        $enroll = M('enroll','enroll')->getEnrollById($enrollid);
-        $enbat = M('enroll','enroll')->getEnrollBatById($enroll['enrollbatid']);
+        $enroll = M('enroll','enroll')->getEnrollByIdWithUser($enrollid);
+		if(!$enroll)
+		{
+			R(array(
+				'statusCode' => 300,
+				'message' => '不存在的报名'
+			));
+		}
+		$enbat = M('enroll','enroll')->getEnrollBatById($enroll['enrollbatid']);
         $args = array();
         $args[] = array("AND","enbstarttime <= :stime","stime",TIME);
         $args[] = array("AND","enbendtime >= :etime","etime",TIME);

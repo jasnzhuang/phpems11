@@ -13,7 +13,7 @@
                     {x2;tree:$topimgs['data'],content,cid}
 					<div class="swiper-slide">
 						<a class="ajax" href="index.php?content-phone-content&contentid={x2;v:content['pccontentid']}">
-							<img src="{x2;v:content['pcthumb']}" style="max-width: 100%;height:350px;"/>
+							<img src="{x2;v:content['pcthumb']}" style="max-width: 100%;height:1.75rem;"/>
 						</a>
 					</div>
                     {x2;endif}
@@ -269,54 +269,16 @@
 			</div>
 			<div class="list-box bg top">
 				<ol>
+					{x2;tree:$menus,menu,mid}
 					<li class="unstyled">
-						<a href="index.php?user-phone-verify" class="ajax">
+						<a href="{x2;v:menu['url']}" class="ajax">
 							<div class="rows info">
-								实名认证
+								{x2;v:menu['title']}
 								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
 							</div>
 						</a>
 					</li>
-					<li class="unstyled">
-						<a href="index.php?user-phone-course" class="ajax">
-							<div class="rows info">
-								我的课程
-								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
-							</div>
-						</a>
-					</li>
-					<li class="unstyled">
-						<a href="index.php?user-phone-exam" class="ajax">
-							<div class="rows info">
-								我的考场
-								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
-							</div>
-						</a>
-					</li>
-					<li class="unstyled">
-						<a href="index.php?user-phone-certificate" class="ajax">
-							<div class="rows info">
-								我的证书
-								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
-							</div>
-						</a>
-					</li>
-					<li class="unstyled">
-						<a href="index.php?user-phone-payfor" class="ajax">
-							<div class="rows info">
-								积分充值
-								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
-							</div>
-						</a>
-					</li>
-					<li class="unstyled">
-						<a href="index.php?user-phone-payfor-orders" class="ajax">
-							<div class="rows info">
-								我的订单
-								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
-							</div>
-						</a>
-					</li>
+					{x2;endtree}
 					{x2;if:$_user['usergroupid'] == 1}
 					<li class="unstyled">
 						<a href="index.php?user-phone-payfor-gomorder" class="ajax">
@@ -327,15 +289,7 @@
 						</a>
 					</li>
 					{x2;endif}
-					<li class="unstyled">
-						<a href="index.php?user-phone-privatement-modifypass" class="ajax">
-							<div class="rows info">
-								修改密码
-								<span class="pull-right"><em class="fa fa-chevron-right iconmenu"></em></span>
-							</div>
-						</a>
-					</li>
-                    {x2;if:$_user['useropenid'] && USEWX && v:this->ev->isWeixin()}
+                    {x2;if:$_user['useropenid'] && USEWX && \PHPEMS\M('ev')->isWeixin()}
 					<li class="unstyled">
 						<a href="index.php?user-phone-privatement-unbind" class="ajax">
 							<div class="rows info">
