@@ -534,7 +534,7 @@ class action extends app
 			$args = M('ev')->get('args');
 			$args['examsetting'] = $args['examsetting'];
 			$args['examauthorid'] = $this->user['userid'];
-			$args['examauthor'] = $this->user['sessionusername'];
+			$args['examauthor'] = $this->user['username'];
 			$args['examtype'] = 1;
 			$totalscore = 0;
 			foreach($args['examsetting']['questype'] as $key => $p)
@@ -618,7 +618,7 @@ class action extends app
 			$args = M('ev')->get('args');
 			$args['examsetting'] = $args['examsetting'];
 			$args['examauthorid'] = $this->user['userid'];
-			$args['examauthor'] = $this->user['sessionusername'];
+			$args['examauthor'] = $this->user['username'];
 			$args['examtype'] = 2;
 			$args['examquestions'] = $args['examquestions'];
 			$totalscore = 0;
@@ -673,7 +673,7 @@ class action extends app
 			}
 			$args['examsetting'] = $args['examsetting'];
 			$args['examauthorid'] = $this->user['userid'];
-			$args['examauthor'] = $this->user['sessionusername'];
+			$args['examauthor'] = $this->user['username'];
 			$args['examtype'] = 3;
 			setlocale(LC_ALL,'zh_CN');
 			$handle = fopen($uploadfile,"r");
