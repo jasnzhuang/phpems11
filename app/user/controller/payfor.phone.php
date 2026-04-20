@@ -19,7 +19,7 @@ class action extends app
 
 	private function gomorder()
 	{
-		if($this->user['sessiongroupid'])
+		if($this->user['usergroupid'])
 		{
 			$page = M('ev')->get('page');
 			$args = array();
@@ -39,7 +39,7 @@ class action extends app
 
 	private function morder()
 	{
-		if($this->user['sessiongroupid'])
+		if($this->user['usergroupid'])
 		{
 			$ordersn = M('ev')->get('ordersn');
 			$order = M('orders','bank')->getOrderById($ordersn);
@@ -245,7 +245,7 @@ class action extends app
 			$args['orderstatus'] = 1;
 			$args['orderuserid'] = $this->user['userid'];
 			$args['ordercreatetime'] = TIME;
-			$args['orderuserinfo'] = array('username' => $this->user['sessionusername']);
+			$args['orderuserinfo'] = array('username' => $this->user['username']);
 			M('orders','bank')->addOrder($args);
 			if(M('ev')->isWeixin())
 			{

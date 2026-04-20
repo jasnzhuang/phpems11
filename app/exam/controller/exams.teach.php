@@ -215,7 +215,7 @@ class action extends app
 			}
 			$args['examsetting'] = $args['examsetting'];
 			$args['examauthorid'] = $this->user['userid'];
-			$args['examauthor'] = $this->user['sessionusername'];
+			$args['examauthor'] = $this->user['username'];
 			$args['examtype'] = 3;
 			setlocale(LC_ALL,'zh_CN');
 			$handle = fopen($uploadfile,"r");

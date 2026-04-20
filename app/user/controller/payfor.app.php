@@ -165,7 +165,7 @@ class action extends app
 			$args['orderstatus'] = 1;
 			$args['orderuserid'] = $this->user['userid'];
 			$args['ordercreatetime'] = TIME;
-			$args['orderuserinfo'] = array('username' => $this->user['sessionusername']);
+			$args['orderuserinfo'] = array('username' => $this->user['username']);
 			M('orders','bank')->addOrder($args);
 			$message = array(
 				'statusCode' => 200,
