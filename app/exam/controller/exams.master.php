@@ -57,6 +57,7 @@ class action extends app
 		if(!count($args))$args = 1;
 		$exams = M('exam','exam')->getExamSettingList($args,$page,10);
 		$subjects = M('basic','exam')->getSubjectList();
+		krsort($subjects);
 		M('tpl')->assign('subjects',$subjects);
 		M('tpl')->assign('target',$target);
 		M('tpl')->assign('exams',$exams);
@@ -604,6 +605,7 @@ class action extends app
 		else
 		{
 			$subjects = M('basic','exam')->getSubjectList();
+			krsort($subjects);
 			$questypes = M('basic','exam')->getQuestypeList();
 			M('tpl')->assign('questypes',$questypes);
 			M('tpl')->assign('subjects',$subjects);
@@ -650,6 +652,7 @@ class action extends app
 		else
 		{
 			$subjects = M('basic','exam')->getSubjectList();
+			krsort($subjects);
 			$questypes = M('basic','exam')->getQuestypeList();
 			M('tpl')->assign('questypes',$questypes);
 			M('tpl')->assign('subjects',$subjects);
@@ -749,6 +752,7 @@ class action extends app
 		else
 		{
 			$subjects = M('basic','exam')->getSubjectList();
+			krsort($subjects);
 			$questypes = M('basic','exam')->getQuestypeList();
 			M('tpl')->assign('questypes',$questypes);
 			M('tpl')->assign('subjects',$subjects);
@@ -1085,6 +1089,7 @@ class action extends app
 		else
 		{
 			$subjects = M('basic','exam')->getSubjectList();
+			krsort($subjects);
 			$questypes = M('basic','exam')->getQuestypeList();
 			foreach($exam['examquestions'] as $key => $p)
 			{
@@ -1125,11 +1130,13 @@ class action extends app
 		$args = array();
 		if($search)
 		{
-			if($search['examsubject'])$args[] = array("AND","examsubject = :examsubject",'examsubject',$search['examsubject']);
+			if($search['examid'])$args[] = array("AND","examid = :examid",'examid',$search['examid']);
+		if($search['examsubject'])$args[] = array("AND","examsubject = :examsubject",'examsubject',$search['examsubject']);
 			if($search['examtype'])$args[] = array("AND","examtype = :examtype",'examtype',$search['examtype']);
 		}
 		$exams = M('exam','exam')->getExamSettingList($args,$page,10);
 		$subjects = M('basic','exam')->getSubjectList();
+		krsort($subjects);
 		M('tpl')->assign('subjects',$subjects);
 		M('tpl')->assign('exams',$exams);
 		M('tpl')->display('exams');

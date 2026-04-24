@@ -1624,6 +1624,336 @@ class action extends app
 		M('tpl')->assign('basics',$basics);
 		M('tpl')->display('basic');
 	}
+	private function examanalysis()
+	{
+		$basicid = M("ev")->get('basicid');
+		if (!$basicid) {
+			$message = array(
+				'statusCode' => 300,
+				"message" => "参数错误，缺少考场ID"
+			);
+			exit(json_encode($message));
+		}
+		
+		$basic = M("basic","exam")->getBasicById($basicid);
+		if (!$basic) {
+			$message = array(
+				'statusCode' => 300,
+				"message" => "考场不存在"
+			);
+			exit(json_encode($message));
+		}
+		
+		// 获取考试分析数据
+		$exams = M("exam","exam")->getExamSettingsByArgs(array(array("AND","find_in_set(examid,:examid)",'examid',$basic['basicexam']['self'])));
+		$examData = array();
+		
+				
+		foreach ($exams as $exam) {
+			// 获取该考试的成绩统计数据
+			$args = array(
+				array("AND", "ehexamid = :ehexamid", 'ehexamid', $exam['examid']),
+				array("AND", "ehstatus = 1"),
+				array("AND", "ehtype = 2")
+			);
+			
+			$history = M("favor","exam")->getStatsAllExamHistoryByArgs($args);
+			
+			if (!empty($history)) {
+				$total_users = count(array_unique(array_column($history, 'ehuserid')));
+				$total_attempts = count($history);
+				$scores = array_column($history, 'ehscore');
+				$avg_score = round(array_sum($scores) / count($scores), 2);
+				$max_score = max($scores);
+				$min_score = min($scores);
+				$pass_count = count(array_filter($scores, function($score) { return $score >= 60; }));
+				$excellent_count = count(array_filter($scores, function($score) { return $score >= 90; }));
+				$pass_rate = round(($pass_count / $total_users) * 100, 2);
+				$excellent_rate = round(($excellent_count / $total_users) * 100, 2);
+				
+				$examData[] = array(
+					'examid' => $exam['examid'],
+					'exam' => $exam['exam'],
+					'examsubject' => $exam['examsubject'],
+					'total_users' => $total_users,
+					'total_attempts' => $total_attempts,
+					'avg_score' => $avg_score,
+					'max_score' => $max_score,
+					'min_score' => $min_score,
+					'pass_count' => $pass_count,
+					'excellent_count' => $excellent_count,
+					'pass_rate' => $pass_rate,
+					'excellent_rate' => $excellent_rate
+				);
+			}
+		}
+		
+		// 获取用户组数据
+		$groups = M("user","user")->getUserGroups();
+		
+		// 获取科目和地区数据
+		$subjectsList = M("basic","exam")->getSubjectList();
+		$areasList = M("area","exam")->getAreaList();
+		
+		// 重新格式化为键值数组
+		$subjects = array();
+		foreach ($subjectsList as $subject) {
+			$subjects[$subject['subjectid']] = $subject;
+		}
+		
+		$areas = array();
+		foreach ($areasList as $area) {
+			$areas[$area['areaid']] = $area;
+		}
+		
+		// 获取考场用户列表
+		$memberArgs = array(array("AND","obbasicid = :obbasicid",'obbasicid',$basicid));
+		$basicMembers = M("basic","exam")->getOpenBasicMember($memberArgs, 1, 1000); // 获取最多1000个成员
+		$allUserIds = array_column($basicMembers['data'], 'userid');
+		$totalUsersInBasic = count($allUserIds);
+		
+		// 获取所有相关的考试历史记录
+		$allExamHistory = array();
+		foreach ($exams as $exam) {
+			$args = array(
+				array("AND", "ehexamid = :ehexamid", 'ehexamid', $exam['examid']),
+				array("AND", "ehstatus = 1"),
+				array("AND", "ehtype = 2")
+			);
+			$history = M("favor","exam")->getStatsAllExamHistoryByArgs($args);
+			$allExamHistory = array_merge($allExamHistory, $history);
+		}
+		
+		// 调试：检查考试历史记录的时间字段
+		$debugInfo = array(
+			'total_history' => count($allExamHistory),
+			'valid_time_records' => 0,
+			'incomplete_records' => 0
+		);
+		
+		if (!empty($allExamHistory)) {
+			foreach ($allExamHistory as $record) {
+				// ehtime字段包含考试用时秒数，ehstarttime包含开始时间戳
+				if (isset($record['ehtime']) && $record['ehtime'] > 0) {
+					$debugInfo['valid_time_records']++;
+				} else {
+					$debugInfo['incomplete_records']++;
+				}
+			}
+		}
+		
+		// 分析用户参与情况
+		$participatedUserIds = array_unique(array_column($allExamHistory, 'ehuserid'));
+		$notParticipatedUserIds = array_diff($allUserIds, $participatedUserIds);
+		
+		// 统计每个用户的考试情况
+		$userStats = array();
+		foreach ($participatedUserIds as $userId) {
+			$userHistory = array_filter($allExamHistory, function($record) use ($userId) {
+				return $record['ehuserid'] == $userId;
+			});
+			
+			$userAttempts = count($userHistory);
+			$userScores = array_column($userHistory, 'ehscore');
+			$userAvgScore = round(array_sum($userScores) / count($userScores), 2);
+			$userMaxScore = max($userScores);
+			$userMinScore = min($userScores);
+			$userPassCount = count(array_filter($userScores, function($score) { return $score >= 60; }));
+			$userPassRate = round(($userPassCount / count($userScores)) * 100, 2);
+			
+			// 计算平均考试用时 - ehtime字段已经是考试总用时秒数
+			$totalDuration = 0;
+			$validDurationCount = 0;
+			$incompleteExams = 0;
+			
+			foreach ($userHistory as $record) {
+				// ehtime字段包含考试用时秒数
+				if (isset($record['ehtime']) && $record['ehtime'] > 0) {
+					$totalDuration += $record['ehtime'];
+					$validDurationCount++;
+				} else {
+					$incompleteExams++;
+				}
+			}
+			
+			if ($validDurationCount > 0) {
+				$avgDuration = round($totalDuration / $validDurationCount);
+				$avgDurationFormatted = $this->formatDuration($avgDuration);
+			} else {
+				// 如果没有有效的时间数据，显示状态信息
+				$avgDurationFormatted = "时间数据缺失";
+			}
+			
+			$userStats[$userId] = array(
+				'attempts' => $userAttempts,
+				'avg_score' => $userAvgScore,
+				'max_score' => $userMaxScore,
+				'min_score' => $userMinScore,
+				'pass_rate' => $userPassRate,
+				'avg_duration' => $avgDurationFormatted,
+				'avg_duration_seconds' => $avgDuration,
+				'scores' => $userScores,
+				'history' => array_values($userHistory)
+			);
+		}
+		
+		// 识别异常考试数据
+		$anomalies = array();
+		foreach ($allExamHistory as $record) {
+			// 确保时间字段存在且有效 - ehtime包含考试用时秒数
+			if (isset($record['ehtime']) && $record['ehtime'] > 0) {
+				
+				$duration = $record['ehtime']; // ehtime已经是秒数
+				$durationMinutes = round($duration / 60);
+				
+				// 异常1：小于5分钟取得80分以上
+				if ($durationMinutes < 5 && $record['ehscore'] >= 80) {
+					$anomalies['fast_high_scores'][] = array(
+						'userid' => $record['ehuserid'],
+						'score' => $record['ehscore'],
+						'duration' => $this->formatDuration($duration),
+						'duration_minutes' => $durationMinutes,
+						'exam' => $record['ehexamid']
+					);
+				}
+				
+				// 异常2：大于30分钟仍未及格
+				if ($durationMinutes > 30 && $record['ehscore'] < 60) {
+					$anomalies['long_low_scores'][] = array(
+						'userid' => $record['ehuserid'],
+						'score' => $record['ehscore'],
+						'duration' => $this->formatDuration($duration),
+						'duration_minutes' => $durationMinutes,
+						'exam' => $record['ehexamid']
+					);
+				}
+			}
+		}
+		
+		// 获取用户组信息
+		$allGroups = M("user","user")->getUserGroups();
+		$groupMap = array();
+		foreach ($allGroups as $group) {
+			$groupMap[$group['groupid']] = $group['groupname'];
+		}
+		
+		// 获取用户详细信息并按用户组分组
+		$participatedUsersByGroup = array();
+		$notParticipatedUsersByGroup = array();
+		
+		foreach ($participatedUserIds as $userId) {
+			$userInfo = M("user","user")->getUserById($userId);
+			if ($userInfo) {
+				$userInfo['stats'] = $userStats[$userId];
+				$groupId = $userInfo['usergroupid'] ?: 0; // 处理可能的空值
+				$groupName = isset($groupMap[$groupId]) ? $groupMap[$groupId] : '未分组';
+				
+				if (!isset($participatedUsersByGroup[$groupName])) {
+					$participatedUsersByGroup[$groupName] = array();
+				}
+				$participatedUsersByGroup[$groupName][] = $userInfo;
+			}
+		}
+		
+		foreach ($notParticipatedUserIds as $userId) {
+			$userInfo = M("user","user")->getUserById($userId);
+			if ($userInfo) {
+				$groupId = $userInfo['usergroupid'] ?: 0; // 处理可能的空值
+				$groupName = isset($groupMap[$groupId]) ? $groupMap[$groupId] : '未分组';
+				
+				if (!isset($notParticipatedUsersByGroup[$groupName])) {
+					$notParticipatedUsersByGroup[$groupName] = array();
+				}
+				$notParticipatedUsersByGroup[$groupName][] = $userInfo;
+			}
+		}
+		
+		// 计算每个用户组的用户数量
+		$participatedGroupCounts = array();
+		foreach ($participatedUsersByGroup as $groupName => $users) {
+			$participatedGroupCounts[$groupName] = count($users);
+		}
+		
+		$notParticipatedGroupCounts = array();
+		foreach ($notParticipatedUsersByGroup as $groupName => $users) {
+			$notParticipatedGroupCounts[$groupName] = count($users);
+		}
+		
+		// 按用户组名称排序
+		ksort($participatedUsersByGroup);
+		ksort($notParticipatedUsersByGroup);
+		ksort($participatedGroupCounts);
+		ksort($notParticipatedGroupCounts);
+		
+		// 计算总体统计数据
+		$totalAttempts = 0;
+		$totalUsers = 0;
+		$totalPassRate = 0;
+		$totalExcellentRate = 0;
+		$validExams = 0;
+		
+		foreach ($examData as $exam) {
+			$totalAttempts += $exam['total_attempts'];
+			$totalUsers += $exam['total_users'];
+			$totalPassRate += $exam['pass_rate'];
+			$totalExcellentRate += $exam['excellent_rate'];
+			$validExams++;
+		}
+		
+		$avgPassRate = $validExams > 0 ? round($totalPassRate / $validExams, 1) : 0;
+		$avgExcellentRate = $validExams > 0 ? round($totalExcellentRate / $validExams, 1) : 0;
+		
+		// 分配数据到模板
+		M("tpl")->assign('basic', $basic);
+		M("tpl")->assign('examData', $examData);
+		M("tpl")->assign('groups', $groups);
+		M("tpl")->assign('subjects', $subjects);
+		M("tpl")->assign('areas', $areas);
+		M("tpl")->assign('totalAttempts', $totalAttempts);
+		M("tpl")->assign('totalUsers', $totalUsers);
+		M("tpl")->assign('avgPassRate', $avgPassRate);
+		M("tpl")->assign('avgExcellentRate', $avgExcellentRate);
+		M("tpl")->assign('examCount', count($examData));
+		
+		// 计算参与率
+		$participationRate = $totalUsersInBasic > 0 ? round((count($participatedUserIds) / $totalUsersInBasic) * 100, 1) : 0;
+		
+		// 新的详细统计数据 - 按用户组分组
+		M("tpl")->assign('participatedUsersByGroup', $participatedUsersByGroup);
+		M("tpl")->assign('notParticipatedUsersByGroup', $notParticipatedUsersByGroup);
+		M("tpl")->assign('participatedGroupCounts', $participatedGroupCounts);
+		M("tpl")->assign('notParticipatedGroupCounts', $notParticipatedGroupCounts);
+		M("tpl")->assign('anomalies', $anomalies);
+		M("tpl")->assign('totalUsersInBasic', $totalUsersInBasic);
+		M("tpl")->assign('participatedCount', $participatedCount);
+		M("tpl")->assign('notParticipatedCount', $notParticipatedCount);
+		M("tpl")->assign('participationRate', $participationRate);
+		M("tpl")->assign('debugInfo', $debugInfo);
+		M("tpl")->display('basic_examanalysis');
+	}
+	
+	/**
+	 * 格式化持续时间
+	 * @param int $seconds 秒数
+	 * @return string 格式化后的时间字符串
+	 */
+	private function formatDuration($seconds) {
+		if ($seconds <= 0) {
+			return '无效时间';
+		}
+		
+		$hours = floor($seconds / 3600);
+		$minutes = floor(($seconds % 3600) / 60);
+		$remainingSeconds = $seconds % 60;
+		
+		if ($hours > 0) {
+			return sprintf('%d小时%d分%d秒', $hours, $minutes, $remainingSeconds);
+		} elseif ($minutes > 0) {
+			return sprintf('%d分%d秒', $minutes, $remainingSeconds);
+		} else {
+			return sprintf('%d秒', $remainingSeconds);
+		}
+	}
 }
 
 

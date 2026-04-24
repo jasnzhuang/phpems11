@@ -142,6 +142,7 @@
 					                    	<a class="btn" href="index.php?exam-master-basic-scorelist&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="成绩管理"><em class="glyphicon glyphicon-duplicate"></em></a>
 					                    	<a class="btn" href="index.php?exam-master-basic-offpaper&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="考试调度"><em class="glyphicon glyphglyphicon glyphicon-wrench"></em></a>
 											<a class="btn" href="index.php?exam-master-basic-setexamrange&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="考试范围"><em class="glyphicon glyphglyphicon glyphicon-cog"></em></a>
+											<a class="btn btn-success" href="index.php?exam-master-basic-examanalysis&basicid={x2;v:basic['basicid']}" title="成绩分析" target="_blank"><em class="glyphicon glyphicon-stats"></em></a>
 											<a class="btn" href="index.php?exam-master-basic-modifybasic&page={x2;$page}&basicid={x2;v:basic['basicid']}{x2;$u}" title="修改"><em class="glyphicon glyphglyphicon glyphicon-edit"></em></a>
 											<a class="btn confirm" href="index.php?exam-master-basic-delbasic&basicid={x2;v:basic['basicid']}&page={x2;$page}{x2;$u}" title="删除"><em class="glyphicon glyphglyphicon glyphicon-remove"></em></a>
 										</div>
