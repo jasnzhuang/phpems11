@@ -4931,6 +4931,7 @@ CREATE TABLE IF NOT EXISTS `x2_questions` (
   `questionparent` int NOT NULL DEFAULT '0',
   `questionsequence` int NOT NULL DEFAULT '0',
   `questionlevel` int NOT NULL DEFAULT '0',
+  `questiontag` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `questiondeler` varchar(72) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `questiondeltime` int DEFAULT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=9771 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
