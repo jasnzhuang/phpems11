@@ -1916,7 +1916,9 @@ class action extends app
 		M("tpl")->assign('examCount', count($examData));
 		
 		// 计算参与率
-		$participationRate = $totalUsersInBasic > 0 ? round((count($participatedUserIds) / $totalUsersInBasic) * 100, 1) : 0;
+		$participatedCount = count($participatedUserIds);
+		$notParticipatedCount = count($notParticipatedUserIds);
+		$participationRate = $totalUsersInBasic > 0 ? round(($participatedCount / $totalUsersInBasic) * 100, 1) : 0;
 		
 		// 新的详细统计数据 - 按用户组分组
 		M("tpl")->assign('participatedUsersByGroup', $participatedUsersByGroup);
