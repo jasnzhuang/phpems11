@@ -312,9 +312,10 @@ class tpl
 
 	public function compileCode(&$content)
 	{
-		$limit = '/{x2;code:(.+)}/e';
-		$replace = "'<?php '.'\$this->_compileArray('\${1}').'; ?>'\n";
-		$content = preg_replace($limit,$replace,$content);
+		$limit = '/{x2;code:(.+)}/';
+		$content = preg_replace_callback($limit,function($matches){
+			return "<?php ".$this->_compileArray($matches[1])."; ?>\n";
+		},$content);
 	}
 
 	//解析模板

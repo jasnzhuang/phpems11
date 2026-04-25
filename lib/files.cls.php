@@ -141,7 +141,7 @@ class files
 		if (file_exists($url))
 		{
 			$oldumask = umask(0) ;
-			chmod( $url, 0777 ) ;
+			chmod( $url, 0644 ) ;
 			umask( $oldumask ) ;
 		}
 		return $url;
@@ -153,7 +153,7 @@ class files
 		$filename = strtolower($filename);
 		$exts = explode('.',$filename);
 		$ext = $exts[count($exts)-1];
-		if(strpos($ext,'?') >= 0)
+		if(strpos($ext,'?') !== false)
 		{
 			$ext = explode('?',$ext);
 			return $ext[0];
@@ -174,7 +174,7 @@ class files
 		if (file_exists($path))
 		{
 			$oldumask = umask(0) ;
-			chmod( $url, 0777 ) ;
+			chmod( $path, 0644 ) ;
 			umask( $oldumask ) ;
 		}
 		return $path;
