@@ -27,6 +27,10 @@
 							<ul class="dropdown-menu">
 								<li><a href="index.php?{x2;$_app}-master-questions-addquestion&page={x2;$page}{x2;$u}">单题添加</a></li>
 								<li><a href="index.php?{x2;$_app}-master-questions-filebataddquestion&page={x2;$page}{x2;$u}">XLSX导入</a></li>
+								{x2;if:$isAIAllowed}
+								<li><a href="index.php?{x2;$_app}-master-questions-aiaddquestion&page={x2;$page}{x2;$u}">博众AI添加试题</a></li>
+								<li><a href="index.php?{x2;$_app}-master-questions-ailogs&page={x2;$page}{x2;$u}">AI日志</a></li>
+								{x2;endif}
 							</ul>
 						</span>
 					</h4>

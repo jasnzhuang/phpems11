@@ -1154,6 +1154,7 @@ class action extends app
 		M("tpl")->assign('knows',$knows);
 		M("tpl")->assign('questypes',$questypes);
 		M("tpl")->assign('questions',$questions);
+		M("tpl")->assign('isAIAllowed',$this->isAIQuestionFeatureAllowed());
 		M("tpl")->display('questions');
 	}
 
