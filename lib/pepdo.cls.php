@@ -648,10 +648,10 @@
 					{
 						foreach($unserialize as $value)
 						{
-							$tmp[$value] = $tmp[$value]?unserialize($tmp[$value], ['allowed_classes' => false]):'';
+							$tmp[$value] = $tmp[$value]?phpems_safe_unserialize($tmp[$value]):'';
 						}
 					}
-					else $tmp[$unserialize] = $tmp[$unserialize]?unserialize($tmp[$unserialize], ['allowed_classes' => false]):'';
+					else $tmp[$unserialize] = $tmp[$unserialize]?phpems_safe_unserialize($tmp[$unserialize]):'';
 				}
 				if($index)
 				{
@@ -684,10 +684,10 @@
 					{
 						foreach($unserialize as $value)
 						{
-							$tmp[$value] = isset($tmp[$value])?unserialize($tmp[$value], ['allowed_classes' => false]):'';
+							$tmp[$value] = isset($tmp[$value])?phpems_safe_unserialize($tmp[$value]):'';
 						}
 					}
-					else $tmp[$unserialize] = unserialize($tmp[$unserialize], ['allowed_classes' => false]);
+					else $tmp[$unserialize] = phpems_safe_unserialize($tmp[$unserialize]);
 				}
 			}
 			return $tmp;
@@ -696,9 +696,29 @@
 		return false;
 	}
 
+	/**
+	 * ⚠️ 安全警告：此方法直接执行原始 SQL 字符串，不经过预处理。
+	 * 严禁在业务层直接拼接用户输入后调用此方法。
+	 * 如需执行用户相关的查询，请统一使用 exec() / fetch() / fetchAll() 等预处理接口。
+	 */
 	public function query($sql)
 	{
-		if(!$sql)return false;
+		if(!$sql) return false;
+		if(!is_string($sql))
+		{
+			trigger_error('query() 仅接受字符串类型的 SQL，传入其他类型已被拒绝', E_USER_WARNING);
+			return false;
+		}
+		// 启发式检测：拒绝包含明显用户输入拼接特征的 SQL
+		$dangerous = array('$_GET', '$_POST', '$_REQUEST', '$_COOKIE', '$_SERVER');
+		foreach($dangerous as $d)
+		{
+			if(strpos($sql, $d) !== false)
+			{
+				trigger_error('query() 检测到可能的用户输入拼接，已拒绝执行', E_USER_WARNING);
+				return false;
+			}
+		}
 		if(!$this->linkid)$this->connect();
 		return $this->linkid->query($sql);
 	}

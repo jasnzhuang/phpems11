@@ -74,10 +74,14 @@ class baidu
         }
         else
         {
+            // 百度 AI 密钥从环境变量读取，避免硬编码
+            $client_id     = phpems_env('BAIDU_CLIENT_ID', 'DYVF3nBub1w5u408ZwvDVMZG');
+            $client_secret = phpems_env('BAIDU_CLIENT_SECRET', 'l8rBqXFc5QZw7Mwbj4maWtbWcXqtmxFC');
+
             $url = 'https://aip.baidubce.com/oauth/2.0/token';
-            $post_data['grant_type']       = 'client_credentials';
-            $post_data['client_id']      = 'DYVF3nBub1w5u408ZwvDVMZG';
-            $post_data['client_secret'] = 'l8rBqXFc5QZw7Mwbj4maWtbWcXqtmxFC';
+            $post_data['grant_type']    = 'client_credentials';
+            $post_data['client_id']     = $client_id;
+            $post_data['client_secret'] = $client_secret;
             $o = "";
             foreach ( $post_data as $k => $v )
             {

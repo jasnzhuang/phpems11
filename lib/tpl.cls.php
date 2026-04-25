@@ -104,6 +104,7 @@ class tpl
 		$this->compileDate($content);
 		$this->compileRealSubstring($content);
 		$this->compileSubstring($content);
+		$this->compileRaw($content);
 		$this->compileRealVar($content);
 		$this->compileEnter($content);
 		$this->compileConst($content);
@@ -123,6 +124,7 @@ class tpl
 		$this->compileDate($content);
 		$this->compileRealSubstring($content);
 		$this->compileSubstring($content);
+		$this->compileRaw($content);
 		$this->compileRealVar($content);
 		$this->compileEnter($content);
 		$this->compileConst($content);
@@ -154,7 +156,7 @@ class tpl
 	{
 		$limit = '/{x2;\$(\w+)}/';
 		$content = preg_replace_callback($limit,function($matches){
-			return "<?php echo \$this->tpl_var['{$matches[1]}']; ?>";
+			return "<?php echo htmlspecialchars(\$this->tpl_var['{$matches[1]}'] ?? '', ENT_QUOTES, 'UTF-8'); ?>";
 		},$content);
 	}
 
@@ -171,7 +173,7 @@ class tpl
 	{
 		$limit = '/{x2;v:([\w|\']+)}/';
 		$content = preg_replace_callback($limit,function($matches){
-			return "<?php echo \${$matches[1]}; ?>";
+			return "<?php echo htmlspecialchars(\${$matches[1]} ?? '', ENT_QUOTES, 'UTF-8'); ?>";
 		},$content);
 	}
 
@@ -196,7 +198,7 @@ class tpl
 	{
 		$limit = '/{x2;([\$|v][\$|:|\[|\w|\]|\s|\']+)}/';
 		$content = preg_replace_callback($limit,function($matches){
-			return "<?php echo ".$this->_compileArray($matches[1])."; ?>";
+			return "<?php echo htmlspecialchars(".$this->_compileArray($matches[1])." ?? '', ENT_QUOTES, 'UTF-8'); ?>";
 		},$content);
 	}
 
@@ -307,6 +309,14 @@ class tpl
 		$limit = '/{x2;enter}/';
 		$content = preg_replace_callback($limit,function($matches){
 			return "<?php echo \"\n\"; ?>\n";
+		},$content);
+	}
+
+	public function compileRaw(&$content)
+	{
+		$limit = '/{x2;raw:([^}]+)}/';
+		$content = preg_replace_callback($limit,function($matches){
+			return "<?php echo ".$this->_compileArray($matches[1])."; ?>";
 		},$content);
 	}
 

@@ -8,7 +8,7 @@ class ca
     public function readCache($cache,$dir = 'system')
     {
 		$f = $this->path.$dir.'/'.$cache.'.cache';
-    	if(file_exists($f))return unserialize(M('files')->readFile($f));
+    	if(file_exists($f))return phpems_safe_unserialize(M('files')->readFile($f));
     	else return false;
     }
 

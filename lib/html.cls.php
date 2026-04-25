@@ -300,7 +300,7 @@ EOF;
 	    	}
 	    	if(!$id)
 	    	$id = 'form'.$name.'[]';
-	    	$values = unserialize($values);
+	    	$values = phpems_safe_unserialize($values);
     	}
     	$str = "<div class=\"sortable\" id=\"{$id}-range\">";
     	if(is_array($values))
