@@ -829,6 +829,18 @@ class exam
 			);
 			\PHPEMS\ginkgo::R($message);
 		}
+		foreach($sessionvars['examsessionuseranswer'] as $key => $value)
+		{
+			if(!is_array($value))$sessionvars['examsessionuseranswer'][$key] = M('safe')->tidyHtml($value);
+			else
+			{
+				foreach($value as $childKey => $childValue)
+				{
+					if(is_array($childValue))$sessionvars['examsessionuseranswer'][$key] = '';
+					else $sessionvars['examsessionuseranswer'][$key][$childKey] = M('safe')->tidyHtml($childValue);
+				}
+			}
+		}
         if(!$sessionvars['examsessiontype'])
         {
             foreach($questypes as $questype)
